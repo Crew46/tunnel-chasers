@@ -4,20 +4,25 @@ A group of misfits students explore their school campus in search for secret tun
 
 
 
-
+<br><br>
 Lua 5.4 Reference Manual - http://www.lua.org/manual/5.4/manual.html#2.1
 
 -- Code Specifications --
 
 Claim your territory:
+```
   Add a comment before your code in the format of:
     'NAME week_#'
+```
 
 Variable Case Types:
+```
   general (functions/variables) - 'snake_case'
   classes - 'PascalCase'
-  
+```
+
 Data Type Prefixes:
+```
   nil - 'n_'
   boolean - 'b_'
   number - 'i_'
@@ -26,7 +31,7 @@ Data Type Prefixes:
   userdata - 'u_'
   thread - 'T_'
   table - 'a_'
-  
+```
 Useful Tokens (from ref. manual):
 ```
 Reserved Names:
