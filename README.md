@@ -14,6 +14,12 @@ Claim your territory:
   Add a comment before your code in the format of:
     'NAME week_#'
 ```
+Line Spacing:
+```
+  Two tabs per indentation (2 spaces is what this works out to be in tic80)
+  
+  Align start/end for readability
+```
 
 Variable Case Types:
 ```
