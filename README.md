@@ -44,7 +44,7 @@ Code Comments:
 
 -- Short, descriptive comment of what your function does
 -- and any necessary variables that lie outside the function itself
-function give_it_a_descriptive_name(){
+function give_it_a_descriptive_name() {
 ...
 }
 
