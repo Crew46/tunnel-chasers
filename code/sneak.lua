@@ -110,4 +110,4 @@ function sneak_loop()
 	print(moveDirection,84,84) --for debugging
 end
 
-make_system("sneak_loop", init, tick)
+make_system("sneak", init, tick)
