@@ -66,7 +66,13 @@ function credits_logic()
     if button_push_util(3) then
         credit_index = credit_index + 1
     end
+    if button_push_util(2) then
+        credit_index = credit_index - 1
+    end
     credit_size = #credits
+    if credit_index < 1 then
+        credit_index = 1
+    end
     if credit_index > credit_size then
         current_system = "menu"
     end
