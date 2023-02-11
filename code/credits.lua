@@ -7,6 +7,10 @@
 function credits_init()
     credits = {
         {
+            name="Based on a true story",
+            titles={}
+        },
+        {
             name="Ash Barb",
             titles = {
                 "Director",
