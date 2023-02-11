@@ -64,35 +64,34 @@ function credits_init()
         }
     }
     credit_index = 1;
-end
+    function credits_logic()
+        if button_push_util(3) then
+            credit_index = credit_index + 1
+        end
+        if button_push_util(2) then
+            credit_index = credit_index - 1
+        end
+        credit_size = #credits
+        if credit_index < 1 then
+            credit_index = 1
+        end
+        if credit_index > credit_size then
+            current_system = "menu"
+        end
+    end
 
-function credits_logic()
-    if button_push_util(3) then
-        credit_index = credit_index + 1
+    function credits_draw()
+        cls(0)
+        local credit = credits[credit_index]
+        local starting_y = (136 / 2) - 10
+        local titles = credit.titles
+        starting_y = starting_y - (5 * (#titles + 1))
+        print_centered(credit.name, 120, starting_y, 4)
+        for index, value in ipairs(titles) do
+            print_centered(value, 120, starting_y + (index * 10), 10)
+        end
+        print_centered("(->)", 120, starting_y + (10 * (#titles + 1)), 3)
     end
-    if button_push_util(2) then
-        credit_index = credit_index - 1
-    end
-    credit_size = #credits
-    if credit_index < 1 then
-        credit_index = 1
-    end
-    if credit_index > credit_size then
-        current_system = "menu"
-    end
-end
-
-function credits_draw()
-    cls(0)
-    local credit = credits[credit_index]
-    local starting_y = (136 / 2) - 10
-    local titles = credit.titles
-    starting_y = starting_y - (5 * (#titles + 1))
-    print_centered(credit.name, 120, starting_y, 4)
-    for index, value in ipairs(titles) do
-        print_centered(value, 120, starting_y + (index * 10), 10)
-    end
-    print_centered("(->)", 120, starting_y + (10 * (#titles + 1)), 3)
 end
 
 function credits_tick()
