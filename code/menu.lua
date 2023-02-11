@@ -58,7 +58,7 @@ function menu_logic()
     if menu_selection > #menu_buttons then
         menu_selection = menu_selection - #menu_buttons
     end
-    if button_push_util(4) then
+    if button_push_util(4) or button_push_util(3) then
         menu_buttons[menu_selection].action()
     end
 end
