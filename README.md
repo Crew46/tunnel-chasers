@@ -11,4 +11,4 @@ Lua 5.4 Reference Manual - http://www.lua.org/manual/5.4/manual.html#2.1
 
 [Style Guide](docs/style_guide.md)
 
-[Useful tokens](docs/useful_tokens)
+[Useful tokens](docs/useful_tokens.md)
