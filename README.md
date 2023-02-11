@@ -38,6 +38,19 @@ Data Type Prefixes:
   thread - 'T_'
   table - 'a_'
 ```
+Code Comments:
+```
+(this may change in future revisions, keep an eye out!)
+
+-- Short, descriptive comment of what your function does
+-- and any necessary variables that lie outside the function itself
+function give_it_a_descriptive_name() {
+...
+}
+
+```
+
+
 Useful Tokens (from ref. manual):
 ```
 Reserved Names:
