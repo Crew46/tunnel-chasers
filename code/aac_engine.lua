@@ -7,8 +7,8 @@ previous_system = nil
 
 systems = {}
 
-function make_system(name, initFunction, tickFunction)
-    systems[name] = {init=initFunction, tick=tickFunction}
+function make_system(name, initFunction, loopFunction)
+    systems[name] = { init=initFunction, loop= loopFunction }
 end
 
 function get_system(name)
@@ -23,8 +23,8 @@ function TIC()
             if previous_system ~= current_system and system.init then
                 system.init()
             end
-            if system.tick then
-                system.tick()
+            if system.loop then
+                system.loop()
             end
         end
     end

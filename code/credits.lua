@@ -94,11 +94,11 @@ function credits_init()
     end
 end
 
-function credits_tick()
+function credits_loop()
     credits_draw()
     credits_logic()
 end
 
-make_system("credits", credits_init, credits_tick)
+make_system("credits", credits_init, credits_loop)
 
 -- end credits

@@ -8,6 +8,9 @@ function menu_init()
     local function switch_credits()
         current_system = "credits"
     end
+    local function debug()
+        current_system = "debug"
+    end
     local function play_game()
         current_system = "sneak"
     end
@@ -22,6 +25,10 @@ function menu_init()
         {
             text = "CREDITS",
             action = switch_credits
+        },
+        {
+            text = "DEBUG",
+            action = debug
         },
         {
             text = "QUIT",
@@ -63,11 +70,11 @@ function menu_init()
     end
 end
 
-function menu_tick()
+function menu_loop()
     menu_logic()
     menu_draw()
 end
 
-make_system("menu", menu_init, menu_tick)
+make_system("menu", menu_init, menu_loop)
 
 -- end menu
