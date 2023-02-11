@@ -31,7 +31,7 @@ function menu_init()
     menu_selection = 1;
 end
 
-function draw_menu()
+function menu_draw()
     cls(0)
     print_centered("Epic menu screen!!! (Z to select)", 120, 20, 5)
     local color
@@ -45,7 +45,7 @@ function draw_menu()
     end
 end
 
-function menu_tick()
+function menu_logic()
     if button_push_util(0) then
         menu_selection = menu_selection - 1
     end
@@ -61,7 +61,11 @@ function menu_tick()
     if button_push_util(4) then
         menu_buttons[menu_selection].action()
     end
-    draw_menu()
+end
+
+function menu_tick()
+    menu_logic()
+    menu_draw()
 end
 
 make_system("menu", menu_init, menu_tick)
