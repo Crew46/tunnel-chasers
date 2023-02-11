@@ -32,8 +32,6 @@ function credits_init()
         }
     }
     credit_index = 1;
-    button_pushed=false
-    credit_size = #credits
 end
 
 function credits_tick()
@@ -41,13 +39,9 @@ function credits_tick()
     local credit = credits[credit_index]
     print_centered(credit.name, 120, 44, 4)
     print_centered(credit.title, 120, 54, 10)
-    print_centered("(Push ->)", 120, 64, 3)
-    if btn(3) and not button_pushed then
+    print_centered("(->)", 120, 64, 3)
+    if button_push_util(3) then
         credit_index = credit_index + 1
-        button_pushed = true
-    end
-    if not btn(3) and button_pushed then
-        button_pushed = false
     end
     credit_size = #credits
     credit_size = #credits

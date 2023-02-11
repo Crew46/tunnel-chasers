@@ -2,7 +2,7 @@
 --- Created by dkienenb.
 --- Engine
 ---
-current_system = "credits"
+current_system = "menu"
 previous_game_system = nil
 
 systems = {}
@@ -16,6 +16,7 @@ function get_system(name)
 end
 
 function TIC()
+    local cache = current_system
     if current_system then
         local system = get_system(current_system)
         if system then
@@ -23,11 +24,11 @@ function TIC()
                 system.init()
             end
             if system.tick then
-                system.tick();
+                system.tick()
             end
         end
     end
-    previous_game_system = current_system;
+    previous_game_system = cache;
 end
 
 -- end engine
