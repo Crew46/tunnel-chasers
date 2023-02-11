@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="ticify:jar">
-    <output-path>$PROJECT_DIR$/ticify.jar</output-path>
+    <output-path>$PROJECT_DIR$/</output-path>
     <root id="archive" name="ticify.jar">
       <element id="module-output" name="ticify" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/github/jnr/jnr-posix/3.1.15/jnr-posix-3.1.15.jar" path-in-jar="/" />
