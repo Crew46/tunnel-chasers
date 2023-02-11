@@ -3,7 +3,7 @@
 -- desc:    prototype sneaking
 -- script:  lua
 
-function init()
+function sneak_init()
 	borderXMin = 10
 	borderXMax = 228
 	borderYMin = 10
@@ -110,4 +110,4 @@ function sneak_loop()
 	print(moveDirection,84,84) --for debugging
 end
 
-make_system("sneak", init, sneak_loop)
+make_system("sneak", sneak_init, sneak_loop)

@@ -9,7 +9,7 @@ function menu_init()
         current_system = "credits"
     end
     local function play_game()
-        current_system = "charselect"
+        current_system = "sneak"
     end
     local function quit()
         exit()
