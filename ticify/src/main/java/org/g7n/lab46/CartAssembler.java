@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CartAssembler {
     private static final byte CHUNK_CODE = 5;
@@ -124,8 +125,8 @@ public class CartAssembler {
     }
 
     private static List<Path> streamDir(Path dir) {
-        try {
-            return Files.list(dir).collect(Collectors.toList());
+        try (Stream<Path> stream = Files.list(dir)) {
+            return stream.sorted().collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

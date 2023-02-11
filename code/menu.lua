@@ -5,10 +5,12 @@
 ---
 
 function menu_init()
-
+    menu_buttons = {}
 end
 
 function menu_tick()
+    cls(0)
+    print_centered("Epic menu screen", 120, 20)
     secondary()
 end
 
