@@ -2,12 +2,12 @@
 
 A group of misfit students explore their school campus in search for secret tunnels, they must find the tunnels without getting caught, if they are caught on the scene the students must escape to avoid the consequences. *(based on a true story)*
 
-
-
 <br><br>
 Lua 5.4 Reference Manual - http://www.lua.org/manual/5.4/manual.html#2.1
 
 -- Code Specifications --
+
+[Global variables table](docs/global_vars.md)
 
 Claim your territory:
 ```

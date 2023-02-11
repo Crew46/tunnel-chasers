@@ -9,7 +9,7 @@ function menu_init()
         current_system = "credits"
     end
     local function play_game()
-        current_system = "overworld"
+        current_system = "charselect"
     end
     local function quit()
         exit()

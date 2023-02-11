@@ -3,7 +3,7 @@
 --- Engine
 ---
 current_system = "menu"
-previous_game_system = nil
+previous_system = nil
 
 systems = {}
 
@@ -20,7 +20,7 @@ function TIC()
     if current_system then
         local system = get_system(current_system)
         if system then
-            if previous_game_system ~= current_system and system.init then
+            if previous_system ~= current_system and system.init then
                 system.init()
             end
             if system.tick then
@@ -28,7 +28,7 @@ function TIC()
             end
         end
     end
-    previous_game_system = cache;
+    previous_system = cache;
 end
 
 -- end engine
