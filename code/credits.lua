@@ -8,27 +8,55 @@ function credits_init()
     credits = {
         {
             name="Ash Barb",
-            title="Director"
+            titles = {
+                "Director",
+                "Summarizer of vast amounts of data"
+            }
         },
         {
             name="Sashami",
-            title="Artwork"
+            titles = {
+                "Artwork"
+            }
         },
         {
             name="Dan Muck",
-            title="snake_case_enthusiast"
+            titles = {
+                "snake_case_enthusiast",
+                "old"
+            }
         },
         {
-            name="David \"Paradox\" Kienenberger",
-            title="Professional gluer-upper-er"
+            name="David Kienenberger",
+            titles = {
+                "Administrator",
+                "Lead Programmer",
+                "Professional gluer-upper-er",
+                "Paradox",
+                "Engine and framework developer",
+                "Credits subsystem",
+                "Menu subsystem",
+                "Project headhunting",
+                "Eating cake with a box cutter"
+            }
         },
         {
             name="Dylan whatshisface",
-            title="Epic soundtracks of doom"
+            titles = {
+                "Epic soundtracks of doom"
+            }
+        },
+        {
+            name="Conor Null",
+            titles = {
+                "Inspiration"
+            }
         },
         {
             name="Matt Haas",
-            title="Producer"
+            titles = {
+                "Producer"
+            }
         }
     }
     credit_index = 1;
@@ -39,7 +67,6 @@ function credits_logic()
         credit_index = credit_index + 1
     end
     credit_size = #credits
-    credit_size = #credits
     if credit_index > credit_size then
         current_system = "menu"
     end
@@ -48,9 +75,14 @@ end
 function credits_draw()
     cls(0)
     local credit = credits[credit_index]
-    print_centered(credit.name, 120, 44, 4)
-    print_centered(credit.title, 120, 54, 10)
-    print_centered("(->)", 120, 64, 3)
+    local starting_y = (136 / 2) - 10
+    local titles = credit.titles
+    starting_y = starting_y - (5 * (#titles + 1))
+    print_centered(credit.name, 120, starting_y, 4)
+    for index, value in ipairs(titles) do
+        print_centered(value, 120, starting_y + (index * 10), 10)
+    end
+    print_centered("(->)", 120, starting_y + (10 * (#titles + 1)), 3)
 end
 
 function credits_tick()
