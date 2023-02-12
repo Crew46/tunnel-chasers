@@ -25,10 +25,10 @@ function debug_init()
   end
 
   function debug_logic()
-    if button_push_util(0) then
+    if btnp(0) then
       debug_index = debug_index - 1
     end
-    if button_push_util(1) then
+    if btnp(1) then
       debug_index = debug_index + 1
     end
     if debug_index < 1 then
@@ -37,7 +37,7 @@ function debug_init()
     if debug_index > #debug_entries then
       debug_index = debug_index - #debug_entries
     end
-    if button_push_util(4) or button_push_util(3) then
+    if btnp(4) or btnp(3) then
       current_system = debug_entries[debug_index]
     end
   end

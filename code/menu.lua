@@ -52,10 +52,10 @@ function menu_init()
   end
 
   function menu_logic()
-    if button_push_util(0) then
+    if btnp(0) then
       menu_selection = menu_selection - 1
     end
-    if button_push_util(1) then
+    if btnp(1) then
       menu_selection = menu_selection + 1
     end
     if menu_selection < 1 then
@@ -64,7 +64,7 @@ function menu_init()
     if menu_selection > #menu_buttons then
       menu_selection = menu_selection - #menu_buttons
     end
-    if button_push_util(4) or button_push_util(3) then
+    if btnp(4) or btnp(3) then
       menu_buttons[menu_selection].action()
     end
   end

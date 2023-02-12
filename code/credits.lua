@@ -65,10 +65,10 @@ function credits_init()
   }
   credit_index = 1;
   function credits_logic()
-    if button_push_util(3) then
+    if btnp(3) then
       credit_index = credit_index + 1
     end
-    if button_push_util(2) then
+    if btnp(2) then
       credit_index = credit_index - 1
     end
     credit_size = #credits
