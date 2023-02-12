@@ -6,7 +6,7 @@ Claim your territory:
 ```
 Line Spacing:
 ```
-  Two tabs per indentation (2 spaces is what this works out to be in tic80)
+  Two spaces per indentation 
   
   Align start/end for readability
 ```
