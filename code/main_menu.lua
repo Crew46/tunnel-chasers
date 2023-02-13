@@ -75,6 +75,6 @@ function menu_loop()
   menu_draw()
 end
 
-make_system("menu", menu_init, menu_loop)
+make_system("main_menu", menu_init, menu_loop)
 
 -- end menu

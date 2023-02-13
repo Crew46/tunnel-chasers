@@ -2,7 +2,7 @@
 --- Created by dkienenb.
 --- Engine
 ---
-current_system = "menu"
+current_system = "main_menu"
 previous_system = nil
 
 systems = {}
