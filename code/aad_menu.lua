@@ -23,6 +23,7 @@ function make_menu_system(system_name, menu_title, options)
     function menu_draw()
       cls(0)
       print_centered(menu_title, 120, 20, 5)
+      print_centered("Select: Z/right\nNavigate: up/down", 50, 136/2, 15)
       local color
       for i, v in ipairs(menu_buttons) do
         if i == menu_selection then
@@ -32,7 +33,6 @@ function make_menu_system(system_name, menu_title, options)
         end
         print_centered(v.text, 120, 30 + (10 * i), color)
       end
-      print_centered("Select: Z/right\nNavigate: up/down", 50, 136/2, 14)
     end
 
     function menu_logic()
