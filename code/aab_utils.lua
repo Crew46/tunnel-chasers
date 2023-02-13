@@ -11,7 +11,7 @@ function trace_table(printed)
 end
 
 function print_centered(string, x, y, color)
-  local width = print(string, 0, -8)
+  local width = print(string, 0, -80)
   print(string, x - (width / 2), y, color or 15)
 end
 

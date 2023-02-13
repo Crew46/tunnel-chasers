@@ -28,10 +28,11 @@ function make_menu_system(system_name, menu_title, options)
         if i == menu_selection then
           color = 4
         else
-          color = nil
+          color = 14
         end
         print_centered(v.text, 120, 30 + (10 * i), color)
       end
+      print_centered("Select: Z/right\nNavigate: up/down", 50, 136/2, 14)
     end
 
     function menu_logic()
