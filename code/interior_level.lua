@@ -3,7 +3,7 @@
 -- desc:    prototype sneaking
 -- script:  lua
 
-function sneak_init()
+function interior_level_init()
 	borderXMin = 10
 	borderXMax = 228
 	borderYMin = 10
@@ -100,7 +100,7 @@ function sneak_init()
 
 end
 
-function sneak_loop()
+function interior_level_loop()
 	playerMovement()
 	cls(13)
 	waitTimer=waitTimer-1
@@ -110,4 +110,4 @@ function sneak_loop()
 	print(moveDirection,84,84) --for debugging
 end
 
-make_system("sneak", sneak_init, sneak_loop)
+make_system("interior_level", interior_level_init, interior_level_loop)
