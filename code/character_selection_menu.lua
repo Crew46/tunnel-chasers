@@ -157,6 +157,6 @@ function character_menu_loop()
   character_menu_logic()
 end
 
-make_system("character_menu", character_menu_init, character_menu_loop)
+make_system("character_selection_menu", character_menu_init, character_menu_loop)
 
 --end character_menu

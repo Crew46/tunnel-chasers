@@ -12,7 +12,7 @@ function menu_init()
     current_system = "debug"
   end
   local function play_game()
-    current_system = "charselect"
+    current_system = "character_selection_menu"
   end
   local function quit()
     exit()
