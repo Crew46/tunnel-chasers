@@ -1,15 +1,15 @@
--- title: Tunnel Chasers
+-- title:   Tunnel Chasers
 -- author:  MacklenF
--- desc:   Character Select Menu prototype backUp
+-- desc:    Character Select Menu prototype
 -- script:  lua
 
 function character_menu_init()
   player = {
     sprNum = 0,
 
-    [0] = {
-      name = "Player Zero",
-      skill = "Skill zero"
+    [0] = { 
+      name = "Player Zero", 
+      skill = "Skill zero" 
     },
     [1] = {
       name = "Player One",
@@ -29,50 +29,50 @@ function character_menu_init()
     }
   }
 
-  charMenu_width = 160 -- for display ref.
-  mode = "display"
+  char_menu_width = 160 -- for display ref.
+  char_menu_mode = "display"
 
-  boxSelect = { -- box for "highlighting" player
+  box_select = { -- box for "highlighting" player
     x = 96,
     y = 60,
     width = 24,
     height = 24,
     color = 11,
     pos = {
-      [0] = charMenu_width*1/5,
-      [1] = charMenu_width*2/5,
-      [2] = charMenu_width*3/5,
-      [3] = charMenu_width*4/5,
-      [4] = charMenu_width
+      [0] = char_menu_width*1/5,
+      [1] = char_menu_width*2/5,
+      [2] = char_menu_width*3/5,
+      [3] = char_menu_width*4/5,
+      [4] = char_menu_width
     }
   }
 
   function highlight()
-    rectb(boxSelect.x,
-      boxSelect.y,
-      boxSelect.width,
-      boxSelect.height,
-      boxSelect.color)
+    rectb(box_select.x,
+      box_select.y,
+      box_select.width,
+      box_select.height,
+      box_select.color)
 
     if btnp(2) then
-      boxSelect.x = boxSelect.x-32
-      if (boxSelect.x < 32) then
-        boxSelect.x = 32
+      box_select.x = box_select.x-32
+      if (box_select.x < 32) then
+        box_select.x = 32
       end
     end
     if btnp(3) then
-      boxSelect.x = boxSelect.x+32
-      if (boxSelect.x > 160) then
-        boxSelect.x = 160
+      box_select.x = box_select.x+32
+      if (box_select.x > 160) then
+        box_select.x = 160
       end
     end
-  end -- end highlight()
+  end
 
-  function show_info(i)
+  function show_info()
     i = player.sprNum
     print("Name: "..player[i].name, 116, 106, 12)
     print("Skill: "..player[i].skill, 116, 120, 12)
-  end -- end show_info
+  end 
 
   function confirm_choice()
     cls()
@@ -85,44 +85,44 @@ function character_menu_init()
     --do next game step
     end
     if btnp(1) then
-      mode = "display"
+      char_menu_mode = "display"
     end
   end
 
   function character_select()
-    if (boxSelect.x == boxSelect.pos[0]) then
+    if (box_select.x == box_select.pos[0]) then
       player.sprNum = 0
-      show_info(i)
+      show_info()
       if btnp(0) then
-        mode = "confirm"
+        char_menu_mode = "confirm"
       end
     end
-    if (boxSelect.x == boxSelect.pos[1]) then
+    if (box_select.x == box_select.pos[1]) then
       player.sprNum = 1
-      show_info(i)
+      show_info()
       if btnp(0) then
-        mode = "confirm"
+        char_menu_mode = "confirm"
       end
     end
-    if (boxSelect.x == boxSelect.pos[2]) then
+    if (box_select.x == box_select.pos[2]) then
       player.sprNum = 2
-      show_info(i)
+      show_info()
       if btnp(0) then
-        mode = "confirm"
+        char_menu_mode = "confirm"
       end
     end
-    if (boxSelect.x == boxSelect.pos[3]) then
+    if (box_select.x == box_select.pos[3]) then
       player.sprNum = 3
-      show_info(i)
+      show_info()
       if btnp(0) then
-        mode = "confirm"
+        char_menu_mode = "confirm"
       end
     end
-    if (boxSelect.x == boxSelect.pos[4]) then
+    if (box_select.x == box_select.pos[4]) then
       player.sprNum = 4
-      show_info(i)
+      show_info()
       if btnp(0) then
-        mode = "confirm"
+        char_menu_mode = "confirm"
       end
     end
   end
@@ -134,20 +134,20 @@ function character_menu_init()
     print("Select Character", 30, 24, 8, false, 2)
     print("(UP to select)", 30, 120, 2)
     -- character sprites
-    spr(0, charMenu_width*1/5, 60, -1, 3)
-    spr(1, charMenu_width*2/5, 60, -1, 3)
-    spr(2, charMenu_width*3/5, 60, -1, 3)
-    spr(3, charMenu_width*4/5, 60, -1, 3)
-    spr(4, charMenu_width, 60, -1, 3)
+    spr(0, char_menu_width*1/5, 60, -1, 3)
+    spr(1, char_menu_width*2/5, 60, -1, 3)
+    spr(2, char_menu_width*3/5, 60, -1, 3)
+    spr(3, char_menu_width*4/5, 60, -1, 3)
+    spr(4, char_menu_width, 60, -1, 3)
   end
 
   function character_menu_logic()
-    if (mode == "display") then
+    if (char_menu_mode == "display") then
       draw_character_menu()
       highlight()
       character_select()
     end
-    if (mode == "confirm") then
+    if (char_menu_mode == "confirm") then
       confirm_choice()
     end
   end
