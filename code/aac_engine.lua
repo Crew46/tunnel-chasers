@@ -7,6 +7,10 @@ previous_system = nil
 
 systems = {}
 
+function symlink_system(link_name, source)
+  systems[link_name] = systems[source]
+end
+
 function make_system(name, initFunction, loopFunction)
   systems[name] = { init = initFunction, loop = loopFunction }
 end
