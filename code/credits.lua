@@ -40,6 +40,8 @@ function credits_init()
         "Engine and framework developer",
         "Credits subsystem",
         "Menu subsystem",
+        "Intro subsystem",
+        "Splash subsystem",
         "Project headhunting",
         "Eating cake with a box cutter"
       }
@@ -67,7 +69,7 @@ function credits_init()
   function credits_draw(frame)
     cls(0)
     local credit = credits[frame]
-    local starting_y = (136 / 2) - 10
+    local starting_y = (136 / 2)
     local titles = credit.titles
     starting_y = starting_y - (5 * (#titles + 1))
     print_centered(credit.name, 120, starting_y, 4)
