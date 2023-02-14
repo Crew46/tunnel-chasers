@@ -33,5 +33,5 @@ end
 
 intro_init()
 
-make_video_system("intro", intro_init, intro_frame, 60*3, #intro_frames, "splash")
+make_video_system("intro", intro_init, intro_frame, 60*3, #intro_frames, "title")
 -- end intro
