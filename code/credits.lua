@@ -24,6 +24,20 @@ function credits_init()
       }
     },
     {
+      name="MacklenF",
+      titles = {
+        "Team member",
+        "Character selection menu"
+      }
+    },
+    {
+      name="Cordell H",
+      titles = {
+        "whatever you like honestly I have no idea",
+        "Sneaking levels"
+      }
+    },
+    {
       name = "Dan Muck",
       titles = {
         "snake_case_enthusiast",
@@ -35,13 +49,15 @@ function credits_init()
       titles = {
         "Administrator",
         "Lead Programmer",
+        "Integration specialist",
         "Professional gluer-upper-er",
         "Paradox",
         "Engine and framework developer",
         "Credits subsystem",
         "Menu subsystem",
-        "Intro subsystem",
-        "Splash subsystem",
+        "Video subsystems",
+        "Splash subsystems",
+        "Player format",
         "Project headhunting",
         "Eating cake with a box cutter"
       }
