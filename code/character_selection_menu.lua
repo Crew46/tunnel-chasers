@@ -5,27 +5,33 @@
 
 function character_menu_init()
   player = {
-    sprNum = 0,
-
-    [0] = { 
-      name = "Player Zero", 
-      skill = "Skill zero" 
-    },
-    [1] = {
-      name = "Player One",
-      skill = "Skill One"
-     },
-    [2] = {
-      name = "Player Two",
-      skill = "Skill Two"
-    },
-    [3] = {
-      name = "Player Three",
-      skill = "Skill Three"
-    },
-    [4] = {
-      name = "Player Four",
-      skill = "Skill Four"
+    sprite = 0,
+    speed  = 1,
+    lives  = 3,
+    building = "interior_level",
+    progression = {},
+    char_option = {
+      index = { 0, 1, 2, 3, 4 },
+      [0] = { 
+        name = "Player Zero", 
+        skill = "Skill zero" 
+      },
+      [1] = {
+        name = "Player One",
+        skill = "Skill One"
+      },
+      [2] = {
+        name = "Player Two",
+        skill = "Skill Two"
+      },
+      [3] = {
+        name = "Player Three",
+        skill = "Skill Three"
+      },
+      [4] = {
+        name = "Player Four",
+        skill = "Skill Four"
+      }
     }
   }
 
@@ -69,57 +75,75 @@ function character_menu_init()
   end
 
   function show_info()
-    i = player.sprNum
-    print("Name: "..player[i].name, 116, 106, 12)
-    print("Skill: "..player[i].skill, 116, 120, 12)
+    i = player.char_option.index
+    print("Name: "..player.char_option[i].name, 116, 106, 12)
+    print("Skill: "..player.char_option[i].skill, 116, 120, 12)
   end 
 
   function confirm_choice()
     cls()
     rect(60, 40, 120, 60, 10)
     print("Confirm choice?", 70, 44, 12)
-    print("(UP) to confirm", 70, 60, 12)
-    print("(DOWN) to cancel", 70, 80, 12)
+    print("(UP) to confirm", 70, 60, 12, false, 1, true)
+    print("(DOWN) to cancel", 70, 80, 12, false, 1, true)
 
     if btnp(0) then
-    --do next game step
+      player.sprite = player.char_option.index
+      current_system = "interior_level"
     end
     if btnp(1) then
       char_menu_mode = "display"
     end
   end
 
+  function back_to_main()
+    cls()
+    rect(60, 40, 130, 60, 3)
+    print("Return to Main Menu?", 70, 44, 12)
+    print("(UP) to confirm", 70, 60, 12, false, 1, true)
+    print("(LEFT) to cancel", 70, 80, 12, false, 1, true)
+    if btnp(0) then
+      current_system = "main_menu"
+    end
+    if btnp(2) then
+      char_menu_mode = "display"
+    end
+  end
+
   function character_select()
+    if btnp(1) then
+	  char_menu_mode = "to_main"
+	end
     if (box_select.x == box_select.pos[0]) then
-      player.sprNum = 0
+      player.char_option.index = 0
       show_info()
       if btnp(0) then
         char_menu_mode = "confirm"
       end
     end
     if (box_select.x == box_select.pos[1]) then
-      player.sprNum = 1
+      player.char_option.index = 1
       show_info()
       if btnp(0) then
         char_menu_mode = "confirm"
       end
     end
     if (box_select.x == box_select.pos[2]) then
-      player.sprNum = 2
+      player.char_option.index = 2
       show_info()
       if btnp(0) then
         char_menu_mode = "confirm"
       end
     end
     if (box_select.x == box_select.pos[3]) then
-      player.sprNum = 3
+      player.char_option.index = 3
       show_info()
       if btnp(0) then
         char_menu_mode = "confirm"
       end
     end
     if (box_select.x == box_select.pos[4]) then
-      player.sprNum = 4
+      player.char_option.index = 4
       show_info()
       if btnp(0) then
         char_menu_mode = "confirm"
@@ -132,7 +156,8 @@ function character_menu_init()
     rect(0, 0, 240, 136, 12) -- background
     rect(110, 100, 110, 30, 13) -- info box
     print("Select Character", 30, 24, 8, false, 2)
-    print("(UP to select)", 30, 120, 2)
+    print("(UP) to select", 10, 115, 2, false, 1, true)
+    print("(DOWN) to Main Menu", 10, 125, 2, false, 1, true)
     -- character sprites
     spr(0, char_menu_width*1/5, 60, -1, 3)
     spr(1, char_menu_width*2/5, 60, -1, 3)
@@ -149,6 +174,9 @@ function character_menu_init()
     end
     if (char_menu_mode == "confirm") then
       confirm_choice()
+    end
+    if (char_menu_mode == "to_main") then
+      back_to_main()
     end
   end
 end
