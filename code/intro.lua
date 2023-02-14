@@ -5,10 +5,6 @@
 ---
 
 function intro_init()
-
-end
-
-function intro_init()
   intro_frames = {
     {
       text="Lab46",

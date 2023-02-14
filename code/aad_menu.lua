@@ -26,10 +26,19 @@ function make_menu_system(system_name, menu_title, options)
       print_centered("Select: Z/right\nNavigate: up/down", 50, 136/2, 15)
       local color
       for i, v in ipairs(menu_buttons) do
+        valid = (not menu_buttons[menu_selection].validator) or menu_buttons[menu_selection].validator()
         if i == menu_selection then
-          color = 4
+          if valid then
+            color = 4
+          else
+            color=3
+          end
         else
-          color = 14
+          if valid then
+            color = 14
+          else
+            color = 15
+          end
         end
         print_centered(v.text, 120, 30 + (10 * i), color)
       end
@@ -49,7 +58,9 @@ function make_menu_system(system_name, menu_title, options)
         menu_selection = menu_selection - #menu_buttons
       end
       if btnp(4) or btnp(3) then
-        menu_buttons[menu_selection].action()
+        if (not menu_buttons[menu_selection].validator) or menu_buttons[menu_selection].validator() then
+          menu_buttons[menu_selection].action()
+        end
       end
     end
   end
