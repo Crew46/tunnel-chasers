@@ -20,7 +20,7 @@ public class CartAssembler {
         Path codeDirectory = workingDirectory.resolve("code");
         Path assetDirectory = workingDirectory.resolve("assets");
         Path output = workingDirectory.resolve("tunnels.tic");
-        List<Byte> code = cat(codeDirectory);
+        List<Byte> code = cat(codeDirectory, true);
         List<List<Byte>> chunks = new ArrayList<>();
         List<Byte> defaultChunk = compileChunk((byte) 0, CHUNK_DEFAULT, null);
         List<Byte> codeChunk = compileChunk((byte) 0, CHUNK_CODE, code);
@@ -37,7 +37,7 @@ public class CartAssembler {
         ASSET_TYPES.forEach(type -> indexes.put(type, new AtomicInteger()));
         streamDir(assetDirectory).forEach(path -> {
             List<Byte> bytes = new ArrayList<>();
-            readBytes(bytes, path);
+            readBytes(bytes, path, false);
             List<List<Byte>> newChunks = splitIntoChunks(bytes);
             for (List<Byte> chunk: newChunks) {
                 byte chunkType = chunk.get(0);
@@ -132,15 +132,21 @@ public class CartAssembler {
         }
     }
 
-    private static List<Byte> cat(Path codeDirectory) {
+    private static List<Byte> cat(Path codeDirectory, boolean newlinesRequired) {
         List<Byte> bytes = new ArrayList<>();
-        streamDir(codeDirectory).forEach(path -> readBytes(bytes, path));
+        streamDir(codeDirectory).forEach(path -> readBytes(bytes, path, newlinesRequired));
         return bytes;
     }
 
-    private static void readBytes(List<Byte> output, Path path) {
+    private static void readBytes(List<Byte> output, Path path, boolean newlinesRequired) {
         try {
             byte[] byteArray = Files.readAllBytes(path);
+            if (newlinesRequired) {
+                byte last = byteArray[byteArray.length - 1];
+                if (last != 10) {
+                    throw new IllegalArgumentException("File does not contain trailing newline: " + path);
+                }
+            }
             for (byte next : byteArray) {
                 output.add(next);
             }
