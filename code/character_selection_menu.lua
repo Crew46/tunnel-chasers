@@ -84,8 +84,8 @@ function character_menu_init()
     cls()
     rect(60, 40, 120, 60, 10)
     print("Confirm choice?", 70, 44, 12)
-    print("(UP) to confirm", 70, 60, 12, false, 1, true)
-    print("(DOWN) to cancel", 70, 80, 12, false, 1, true)
+    print("(" .. button_to_string(0) .. ") to confirm", 70, 60, 12, false, 1, true)
+    print("(" .. button_to_string(1) .. ") to cancel", 70, 80, 12, false, 1, true)
 
     if btnp(0) then
       player.sprite = player.char_option.index
@@ -100,8 +100,8 @@ function character_menu_init()
     cls()
     rect(60, 40, 130, 60, 3)
     print("Return to Main Menu?", 70, 44, 12)
-    print("(UP) to confirm", 70, 60, 12, false, 1, true)
-    print("(LEFT) to cancel", 70, 80, 12, false, 1, true)
+    print("(" .. button_to_string(0) .. ") to confirm", 70, 60, 12, false, 1, true)
+    print("(" .. button_to_string(2) .. ") to cancel", 70, 80, 12, false, 1, true)
     if btnp(0) then
       current_system = "main_menu"
     end
