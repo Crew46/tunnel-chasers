@@ -12,6 +12,7 @@ function discussion_init()
     table.insert(questions, question)
     return question
   end
+  balance_threshold = 2
   incrimination_threshold = 4
   effectiveness_threshold = 4
   questions = {}
@@ -29,12 +30,15 @@ function discussion_init()
   -- todo remove debugging statements
   player={ingenuity=2, charisma=2, acuity=5}
 
-  function discussion_logic_loop()
+  function load_question()
     local number_of_questions = #questions
     if not selected_question and number_of_questions > 0 then
       local question_index = math.random(number_of_questions)
       selected_question = table.remove(questions, question_index)
     end
+  end
+
+  function load_responses()
     if selected_question and not selected_question.selected_responses then
       local responses = selected_question.responses
       local selected_responses = {}
@@ -46,6 +50,9 @@ function discussion_init()
       end
       selected_question.selected_responses = selected_responses;
     end
+  end
+
+  function select_choice()
     for i = 0, 31 do
       if btnp(i) and selected_question then
         for _, response in ipairs(selected_question.selected_responses) do
@@ -58,11 +65,35 @@ function discussion_init()
     end
   end
 
+  function get_stats()
+    local effectiveness = 0
+    local incrimination = 0
+    for _, response in ipairs(chosen_responses) do
+      effectiveness = effectiveness + response.effectiveness
+      incrimination = incrimination + response.incrimination
+    end
+    local effectiveness_threshold_reached = effectiveness >= effectiveness_threshold
+    local incrimination_threshold_reached = incrimination >= incrimination_threshold
+    local balanced_stats = math.abs(effectiveness - incrimination) < balance_threshold
+    return effectiveness, incrimination, effectiveness_threshold_reached, incrimination_threshold_reached
+  end
+
+  function check_thresholds()
+    local _, _, effectiveness_threshold_reached, incrimination_threshold_reached = get_stats()
+  end
+
+  function discussion_logic_loop()
+    load_question()
+    load_responses()
+    select_choice()
+    check_thresholds()
+  end
+
   function print_question(question)
     print_centered(question.question_text, 120, 20, 11)
     for i = 1, #question.selected_responses do
       local response = question.selected_responses[i]
-      print_centered("(" .. response.button .. ") " .. response.response_text, 120, 20 + (10 * i), 13)
+      print_centered("(" .. button_to_string(response.button) .. ") " .. response.response_text, 120, 20 + (10 * i), 13)
     end
   end
 
