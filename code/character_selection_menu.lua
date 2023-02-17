@@ -156,8 +156,8 @@ function character_menu_init()
     rect(0, 0, 240, 136, 12) -- background
     rect(110, 100, 110, 30, 13) -- info box
     print("Select Character", 30, 24, 8, false, 2)
-    print("(UP) to select", 10, 115, 2, false, 1, true)
-    print("(DOWN) to Main Menu", 10, 125, 2, false, 1, true)
+    print("(" .. button_to_string(0) .. ") to select", 10, 115, 2, false, 1, true)
+    print("(" .. button_to_string(1) .. ") to Main Menu", 10, 125, 2, false, 1, true)
     -- character sprites
     spr(0, char_menu_width*1/5, 60, -1, 3)
     spr(1, char_menu_width*2/5, 60, -1, 3)
