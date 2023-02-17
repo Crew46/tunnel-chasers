@@ -23,7 +23,7 @@ function make_video_system(name, init_function, frame_function, ticks_per_frame,
         frame_function(video_frame)
       end
       if video_frame == 1 then
-        print_centered("(Press X to skip)", 195, 125)
+        print_centered("(Press " .. button_to_string(5) .." to skip)", 195, 125)
       end
     end
     tick = tick + 1

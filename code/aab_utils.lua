@@ -15,4 +15,10 @@ function print_centered(string, x, y, color)
   print(string, x - (width / 2), y, color or 15)
 end
 
+function button_to_string(button)
+  local buttons =  {"down", "left", "right", "z", "x", "a", "s"}
+  buttons[0] = "up"
+  return buttons[button]
+end
+
 -- end utils

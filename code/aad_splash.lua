@@ -11,7 +11,7 @@ function make_splash_system(system_name, next_system, render_function, color)
     if render_function then
       render_function()
     end
-    print_centered("(Press Z to continue)", 180, 125)
+    print_centered("(Press " .. button_to_string(4) .." to continue)", 180, 125)
     if btnp(4) then
       current_system = next_system
     end

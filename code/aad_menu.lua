@@ -23,7 +23,8 @@ function make_menu_system(system_name, menu_title, options)
     function menu_draw()
       cls(0)
       print_centered(menu_title, 120, 20, 5)
-      print_centered("Select: Z/right\nNavigate: up/down", 50, 136/2, 15)
+      print_centered("Select: " .. button_to_string(3) .. "/" .. button_to_string(4) .. "\n" ..
+              "Navigate: " .. button_to_string(0) .. "/" .. button_to_string(1) .."", 50, 136/2, 15)
       local color
       for i, v in ipairs(menu_buttons) do
         valid = (not menu_buttons[menu_selection].validator) or menu_buttons[menu_selection].validator()
