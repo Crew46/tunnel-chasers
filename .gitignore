@@ -1,3 +1,5 @@
 *.exe
 .local
 powershell.exe.lnk
+/.idea/
+/ticify/target/
