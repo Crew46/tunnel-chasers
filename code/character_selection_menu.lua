@@ -11,6 +11,7 @@ function character_menu_init()
     ingenuity = 3,
     charisma = 1,
     acuity = 3,
+    honesty = 0,
     building = "machung_hall",
     progression = {},
     char_option = {
@@ -23,7 +24,6 @@ function character_menu_init()
       {
         name = "Dirtpig",
         skill_description = "Fast",
-        charisma = 2
       },
       {
         name = "Paradox",
@@ -37,7 +37,7 @@ function character_menu_init()
       },
       {
         name = "Plant",
-        skill_description = "Plant"
+        skill_description = "Plant",
       },
       index=1
     }

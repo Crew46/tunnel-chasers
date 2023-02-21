@@ -9,5 +9,5 @@ Player format reference:
 | progression   | Table  | {}                 | String to boolean table of important progression aspects ("played_tutorial"=true for example) |
 | ingenuity     | Number | char-dependent     | Number of choices given to the player during dialogue                                         |
 | charisma      | Number | char-dependent     | Increases effectiveness of discussion responses. Decreases risk.                              |
-| acuity?       | Number | char-dependent?    | Increases the amount of time given to the player during dialogue                              |
-|               |        |                    |                                                                                               |
+| acuity        | Number | char-dependent?    | Increases the amount of time given to the player during dialogue                              |
+| honesty       | Number | 0                  | Your honesty rating. Decreases for lies, increases for truths.                                |

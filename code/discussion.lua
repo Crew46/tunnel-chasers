@@ -19,15 +19,13 @@ function discussion_init()
   balance_threshold = math.sqrt(threshold)
   questions = {}
   chosen_responses = {}
-  for index = 1, 10 do
+  for index = 1, 5 do
     add_question("Question " .. index .. "?")
-            :add_response("Effective response", 5, 5, 1, 1)
-            :add_response("Incriminating response", 5, 1, 5, 1)
-            :add_response("Neutral response", 5, 1, 1, 1)
-            :add_response("Double-edged response", 5, 5, 5, 1)
+            :add_response("Effective response", 5, 5, 1, index)
+            :add_response("Incriminating response", 5, 1, 5, index)
+            :add_response("Neutral response", 5, 1, 1, index)
+            :add_response("Double-edged response", 5, 5, 5, index)
   end
-  -- todo remove this
-  player={ingenuity=3, charisma=2, acuity=5}
 
   function load_question()
     local number_of_questions = #questions
@@ -57,6 +55,18 @@ function discussion_init()
         for _, response in ipairs(selected_question.selected_responses) do
           if response.button == i then
             table.insert(chosen_responses, response)
+            player.honesty = player.honesty + (response.truthfulness - 4)
+            local d00 = math.random(100)
+            d00 = d00 - math.max(player.charisma * player.honesty, 0)
+            local effective_ridiculousness = response.ridiculousness - (player.charisma - 1)
+            if effective_ridiculousness < 1 then effective_ridiculousness = 1 end
+            local d00_threshold = ({ 100, 75, 50, 25, 10})[effective_ridiculousness] or 0
+            if d00 > d00_threshold then
+              response.effectiveness = 0
+              response.incrimination = 0
+              officer_trust = officer_trust - 1
+              -- todo display message to player informing them that they were not believed
+            end
             selected_question = nil
           end
         end
@@ -65,7 +75,7 @@ function discussion_init()
   end
 
   function get_stats()
-    local effectiveness = 0
+    local effectiveness = player.charisma
     local incrimination = 0
     for _, response in ipairs(chosen_responses) do
       effectiveness = effectiveness + response.effectiveness
@@ -120,6 +130,8 @@ function discussion_init()
     print(effectiveness, 0, 50, 10)
     print(incrimination, 0, 60, 3)
     print(officer_result, 0, 70)
+    print(player.honesty, 0, 80, 2)
+    print(officer_trust, 0, 90)
   end
 end
 
