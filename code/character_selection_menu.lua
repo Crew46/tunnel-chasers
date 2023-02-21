@@ -158,11 +158,11 @@ function character_menu_init()
     print("(" .. button_to_string(0) .. ") to select", 10, 115, 2, false, 1, true)
     print("(" .. button_to_string(1) .. ") to Main Menu", 10, 125, 2, false, 1, true)
     -- character sprites
-    spr(0, char_menu_width*1/5, 60, -1, 3)
-    spr(1, char_menu_width*2/5, 60, -1, 3)
-    spr(2, char_menu_width*3/5, 60, -1, 3)
-    spr(3, char_menu_width*4/5, 60, -1, 3)
-    spr(4, char_menu_width, 60, -1, 3)
+    local optionCount = #player.char_option
+    for i in ipairs(player.char_option) do
+      local gap = 3
+      draw("player_portrait", i, (char_menu_width)*i/(optionCount) + gap * i, 55, 2)
+    end
   end
 
   function character_menu_logic()
