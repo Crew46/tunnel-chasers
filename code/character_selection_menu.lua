@@ -8,24 +8,32 @@ function character_menu_init()
     sprite = 0,
     speed  = 1,
     lives  = 3,
+    ingenuity = 3,
+    charisma = 1,
+    acuity = 3,
     building = "machung_hall",
     progression = {},
     char_option = {
       {
         name = "Oso",
-        skill_description = "Charismatic" 
+        skill_description = "Charismatic",
+        ingenuity = 4,
+        charisma = 3
       },
       {
         name = "Dirtpig",
-        skill_description = "Fast"
+        skill_description = "Fast",
+        charisma = 2
       },
       {
         name = "Paradox",
-        skill_description = "Thin"
+        skill_description = "Thin",
+        ingenuity = 4
       },
       {
         name = "Null",
-        skill_description = "Equipped"
+        skill_description = "Equipped",
+        ingenuity = 2
       },
       {
         name = "Plant",
@@ -52,7 +60,21 @@ function character_menu_init()
     print("(" .. button_to_string(1) .. ") to cancel", 70, 80, 12, false, 1, true)
 
     if btnp(0) then
-      player.sprite = player.char_option.index
+      local index = player.char_option.index
+      local selection = player.char_option[index]
+      local ingenuity = selection.ingenuity
+      local charisma = selection.charisma
+      local acuity = selection.acuity
+      player.sprite = index
+      if ingenuity then
+        player.ingenuity = ingenuity
+      end
+      if charisma then
+        player.charisma = charisma
+      end
+      if acuity then
+        player.acuity = acuity
+      end
       current_system = "interior_level"
     end
     if btnp(1) then

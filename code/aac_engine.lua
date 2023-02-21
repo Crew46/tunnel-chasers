@@ -7,8 +7,12 @@ previous_system = nil
 
 systems = {}
 
-function symlink_system(link_name, source)
+function hardlink_system(link_name, source)
   systems[link_name] = systems[source]
+end
+
+function symlink_system(link_name, source)
+  make_system(link_name, function() current_system = source end)
 end
 
 function make_system(name, initFunction, loopFunction)
