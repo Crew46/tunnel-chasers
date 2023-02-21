@@ -12,24 +12,24 @@ function character_menu_init()
     progression = {},
     char_option = {
       {
-        name = "Player Zero",
-        skill = "Skill zero" 
+        name = "Bear",
+        skill_description = "Charismatic" 
       },
       {
-        name = "Player One",
-        skill = "Skill One"
+        name = "Dirtpig",
+        skill_description = "Fast"
       },
       {
-        name = "Player Two",
-        skill = "Skill Two"
+        name = "Paradox",
+        skill_description = "Hide behind thin objects"
       },
       {
-        name = "Player Three",
-        skill = "Skill Three"
+        name = "Null",
+        skill_description = "Carries a lockpick"
       },
       {
-        name = "Player Four",
-        skill = "Skill Four"
+        name = "Plant",
+        skill_description = "Invisible when not moving"
       }
     }
   }
@@ -75,8 +75,8 @@ function character_menu_init()
 
   function show_info()
     i = player.char_option.index
-    print("Name: "..player.char_option[i].name, 116, 106, 12)
-    print("Skill: "..player.char_option[i].skill, 116, 120, 12)
+    print("Name: ".. player.char_option[i].name, 116, 106, 12)
+    print("Skill: ".. player.char_option[i].skill_description, 116, 120, 12)
   end 
 
   function confirm_choice()
