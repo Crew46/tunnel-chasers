@@ -12,7 +12,7 @@ function character_menu_init()
     progression = {},
     char_option = {
       {
-        name = "Bear",
+        name = "Oso",
         skill_description = "Charismatic" 
       },
       {
