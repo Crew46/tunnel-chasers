@@ -21,15 +21,15 @@ function character_menu_init()
       },
       {
         name = "Paradox",
-        skill_description = "Hide behind thin objects"
+        skill_description = "Thin"
       },
       {
         name = "Null",
-        skill_description = "Carries a lockpick"
+        skill_description = "Equipped"
       },
       {
         name = "Plant",
-        skill_description = "Invisible when not moving"
+        skill_description = "Plant"
       }
     }
   }
@@ -100,11 +100,11 @@ function character_menu_init()
     rect(60, 40, 130, 60, 3)
     print("Return to Main Menu?", 70, 44, 12)
     print("(" .. button_to_string(0) .. ") to confirm", 70, 60, 12, false, 1, true)
-    print("(" .. button_to_string(2) .. ") to cancel", 70, 80, 12, false, 1, true)
+    print("(" .. button_to_string(1) .. ") to cancel", 70, 80, 12, false, 1, true)
     if btnp(0) then
       current_system = "main_menu"
     end
-    if btnp(2) then
+    if btnp(1) then
       char_menu_mode = "display"
     end
   end
@@ -142,7 +142,7 @@ function character_menu_init()
       end
     end
     if (box_select.x == box_select.pos[5]) then
-      player.char_option.index = 4
+      player.char_option.index = 5
       show_info()
       if btnp(0) then
         char_menu_mode = "confirm"
@@ -170,11 +170,9 @@ function character_menu_init()
       draw_character_menu()
       highlight()
       character_select()
-    end
-    if (char_menu_mode == "confirm") then
+    elseif (char_menu_mode == "confirm") then
       confirm_choice()
-    end
-    if (char_menu_mode == "to_main") then
+    elseif (char_menu_mode == "to_main") then
       back_to_main()
     end
   end
