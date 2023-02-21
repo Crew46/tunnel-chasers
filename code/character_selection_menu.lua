@@ -30,48 +30,13 @@ function character_menu_init()
       {
         name = "Plant",
         skill_description = "Plant"
-      }
+      },
+      index=1
     }
   }
 
   char_menu_width = 160 -- for display ref.
   char_menu_mode = "display"
-
-  box_select = { -- box for "highlighting" player
-    x = 96,
-    y = 60,
-    width = 24,
-    height = 24,
-    color = 11,
-    pos = {
-      [1] = char_menu_width*1/5,
-      [2] = char_menu_width*2/5,
-      [3] = char_menu_width*3/5,
-      [4] = char_menu_width*4/5,
-      [5] = char_menu_width
-    }
-  }
-
-  function highlight()
-    rectb(box_select.x,
-      box_select.y,
-      box_select.width,
-      box_select.height,
-      box_select.color)
-
-    if btnp(2) then
-      box_select.x = box_select.x-32
-      if (box_select.x < 32) then
-        box_select.x = 32
-      end
-    end
-    if btnp(3) then
-      box_select.x = box_select.x+32
-      if (box_select.x > 160) then
-        box_select.x = 160
-      end
-    end
-  end
 
   function show_info()
     i = player.char_option.index
@@ -113,40 +78,14 @@ function character_menu_init()
     if btnp(1) then
 	    char_menu_mode = "to_main"
 	  end
-    if (box_select.x == box_select.pos[1]) then
-      player.char_option.index = 1
-      show_info()
-      if btnp(0) then
-        char_menu_mode = "confirm"
-      end
+    if btnp(0) then
+      char_menu_mode = "confirm"
     end
-    if (box_select.x == box_select.pos[2]) then
-      player.char_option.index = 2
-      show_info()
-      if btnp(0) then
-        char_menu_mode = "confirm"
-      end
+    if btnp(2) and player.char_option.index > 1 then
+      player.char_option.index = player.char_option.index - 1
     end
-    if (box_select.x == box_select.pos[3]) then
-      player.char_option.index = 3
-      show_info()
-      if btnp(0) then
-        char_menu_mode = "confirm"
-      end
-    end
-    if (box_select.x == box_select.pos[4]) then
-      player.char_option.index = 4
-      show_info()
-      if btnp(0) then
-        char_menu_mode = "confirm"
-      end
-    end
-    if (box_select.x == box_select.pos[5]) then
-      player.char_option.index = 5
-      show_info()
-      if btnp(0) then
-        char_menu_mode = "confirm"
-      end
+    if btnp(3) and player.char_option.index < #player.char_option then
+      player.char_option.index = player.char_option.index + 1
     end
   end
 
@@ -161,15 +100,20 @@ function character_menu_init()
     local optionCount = #player.char_option
     for i in ipairs(player.char_option) do
       local gap = 3
-      draw("player_portrait", i, (char_menu_width)*i/(optionCount) + gap * i, 55, 2)
+      local x = (char_menu_width)*i/(optionCount) + gap * i
+      local y = 55
+      draw("player_portrait", i, x, y, 2)
+      if (player.char_option.index == i) then
+        draw("player_portrait_box", nil, x, y)
+      end
     end
   end
 
   function character_menu_logic()
     if (char_menu_mode == "display") then
       draw_character_menu()
-      highlight()
       character_select()
+      show_info()
     elseif (char_menu_mode == "confirm") then
       confirm_choice()
     elseif (char_menu_mode == "to_main") then
