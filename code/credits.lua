@@ -20,7 +20,8 @@ function credits_init()
     {
       name = "Sashami",
       titles = {
-        "Artwork"
+        "Artwork",
+        "Level Design"
       }
     },
     {

@@ -8,11 +8,11 @@ function character_menu_init()
     sprite = 0,
     speed  = 1,
     lives  = 3,
-    building = "interior_level",
+    building = "machung_hall",
     progression = {},
     char_option = {
       index = { 0, 1, 2, 3, 4 },
-      [0] = { 
+      [0] = {
         name = "Player Zero", 
         skill = "Skill zero" 
       },

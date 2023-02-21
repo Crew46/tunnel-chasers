@@ -5,34 +5,29 @@
 
 function discussion_init()
   local function add_question(question_text)
-    local question = {question_text=question_text, responses={}, add_response = function(question, response_text, truthfulness, effectiveness, incrimination, ridiculousness)
-      table.insert(question.responses, {response_text=response_text, truthfulness=truthfulness, effectiveness=effectiveness, incrimination=incrimination, ridiculousness=ridiculousness})
-      return question
+    local question = {question_text=question_text, responses={}, add_response = function(self, response_text, truthfulness, effectiveness, incrimination, ridiculousness)
+      table.insert(self.responses, {response_text=response_text, truthfulness=truthfulness, effectiveness=effectiveness, incrimination=incrimination, ridiculousness=ridiculousness})
+      return self
     end}
     table.insert(questions, question)
     return question
   end
-  local threshold = 4
+  local threshold = 10
+  officer_trust = 3
   incrimination_threshold = threshold
   effectiveness_threshold = threshold
-  balance_threshold = threshold / 2
+  balance_threshold = math.sqrt(threshold)
   questions = {}
   chosen_responses = {}
-  add_question("Example question")
-          :add_response("Example response", 1, 1, 1, 1)
-          :add_response("Example response 2", 2, 2, 2, 2)
-          :add_response("Example response 3", 3, 3, 3, 3)
-          :add_response("Example response 4", 4, 4, 4, 4)
-  add_question("Example question 2")
-          :add_response("Example response", 1, 1, 1, 1)
-          :add_response("Example response 2", 2, 2, 2, 2)
-          :add_response("Example response 3", 3, 3, 3, 3)
-          :add_response("Example response 4", 4, 4, 4, 4)
-  add_question("Example question 3")
-          :add_response("Effective", 3, 6, 0, 0)
-          :add_response("Incriminating", 3, 0, 6, 0)
-  -- todo remove debugging statements
-  player={ingenuity=2, charisma=2, acuity=5}
+  for index = 1, 10 do
+    add_question("Question " .. index .. "?")
+            :add_response("Effective response", 5, 5, 1, 1)
+            :add_response("Incriminating response", 5, 1, 5, 1)
+            :add_response("Neutral response", 5, 1, 1, 1)
+            :add_response("Double-edged response", 5, 5, 5, 1)
+  end
+  -- todo remove this
+  player={ingenuity=3, charisma=2, acuity=5}
 
   function load_question()
     local number_of_questions = #questions
@@ -94,6 +89,9 @@ function discussion_init()
           officer_result = "discussion_success"
         end
       end
+      if officer_trust <= 0 then
+        officer_result = "discussion_fail"
+      end
     end
   end
 
@@ -119,9 +117,9 @@ function discussion_init()
       print_question(selected_question)
     end
     local effectiveness, incrimination = get_stats()
-    print_centered(effectiveness, 60, 50,10)
-    print_centered(incrimination, 60, 60,3)
-    print_centered(officer_result, 60, 70)
+    print(effectiveness, 0, 50, 10)
+    print(incrimination, 0, 60, 3)
+    print(officer_result, 0, 70)
   end
 end
 
