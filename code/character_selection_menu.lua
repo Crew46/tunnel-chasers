@@ -11,24 +11,23 @@ function character_menu_init()
     building = "machung_hall",
     progression = {},
     char_option = {
-      index = { 0, 1, 2, 3, 4 },
-      [0] = {
-        name = "Player Zero", 
+      {
+        name = "Player Zero",
         skill = "Skill zero" 
       },
-      [1] = {
+      {
         name = "Player One",
         skill = "Skill One"
       },
-      [2] = {
+      {
         name = "Player Two",
         skill = "Skill Two"
       },
-      [3] = {
+      {
         name = "Player Three",
         skill = "Skill Three"
       },
-      [4] = {
+      {
         name = "Player Four",
         skill = "Skill Four"
       }
@@ -45,11 +44,11 @@ function character_menu_init()
     height = 24,
     color = 11,
     pos = {
-      [0] = char_menu_width*1/5,
-      [1] = char_menu_width*2/5,
-      [2] = char_menu_width*3/5,
-      [3] = char_menu_width*4/5,
-      [4] = char_menu_width
+      [1] = char_menu_width*1/5,
+      [2] = char_menu_width*2/5,
+      [3] = char_menu_width*3/5,
+      [4] = char_menu_width*4/5,
+      [5] = char_menu_width
     }
   }
 
@@ -112,15 +111,8 @@ function character_menu_init()
 
   function character_select()
     if btnp(1) then
-	  char_menu_mode = "to_main"
-	end
-    if (box_select.x == box_select.pos[0]) then
-      player.char_option.index = 0
-      show_info()
-      if btnp(0) then
-        char_menu_mode = "confirm"
-      end
-    end
+	    char_menu_mode = "to_main"
+	  end
     if (box_select.x == box_select.pos[1]) then
       player.char_option.index = 1
       show_info()
@@ -143,6 +135,13 @@ function character_menu_init()
       end
     end
     if (box_select.x == box_select.pos[4]) then
+      player.char_option.index = 4
+      show_info()
+      if btnp(0) then
+        char_menu_mode = "confirm"
+      end
+    end
+    if (box_select.x == box_select.pos[5]) then
       player.char_option.index = 4
       show_info()
       if btnp(0) then
