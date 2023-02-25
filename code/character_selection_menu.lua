@@ -12,17 +12,17 @@ function character_menu_init()
     charisma = 1,
     acuity = 3,
     honesty = 0,
-    building = "machung_hall",
+    building = "Mechung_hall",
     progression = {},
     char_option = {
       {
-        name = "Oso",
+        name = "BYzLi",
         skill_description = "Charismatic",
         ingenuity = 4,
         charisma = 3
       },
       {
-        name = "Dirtpig",
+        name = "DirtPig",
         skill_description = "Fast",
       },
       {
@@ -31,7 +31,7 @@ function character_menu_init()
         ingenuity = 4
       },
       {
-        name = "Null",
+        name = "Nox",
         skill_description = "Equipped",
         ingenuity = 2
       },
@@ -56,10 +56,10 @@ function character_menu_init()
     cls()
     rect(60, 40, 120, 60, 10)
     print("Confirm choice?", 70, 44, 12)
-    print("(" .. button_to_string(0) .. ") to confirm", 70, 60, 12, false, 1, true)
-    print("(" .. button_to_string(1) .. ") to cancel", 70, 80, 12, false, 1, true)
+    print("(" .. button_to_string(4) .. ") to confirm", 70, 60, 12, false, 1, true)
+    print("(" .. button_to_string(5) .. ") to cancel", 70, 80, 12, false, 1, true)
 
-    if btnp(0) then
+    if btnp(4) then
       local index = player.char_option.index
       local selection = player.char_option[index]
       local ingenuity = selection.ingenuity
@@ -77,7 +77,7 @@ function character_menu_init()
       end
       current_system = "interior_level"
     end
-    if btnp(1) then
+    if btnp(5) then
       char_menu_mode = "display"
     end
   end
@@ -86,21 +86,21 @@ function character_menu_init()
     cls()
     rect(60, 40, 130, 60, 3)
     print("Return to Main Menu?", 70, 44, 12)
-    print("(" .. button_to_string(0) .. ") to confirm", 70, 60, 12, false, 1, true)
-    print("(" .. button_to_string(1) .. ") to cancel", 70, 80, 12, false, 1, true)
-    if btnp(0) then
+    print("(" .. button_to_string(4) .. ") to confirm", 70, 60, 12, false, 1, true)
+    print("(" .. button_to_string(5) .. ") to cancel", 70, 80, 12, false, 1, true)
+    if btnp(4) then
       current_system = "main_menu"
     end
-    if btnp(1) then
+    if btnp(5) then
       char_menu_mode = "display"
     end
   end
 
   function character_select()
-    if btnp(1) then
+    if btnp(5) then
 	    char_menu_mode = "to_main"
 	  end
-    if btnp(0) then
+    if btnp(4) then
       char_menu_mode = "confirm"
     end
     if btnp(2) and player.char_option.index > 1 then
@@ -116,8 +116,8 @@ function character_menu_init()
     rect(0, 0, 240, 136, 12) -- background
     rect(110, 100, 110, 30, 13) -- info box
     print("Select Character", 30, 24, 8, false, 2)
-    print("(" .. button_to_string(0) .. ") to select", 10, 115, 2, false, 1, true)
-    print("(" .. button_to_string(1) .. ") to Main Menu", 10, 125, 2, false, 1, true)
+    print("(" .. button_to_string(4) .. ") to select", 10, 115, 2, false, 1, true)
+    print("(" .. button_to_string(5) .. ") to Main Menu", 10, 125, 2, false, 1, true)
     -- character sprites
     local optionCount = #player.char_option
     for i in ipairs(player.char_option) do
