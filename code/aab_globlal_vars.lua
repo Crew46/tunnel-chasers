@@ -44,10 +44,10 @@ pc={
 }
 chr_spr={
   dPig={
-    headl_a=256
-    headr=257
-    idle_a=256
-    idle_b=258
+    headl_a=256,
+    headr=257,
+    idle_a=256,
+    idle_b=258,
   }
 }
 -- end Global Variables
