@@ -4,7 +4,7 @@
 --- Global Variables
 
 bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
-pc={
+player={
   spr_id=0,
   speed=1,
   lives=3,
@@ -14,7 +14,7 @@ pc={
   honesty=0,
   building="Mechung_hall",
   progression={},
-  select_char={
+  pc={
     {
       name="BYzLi",
       skill_desc="Charismatic",
@@ -43,7 +43,7 @@ pc={
   }
 }
 chr_spr={
-  dPig={
+  dpig={
     headl_a=256,
     headr=257,
     idle_a=256,

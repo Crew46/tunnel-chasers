@@ -39,7 +39,7 @@ function discussion_init()
     if selected_question and not selected_question.selected_responses then
       local responses = selected_question.responses
       local selected_responses = {}
-      for index = 1, pc.ingenuity do
+      for index = 1, player.ingenuity do
         local response_index = math.random(#responses)
         local response = table.remove(responses, response_index)
         response.button = index - 1
@@ -55,10 +55,10 @@ function discussion_init()
         for _, response in ipairs(selected_question.selected_responses) do
           if response.button == i then
             table.insert(chosen_responses, response)
-            pc.honesty = pc.honesty + (response.truthfulness - 4)
+            player.honesty = player.honesty + (response.truthfulness - 4)
             local d00 = math.random(100)
-            d00 = d00 - math.max(pc.charisma * pc.honesty, 0)
-            local effective_ridiculousness = response.ridiculousness - (pc.charisma - 1)
+            d00 = d00 - math.max(player.charisma * player.honesty, 0)
+            local effective_ridiculousness = response.ridiculousness - (player.charisma - 1)
             if effective_ridiculousness < 1 then effective_ridiculousness = 1 end
             local d00_threshold = ({ 100, 75, 50, 25, 10})[effective_ridiculousness] or 0
             if d00 > d00_threshold then
@@ -75,7 +75,7 @@ function discussion_init()
   end
 
   function get_stats()
-    local effectiveness = pc.charisma
+    local effectiveness = player.charisma
     local incrimination = 0
     for _, response in ipairs(chosen_responses) do
       effectiveness = effectiveness + response.effectiveness
@@ -130,7 +130,7 @@ function discussion_init()
     print(effectiveness, 0, 50, 10)
     print(incrimination, 0, 60, 3)
     print(officer_result, 0, 70)
-    print(pc.honesty, 0, 80, 2)
+    print(player.honesty, 0, 80, 2)
     print(officer_trust, 0, 90)
   end
 end
