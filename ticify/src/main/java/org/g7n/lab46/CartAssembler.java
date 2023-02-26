@@ -13,8 +13,10 @@ public class CartAssembler {
     private static final byte CHUNK_CODE = 5;
     private static final byte CHUNK_TILES = 1;
     private static final byte CHUNK_SPRITES = 2;
+    private static final byte CHUNK_MAP = 4;
+    private static final byte CHUNK_PALETTE = 12;
     private static final byte CHUNK_DEFAULT = 17;
-    private static final List<Byte> ASSET_TYPES = Arrays.asList(CHUNK_SPRITES, CHUNK_TILES);
+    private static final List<Byte> ASSET_TYPES = Arrays.asList(CHUNK_SPRITES, CHUNK_TILES, CHUNK_MAP, CHUNK_PALETTE);
     public static void main(String[] args) {
         Path workingDirectory = Paths.get(".").toAbsolutePath().normalize();
         Path codeDirectory = workingDirectory.resolve("code");
