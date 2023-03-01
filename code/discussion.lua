@@ -4,11 +4,15 @@
 --- Discussion "combat" system
 
 function discussion_init()
-  local function add_question(question_text)
-    local question = {question_text=question_text, responses={}, add_response = function(self, response_text, truthfulness, effectiveness, incrimination, ridiculousness)
-      table.insert(self.responses, {response_text=response_text, truthfulness=truthfulness, effectiveness=effectiveness, incrimination=incrimination, ridiculousness=ridiculousness})
+  local function make_question(question_text)
+    local question = { question_text = question_text, responses = {}, add_response = function(self, response_text, truthfulness, effectiveness, incrimination, ridiculousness)
+      table.insert(self.responses, { response_text = response_text, truthfulness = truthfulness, effectiveness = effectiveness, incrimination = incrimination, ridiculousness = ridiculousness })
       return self
-    end}
+    end }
+    return question
+  end
+  local function add_question(question_text)
+    local question = make_question(question_text)
     table.insert(questions, question)
     return question
   end
@@ -19,19 +23,34 @@ function discussion_init()
   balance_threshold = math.sqrt(threshold)
   questions = {}
   chosen_responses = {}
-  for index = 1, 5 do
-    add_question("Question " .. index .. "?")
-            :add_response("Effective response", 5, 5, 1, index)
-            :add_response("Incriminating response", 5, 1, 5, index)
-            :add_response("Neutral response", 5, 1, 1, index)
-            :add_response("Double-edged response", 5, 5, 5, index)
+  for index = 1, 100 do
+    local question = add_question("Question " .. index .. "?")
+    if index % 2 == 0 then
+      for index2 = 1, 5 do
+        question:add_response("Ridiculousness: " .. index2, 5, 0, 0, index2)
+      end
+    else
+      for index2 = 1, 5 do
+        question:add_response("Truthfulness: " .. index2, index2, 0, 0, 1)
+      end
+    end
   end
 
-  function load_question()
-    local number_of_questions = #questions
-    if not selected_question and number_of_questions > 0 and not officer_result then
-      local question_index = math.random(number_of_questions)
-      selected_question = table.remove(questions, question_index)
+  for _, question in ipairs(questions) do
+    question:add_response("*silence*", 4, 1, 2, -5)
+  end
+
+  function load_question(question)
+    if not question then
+      local number_of_questions = #questions
+      if not selected_question and number_of_questions > 0 and not officer_result then
+        local question_index = math.random(number_of_questions)
+        selected_question = table.remove(questions, question_index)
+        timer = player.acuity * 60
+      end
+    else
+      selected_question = question
+      timer = player.acuity * 60
     end
   end
 
@@ -40,7 +59,11 @@ function discussion_init()
       local responses = selected_question.responses
       local selected_responses = {}
       for index = 1, player.ingenuity do
-        local response_index = math.random(#responses)
+        local count = #responses
+        if count < 1 then
+          break
+        end
+        local response_index = math.random(count)
         local response = table.remove(responses, response_index)
         response.button = index - 1
         table.insert(selected_responses, response)
@@ -53,25 +76,41 @@ function discussion_init()
     local d00 = math.random(100)
     d00 = d00 - math.max(player.charisma * player.honesty, 0)
     local effective_ridiculousness = response.ridiculousness - (player.charisma - 1)
-    if effective_ridiculousness < 1 then effective_ridiculousness = 1 end
-    local d00_threshold = ({ 100, 75, 50, 25, 10})[effective_ridiculousness] or 0
+    if effective_ridiculousness < 1 then
+      effective_ridiculousness = 1
+    end
+    local d00_threshold = ({ 100, 75, 50, 25, 10 })[effective_ridiculousness] or 0
     if d00 > d00_threshold then
       response.effectiveness = 0
       response.incrimination = 0
       officer_trust = officer_trust - 1
-      -- todo display message to player informing them that they were not believed
+      local question = make_question("I don't believe you!")
+              :add_response("*silence*", 4, 0, 0, -5)
+              :add_response("But it's true!", response.truthfulness, response.effectiveness, response.incrimination, response.ridiculousness + 2)
+      load_question(question)
+    end
+  end
+
+  function answer_question(question, response)
+    if not response then
+      local response_index = math.random(#(question.selected_responses))
+      response = table.remove(question.selected_responses, response_index)
+    end
+    table.insert(chosen_responses, response)
+    player.honesty = player.honesty + (response.truthfulness - 4)
+    check_ridiculousness(response)
+    if question == selected_question then
+      selected_question = nil
     end
   end
 
   function select_choice()
+    local current_question = selected_question
     for i = 0, 31 do
-      if btnp(i) and selected_question then
-        for _, response in ipairs(selected_question.selected_responses) do
+      if btnp(i) and current_question then
+        for _, response in ipairs(current_question.selected_responses) do
           if response.button == i then
-            table.insert(chosen_responses, response)
-            player.honesty = player.honesty + (response.truthfulness - 4)
-            check_ridiculousness(response)
-            selected_question = nil
+            answer_question(current_question, response)
           end
         end
       end
@@ -109,19 +148,29 @@ function discussion_init()
     end
   end
 
+  function timer_tick()
+    timer = timer - 1
+    if timer <= 0 then
+      answer_question(selected_question)
+    end
+  end
+
   function discussion_logic_loop()
     load_question()
     load_responses()
+    timer_tick()
     select_choice()
     check_thresholds()
   end
 
   function print_question(question)
     print_centered(question.question_text, 120, 20, 11)
-    for i = 1, #question.selected_responses do
-      local response = question.selected_responses[i]
-      -- todo color these dynamically depending on their stats
-      print_centered("(" .. button_to_string(response.button) .. ") " .. response.response_text, 120, 20 + (10 * i), 13)
+    if question.selected_responses then
+      for i = 1, #question.selected_responses do
+        local response = question.selected_responses[i]
+        -- todo color these dynamically depending on their stats
+        print_centered("(" .. button_to_string(response.button) .. ") " .. response.response_text, 120, 20 + (10 * i), 13)
+      end
     end
   end
 
@@ -136,6 +185,7 @@ function discussion_init()
     print(officer_result, 0, 70, 13)
     print(player.honesty, 0, 80, 2)
     print(officer_trust, 0, 90, 13)
+    print(timer, 0, 100, 13)
   end
 end
 
