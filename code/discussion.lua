@@ -49,6 +49,20 @@ function discussion_init()
     end
   end
 
+  function check_ridiculousness(response)
+    local d00 = math.random(100)
+    d00 = d00 - math.max(player.charisma * player.honesty, 0)
+    local effective_ridiculousness = response.ridiculousness - (player.charisma - 1)
+    if effective_ridiculousness < 1 then effective_ridiculousness = 1 end
+    local d00_threshold = ({ 100, 75, 50, 25, 10})[effective_ridiculousness] or 0
+    if d00 > d00_threshold then
+      response.effectiveness = 0
+      response.incrimination = 0
+      officer_trust = officer_trust - 1
+      -- todo display message to player informing them that they were not believed
+    end
+  end
+
   function select_choice()
     for i = 0, 31 do
       if btnp(i) and selected_question then
@@ -56,17 +70,7 @@ function discussion_init()
           if response.button == i then
             table.insert(chosen_responses, response)
             player.honesty = player.honesty + (response.truthfulness - 4)
-            local d00 = math.random(100)
-            d00 = d00 - math.max(player.charisma * player.honesty, 0)
-            local effective_ridiculousness = response.ridiculousness - (player.charisma - 1)
-            if effective_ridiculousness < 1 then effective_ridiculousness = 1 end
-            local d00_threshold = ({ 100, 75, 50, 25, 10})[effective_ridiculousness] or 0
-            if d00 > d00_threshold then
-              response.effectiveness = 0
-              response.incrimination = 0
-              officer_trust = officer_trust - 1
-              -- todo display message to player informing them that they were not believed
-            end
+            check_ridiculousness(response)
             selected_question = nil
           end
         end
