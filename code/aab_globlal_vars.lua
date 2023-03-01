@@ -41,6 +41,7 @@ player={
     index=1
   }
 }
+game={}
 pc_spr={
   --character sprites are located in the sprite sheet of bank 1
   --the first sprite is located on 256
