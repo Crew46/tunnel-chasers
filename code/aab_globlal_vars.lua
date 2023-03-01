@@ -12,8 +12,7 @@ player={
   charisma=1,
   acuity=3,
   honesty=0,
-  building="Mechung_hall",
-  progression={},
+  building="mechung_hall",
   pc={
     {
       name="BYzLi",
@@ -49,7 +48,7 @@ pc_spr={
   --each character has up to 64 8x8 sprites
   --left sprites are even, two spaces away from each other
   --right sprites are odd, two spaces away from each other
-  --the character is facing forwar
+  --the character is facing forward
   dpig={
 
     
