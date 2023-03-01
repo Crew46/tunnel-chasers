@@ -133,9 +133,9 @@ function discussion_init()
     local effectiveness, incrimination = get_stats()
     print(effectiveness, 0, 50, 10)
     print(incrimination, 0, 60, 3)
-    print(officer_result, 0, 70)
+    print(officer_result, 0, 70, 13)
     print(player.honesty, 0, 80, 2)
-    print(officer_trust, 0, 90)
+    print(officer_trust, 0, 90, 13)
   end
 end
 
