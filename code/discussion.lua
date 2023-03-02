@@ -4,16 +4,28 @@
 --- Discussion "combat" system
 
 function discussion_init()
-  local function make_question(question_text)
+  local function make_question(names)
+    local question_text = names[math.random(#names)]
     local question = { question_text = question_text, responses = {}, add_response = function(self, response_text, truthfulness, effectiveness, incrimination, ridiculousness)
       table.insert(self.responses, { response_text = response_text, truthfulness = truthfulness, effectiveness = effectiveness, incrimination = incrimination, ridiculousness = ridiculousness })
       return self
     end }
     return question
   end
-  local function add_question(question_text)
-    local question = make_question(question_text)
-    table.insert(questions, question)
+  local function test_progression(progression_requirements)
+    for _, requirement in ipairs(progression_requirements) do
+      if not (progression and progression[requirement]) then
+        return false
+      end
+    end
+    return true
+  end
+
+  local function add_question(names, progression_requirements)
+    local question = make_question(names)
+    if not progression_requirements or test_progression(progression_requirements) then
+      table.insert(questions, question)
+    end
     return question
   end
   local threshold = 10
@@ -23,18 +35,31 @@ function discussion_init()
   balance_threshold = math.sqrt(threshold)
   questions = {}
   chosen_responses = {}
-  for index = 1, 100 do
-    local question = add_question("Question " .. index .. "?")
-    if index % 2 == 0 then
-      for index2 = 1, 5 do
-        question:add_response("Ridiculousness: " .. index2, 5, 0, 0, index2)
-      end
-    else
-      for index2 = 1, 5 do
-        question:add_response("Truthfulness: " .. index2, index2, 0, 0, 1)
-      end
-    end
-  end
+  add_question({ "Who are you?" })
+          :add_response("Your mom", 1, 5, 2, 6)
+          :add_response("A criminal", 3, 1, 5, 2)
+          :add_response("A student", 4, 3, 2, 1)
+          :add_response("A student, doing some exploration", 5, 2, 3, 2)
+
+  add_question({ "What are you doing here?", "What are you hoping to accomplish here?" })
+          :add_response("Looking for the restrooms", 1, 4, 3, 2)
+          :add_response("Saving orphan children from crocodiles", 1, 5, 1, 5)
+          :add_response("Exploring", 5, 3, 3, 2)
+          :add_response("Breaking into the tunnels", 5, 1, 3, 3)
+          :add_response("Stealing things and selling them", 1, 1, 5, 3)
+          :add_response("Looking for the exit", 1, 3, 3, 3)
+          :add_response("Getting some homework done", 3, 4, 2, 2)
+          :add_response("Making money off of stolen goods", 1, 1, 5, 3)
+          :add_response("I'm not here", 1, 5, 2, 5)
+          :add_response("Gathering supplies for a zombie apocalypse", 1, 5, 1, 5)
+          :add_response("Helping a Nigerian price regain his kingdom", 1, 5, 1, 5)
+          :add_response("Exploring the tunnels", 1, 2, 4, 2)
+
+  add_question({ "Why did you drop-kick that orphan?" }, { "orphan_kick" })
+          :add_response("Self-defense", 5, 5, 5, 3)
+          :add_response("Attack mode", 2, 1, 5, 3)
+          :add_response("I think Jerry did it", 1, 4, 2, 4)
+          :add_response("Me? I would never", 1, 5, 1, 2)
 
   for _, question in ipairs(questions) do
     question:add_response("*silence*", 4, 1, 2, -5)
@@ -84,7 +109,7 @@ function discussion_init()
       response.effectiveness = 0
       response.incrimination = 0
       officer_trust = officer_trust - 1
-      local question = make_question("I don't believe you!")
+      local question = make_question({ "I don't believe you!" })
               :add_response("*silence*", 4, 0, 0, -5)
               :add_response("But it's true!", response.truthfulness, response.effectiveness, response.incrimination, response.ridiculousness + 2)
       load_question(question)
@@ -150,7 +175,7 @@ function discussion_init()
 
   function timer_tick()
     timer = timer - 1
-    if timer <= 0 then
+    if timer <= 0 and selected_question then
       answer_question(selected_question)
     end
   end
