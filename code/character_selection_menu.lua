@@ -4,6 +4,17 @@
 -- script:  lua
 
 function character_menu_init()
+  default_player={
+    spr_id=0,
+    speed=1,
+    lives=3,
+    ingenuity=3,
+    charisma=1,
+    acuity=3,
+    honesty=0,
+    building="mechung_hall"
+  }
+
   player_choice={
     {
       name="BYzLi",
@@ -52,6 +63,7 @@ function character_menu_init()
     print("(" .. button_to_string(cancel_button) .. ") to cancel", 70, 80, 12, false, 1, true)
 
     if btnp(select_button) then
+      player = default_player
       local index = player_choice.index
       local selection = player_choice[index]
       local ingenuity = selection.ingenuity
