@@ -43,26 +43,4 @@ player={
 }
 game_state={}
 progression={}
-pc_spr={
-  --character sprites are located in the sprite sheet of bank 1
-  --the first sprite is located on 256
-  --the last sprite is located on 511
-  --each character has up to 64 8x8 sprites
-  --left sprites are even, two spaces away from each other
-  --right sprites are odd, two spaces away from each other
-  --the character is facing forward
-  dpig={
-
-    
-    headfl_a=256,
-    headfr_a=257,
-    headfl_b=258,
-    headfr_b=259,
-    headbl_a=260,
-    headbr_a=261,
-    headbl_b=262,
-    headbr_b=263,    
-
-  }
-}
 -- end Global Variables
