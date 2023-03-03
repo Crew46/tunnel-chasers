@@ -43,7 +43,10 @@ function discussion_init()
           :add_response("A student", 4, 3, 2, 1)
           :add_response("A student, doing some exploration", 5, 2, 3, 2)
 
-  add_question({ "What are you doing here?", "What are you hoping to accomplish here?" })
+  add_question({ "What are you doing here?", "What are you hoping to accomplish here?", "Why are you here?" })
+          :add_response("Looking for the restrooms", 1, 4, 3, 2)
+          :add_response("Sorry, I'm a new student and got lost", 1, 3, 3, 3)
+          :add_response("Looking for the restrooms", 1, 4, 3, 2)
           :add_response("Looking for the restrooms", 1, 4, 3, 2)
           :add_response("Saving orphan children from crocodiles", 1, 5, 1, 5)
           :add_response("Exploring", 5, 3, 3, 2)
@@ -121,8 +124,11 @@ function discussion_init()
       officer_trust = officer_trust - 1
       local question = make_question({ "I don't believe you!" })
               :add_response("*silence*", 4, 0, 0, -5)
-              :add_response("But it's true!", response.truthfulness, response.effectiveness, response.incrimination, response.ridiculousness + 2)
+              :add_response("But it's true!", response.truthfulness, response.effectiveness, response.incrimination, response.ridiculousness + 1)
       load_question(question)
+      return false
+    else
+      return true
     end
   end
 
@@ -131,9 +137,10 @@ function discussion_init()
       local response_index = math.random(#(question.selected_responses))
       response = table.remove(question.selected_responses, response_index)
     end
-    table.insert(chosen_responses, response)
     player.honesty = player.honesty + (response.truthfulness - 4)
-    check_ridiculousness(response)
+    if check_ridiculousness(response) then
+      table.insert(chosen_responses, response)
+    end
     if question == selected_question then
       selected_question = nil
     end
@@ -220,7 +227,7 @@ function discussion_init()
     print(officer_result, 0, 70, 13)
     print(player.honesty, 0, 80, 2)
     print(officer_trust, 0, 90, 13)
-    print(timer, 0, 100, 13)
+    if timer and timer > 0 then print(timer, 0, 100, 13) end
   end
 end
 
