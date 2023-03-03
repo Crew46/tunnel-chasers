@@ -4,43 +4,43 @@
 -- script:  lua
 
 function character_menu_init()
-  default_player={
-    spr_id=0,
-    speed=1,
-    lives=3,
-    ingenuity=3,
-    charisma=1,
-    acuity=3,
-    honesty=0,
-    building="mechung_hall"
+  default_player = {
+    spr_id = 0,
+    speed = 1,
+    lives = 3,
+    ingenuity = 3,
+    charisma = 1,
+    acuity = 3,
+    honesty = 0,
+    building = "mechung_hall"
   }
 
-  player_choice={
+  player_choice = {
     {
-      name="BYzLi",
-      skill_desc="Charismatic",
-      ingenuity=4,
-      charisma=3
+      name = "BYzLi",
+      skill_desc = "Charismatic",
+      ingenuity = 4,
+      charisma = 3
     },
     {
-      name="DirtPig",
-      skill_desc="Fast",
+      name = "DirtPig",
+      skill_desc = "Fast",
     },
     {
-      name="Paradox",
-      skill_desc="Thin",
-      ingenuity=4
+      name = "Paradox",
+      skill_desc = "Thin",
+      ingenuity = 4
     },
     {
-      name="Null",
-      skill_desc="Equipped",
-      ingenuity=2
+      name = "Null",
+      skill_desc = "Equipped",
+      ingenuity = 2
     },
     {
-      name="Plant",
-      skill_desc="Plant",
+      name = "Plant",
+      skill_desc = "Plant",
     },
-    index=1
+    index = 1
   }
 
   select_button = string_to_button("z")
@@ -51,9 +51,28 @@ function character_menu_init()
 
   function show_info()
     i = player_choice.index
-    print("Name: ".. player_choice[i].name, 116, 106, 12)
-    print("Skill: ".. player_choice[i].skill_desc, 116, 120, 12)
-  end 
+    print("Name: " .. player_choice[i].name, 116, 106, 12)
+    print("Skill: " .. player_choice[i].skill_desc, 116, 120, 12)
+  end
+
+  function initialize_player()
+    player = default_player
+    local index = player_choice.index
+    local selection = player_choice[index]
+    local ingenuity = selection.ingenuity
+    local charisma = selection.charisma
+    local acuity = selection.acuity
+    player.spr_id = index
+    if ingenuity then
+      player.ingenuity = ingenuity
+    end
+    if charisma then
+      player.charisma = charisma
+    end
+    if acuity then
+      player.acuity = acuity
+    end
+  end
 
   function confirm_choice()
     cls()
@@ -63,22 +82,7 @@ function character_menu_init()
     print("(" .. button_to_string(cancel_button) .. ") to cancel", 70, 80, 12, false, 1, true)
 
     if btnp(select_button) then
-      player = default_player
-      local index = player_choice.index
-      local selection = player_choice[index]
-      local ingenuity = selection.ingenuity
-      local charisma = selection.charisma
-      local acuity = selection.acuity
-      player.spr_id = index
-      if ingenuity then
-        player.ingenuity = ingenuity
-      end
-      if charisma then
-        player.charisma = charisma
-      end
-      if acuity then
-        player.acuity = acuity
-      end
+      initialize_player()
       current_system = "interior_level"
     end
     if btnp(cancel_button) then
@@ -102,8 +106,8 @@ function character_menu_init()
 
   function character_select()
     if btnp(cancel_button) then
-	    char_menu_mode = "to_main"
-	  end
+      char_menu_mode = "to_main"
+    end
     if btnp(select_button) then
       char_menu_mode = "confirm"
     end
@@ -126,7 +130,7 @@ function character_menu_init()
     local optionCount = #player_choice
     for i in ipairs(player_choice) do
       local gap = 3
-      local x = (char_menu_width)*i/(optionCount) + gap * i
+      local x = (char_menu_width) * i / (optionCount) + gap * i
       local y = 55
       draw("player_portrait", i, x, y, 2)
       if (player_choice.index == i) then
