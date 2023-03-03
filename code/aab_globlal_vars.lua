@@ -12,34 +12,7 @@ player={
   charisma=1,
   acuity=3,
   honesty=0,
-  building="mechung_hall",
-  pc={
-    {
-      name="BYzLi",
-      skill_desc="Charismatic",
-      ingenuity=4,
-      charisma=3
-    },
-    {
-      name="DirtPig",
-      skill_desc="Fast",
-    },
-    {
-      name="Paradox",
-      skill_desc="Thin",
-      ingenuity=4
-    },
-    {
-      name="Null",
-      skill_desc="Equipped",
-      ingenuity=2
-    },
-    {
-      name="Plant",
-      skill_desc="Plant",
-    },
-    index=1
-  }
+  building="mechung_hall"
 }
 game_state={}
 progression={}

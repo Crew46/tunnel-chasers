@@ -4,14 +4,41 @@
 -- script:  lua
 
 function character_menu_init()
+  player_choice={
+    {
+      name="BYzLi",
+      skill_desc="Charismatic",
+      ingenuity=4,
+      charisma=3
+    },
+    {
+      name="DirtPig",
+      skill_desc="Fast",
+    },
+    {
+      name="Paradox",
+      skill_desc="Thin",
+      ingenuity=4
+    },
+    {
+      name="Null",
+      skill_desc="Equipped",
+      ingenuity=2
+    },
+    {
+      name="Plant",
+      skill_desc="Plant",
+    },
+    index=1
+  }
 
   char_menu_width = 160 -- for display ref.
   char_menu_mode = "display"
 
   function show_info()
-    i = player.pc.index
-    print("Name: ".. player.pc[i].name, 116, 106, 12)
-    print("Skill: ".. player.pc[i].skill_desc, 116, 120, 12)
+    i = player_choice.index
+    print("Name: ".. player_choice[i].name, 116, 106, 12)
+    print("Skill: ".. player_choice[i].skill_desc, 116, 120, 12)
   end 
 
   function confirm_choice()
@@ -22,8 +49,8 @@ function character_menu_init()
     print("(" .. button_to_string(bttn.x) .. ") to cancel", 70, 80, 12, false, 1, true)
 
     if btnp(bttn.z) then
-      local index = player.pc.index
-      local selection = player.pc[index]
+      local index = player_choice.index
+      local selection = player_choice[index]
       local ingenuity = selection.ingenuity
       local charisma = selection.charisma
       local acuity = selection.acuity
@@ -65,11 +92,11 @@ function character_menu_init()
     if btnp(bttn.z) then
       char_menu_mode = "confirm"
     end
-    if btnp(bttn.l) and player.pc.index > 1 then
-      player.pc.index = player.pc.index - 1
+    if btnp(bttn.l) and player_choice.index > 1 then
+      player_choice.index = player_choice.index - 1
     end
-    if btnp(bttn.r) and player.pc.index < #player.pc then
-      player.pc.index = player.pc.index + 1
+    if btnp(bttn.r) and player_choice.index < #player_choice then
+      player_choice.index = player_choice.index + 1
     end
   end
 
@@ -81,13 +108,13 @@ function character_menu_init()
     print("(" .. button_to_string(bttn.z) .. ") to select", 10, 115, 2, false, 1, true)
     print("(" .. button_to_string(bttn.x) .. ") to Main Menu", 10, 125, 2, false, 1, true)
     -- character sprites
-    local optionCount = #player.pc
-    for i in ipairs(player.pc) do
+    local optionCount = #player_choice
+    for i in ipairs(player_choice) do
       local gap = 3
       local x = (char_menu_width)*i/(optionCount) + gap * i
       local y = 55
       draw("player_portrait", i, x, y, 2)
-      if (player.pc.index == i) then
+      if (player_choice.index == i) then
         draw("player_portrait_box", nil, x, y)
       end
     end
