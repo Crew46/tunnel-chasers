@@ -64,7 +64,7 @@ function credits_init()
       }
     },
     {
-      name = "Dylan whatshisface",
+      name = "Dylan whatshisface Holton",
       titles = {
         "Epic soundtracks of doom"
       }
