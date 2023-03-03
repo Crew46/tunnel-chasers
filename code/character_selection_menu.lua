@@ -10,7 +10,7 @@ function character_menu_init()
     lives = 3,
     ingenuity = 3,
     charisma = 1,
-    acuity = 3,
+    acuity = 5,
     honesty = 0,
     building = "mechung_hall"
   }

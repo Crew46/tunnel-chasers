@@ -4,6 +4,8 @@
 --- Discussion "combat" system
 
 function discussion_init()
+  progression = {orphan_kick=true}
+
   local function make_question(names)
     local question_text = names[math.random(#names)]
     local question = { question_text = question_text, responses = {}, add_response = function(self, response_text, truthfulness, effectiveness, incrimination, ridiculousness)
@@ -60,6 +62,14 @@ function discussion_init()
           :add_response("Attack mode", 2, 1, 5, 3)
           :add_response("I think Jerry did it", 1, 4, 2, 4)
           :add_response("Me? I would never", 1, 5, 1, 2)
+
+  add_question({"What is your favorite hobby?"})
+          :add_response("Tax fraud", 2, 2, 5, 3)
+          :add_response("Hacking government computers", 2, 1, 5, 4)
+          :add_response("Making videogames", 5, 3, 1, 2)
+          :add_response("Cheating on exams", 2, 2, 4, 2)
+          :add_response("Playing chess", 5, 4, 1, 2)
+          :add_response("Exploring", 5, 3, 3, 1)
 
   for _, question in ipairs(questions) do
     question:add_response("*silence*", 4, 1, 2, -5)
