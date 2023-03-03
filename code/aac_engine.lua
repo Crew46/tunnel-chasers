@@ -34,6 +34,9 @@ function TIC()
       if system.loop then
         system.loop()
       end
+    else
+      trace("Invalid system: " .. current_system)
+      exit()
     end
   end
   previous_system = cache;
