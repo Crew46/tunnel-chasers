@@ -74,6 +74,12 @@ function character_menu_init()
     end
   end
 
+  function create_new_game()
+    initialize_player()
+    game_state={}
+    progression={}
+  end
+
   function confirm_choice()
     cls()
     rect(60, 40, 120, 60, 10)
@@ -82,6 +88,7 @@ function character_menu_init()
     print("(" .. button_to_string(cancel_button) .. ") to cancel", 70, 80, 12, false, 1, true)
 
     if btnp(select_button) then
+      create_new_game()
       initialize_player()
       current_system = "interior_level"
     end
