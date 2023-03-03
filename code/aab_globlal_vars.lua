@@ -3,7 +3,6 @@
 --- DateTime: 2/25/23 7:57 PM
 --- Global Variables
 
-bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
 player={
   spr_id=0,
   speed=1,

@@ -32,6 +32,9 @@ function character_menu_init()
     index=1
   }
 
+  select_button = string_to_button("z")
+  cancel_button = string_to_button("x")
+
   char_menu_width = 160 -- for display ref.
   char_menu_mode = "display"
 
@@ -45,10 +48,10 @@ function character_menu_init()
     cls()
     rect(60, 40, 120, 60, 10)
     print("Confirm choice?", 70, 44, 12)
-    print("(" .. button_to_string(bttn.z) .. ") to confirm", 70, 60, 12, false, 1, true)
-    print("(" .. button_to_string(bttn.x) .. ") to cancel", 70, 80, 12, false, 1, true)
+    print("(" .. button_to_string(select_button) .. ") to confirm", 70, 60, 12, false, 1, true)
+    print("(" .. button_to_string(cancel_button) .. ") to cancel", 70, 80, 12, false, 1, true)
 
-    if btnp(bttn.z) then
+    if btnp(select_button) then
       local index = player_choice.index
       local selection = player_choice[index]
       local ingenuity = selection.ingenuity
@@ -66,7 +69,7 @@ function character_menu_init()
       end
       current_system = "interior_level"
     end
-    if btnp(bttn.x) then
+    if btnp(cancel_button) then
       char_menu_mode = "display"
     end
   end
@@ -75,27 +78,27 @@ function character_menu_init()
     cls()
     rect(60, 40, 130, 60, 3)
     print("Return to Main Menu?", 70, 44, 12)
-    print("(" .. button_to_string(bttn.z) .. ") to confirm", 70, 60, 12, false, 1, true)
-    print("(" .. button_to_string(bttn.x) .. ") to cancel", 70, 80, 12, false, 1, true)
-    if btnp(bttn.z) then
+    print("(" .. button_to_string(select_button) .. ") to confirm", 70, 60, 12, false, 1, true)
+    print("(" .. button_to_string(cancel_button) .. ") to cancel", 70, 80, 12, false, 1, true)
+    if btnp(select_button) then
       current_system = "main_menu"
     end
-    if btnp(bttn.x) then
+    if btnp(cancel_button) then
       char_menu_mode = "display"
     end
   end
 
   function character_select()
-    if btnp(bttn.x) then
+    if btnp(cancel_button) then
 	    char_menu_mode = "to_main"
 	  end
-    if btnp(bttn.z) then
+    if btnp(select_button) then
       char_menu_mode = "confirm"
     end
-    if btnp(bttn.l) and player_choice.index > 1 then
+    if btnp(string_to_button("left")) and player_choice.index > 1 then
       player_choice.index = player_choice.index - 1
     end
-    if btnp(bttn.r) and player_choice.index < #player_choice then
+    if btnp(string_to_button("right")) and player_choice.index < #player_choice then
       player_choice.index = player_choice.index + 1
     end
   end
@@ -105,8 +108,8 @@ function character_menu_init()
     rect(0, 0, 240, 136, 12) -- background
     rect(110, 100, 110, 30, 13) -- info box
     print("Select Character", 30, 24, 8, false, 2)
-    print("(" .. button_to_string(bttn.z) .. ") to select", 10, 115, 2, false, 1, true)
-    print("(" .. button_to_string(bttn.x) .. ") to Main Menu", 10, 125, 2, false, 1, true)
+    print("(" .. button_to_string(select_button) .. ") to select", 10, 115, 2, false, 1, true)
+    print("(" .. button_to_string(cancel_button) .. ") to Main Menu", 10, 125, 2, false, 1, true)
     -- character sprites
     local optionCount = #player_choice
     for i in ipairs(player_choice) do
