@@ -21,8 +21,8 @@ function interior_level_init()
 	offY = 17
 	offChase = 0
 	offDirection = 3
-	offResetX = 15
-	offResetY = 17
+	offResetX = 0
+	offResetY = 0
 	x=107
 	y=100
 
@@ -165,6 +165,14 @@ function interior_level_init()
 				offReset=1
 			end
 		end -- first if statement
+		if offResetY == 0
+		and offChase == 1 then
+			offResetY = offY
+		end
+		if offResetX == 0
+		and offChase == 1 then
+			offResetX = offX
+		end
 		if offChase == 1 -- ani change 
 		and (officerAni == 236
 		or officerAni == 238) then
@@ -178,14 +186,6 @@ function interior_level_init()
 		and offFlip == 0
 		and offChase == 1 then
 			offFlip = 1
-		end
-		if offResetX == 15
-		and offChase == 1 then
-			offResetX = offX
-		end
-		if offResetY == 17
-		and offChase == 1 then
-			offResetY = offY
 		end
 	end
 
@@ -226,8 +226,8 @@ function interior_level_init()
 					elseif offX == offResetX
 					and offY == offResetY then
 						offReset=0
-						offResetX = 15
-						offResetY = 17
+						offResetX = 0
+						offResetY = 0
 					end
 				elseif offTimer == 0 then
 					if offX == 203 --moving down
@@ -286,7 +286,7 @@ function interior_level_loop()
 	officer()
 	spr(playerAni,x,y,0,1,flip,0,2,2)
 	spr(playerAni,offX,offY,0,1,offFlip,0,2,2)
-	print(offTimer,84,84) --for debuggin
+	print(offTimer,84,84) --for debugging
 end
 
 make_system("interior_level", interior_level_init, interior_level_loop)

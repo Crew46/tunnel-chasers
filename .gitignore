@@ -1,5 +1,7 @@
 *.exe
 .local
 powershell.exe.lnk
+cmd.exe.lnk
 /.idea/
 /ticify/target/
+runtic.bat
