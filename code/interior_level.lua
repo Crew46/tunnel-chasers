@@ -21,6 +21,8 @@ function interior_level_init()
 	offY = 17
 	offChase = 0
 	offDirection = 3
+	offResetX = 15
+	offResetY = 17
 	x=107
 	y=100
 
@@ -53,19 +55,19 @@ function interior_level_init()
 					x=x-1
 					moveDirection=2
 				end
-		else
-			x=x-1
+			else
+				x=x-1
 				moveDirection=2
 			end
-	end
+		end
 		if btn(3) and x ~= borderXMax - sprLength then
-		if y > borderYMax - sprHeight then
+			if y > borderYMax - sprHeight then
 				if x < doorwayEnd - sprLength then
 					x=x+1
 					moveDirection=3
 				end
 			else
-			x=x+1
+				x=x+1
 				moveDirection=3
 			end
 		end
@@ -74,193 +76,202 @@ function interior_level_init()
 	function moveAnimation()
 		if moveDirection ~= 0
 		and moveDirection ~= 4 then
-				if moveDirection == 2 then
-						flip=1
-				else flip=0 end
-				if playerAni == 39 then
-						if waitTimer < 0 then
-								playerAni=playerAni-2
-								waitTimer=10
-						end
-				elseif playerAni == 37 then
-						if waitTimer < 0 then
-								playerAni=playerAni+2
-								waitTimer=10
-						end
-				else playerAni=37 end
+			if moveDirection == 2 then
+				flip=1
+			else flip=0 end
+			if playerAni == 39 then
+				if waitTimer < 0 then
+					playerAni=playerAni-2
+					waitTimer=10
+				end
+			elseif playerAni == 37 then
+				if waitTimer < 0 then
+					playerAni=playerAni+2
+					waitTimer=10
+				end
+			else playerAni=37 end
 		elseif moveDirection == 0 then -- move up
-				if playerAni == 46 then
-						if waitTimer < 0 then
-								playerAni=playerAni-2
-								waitTimer=10
-						end
-				elseif playerAni == 44 then
-						if waitTimer < 0 then	
-								playerAni=playerAni+2
-								waitTimer=10
-						end
-				else playerAni=44 end
-		else playerAni = 3
-		end
+			if playerAni == 46 then
+				if waitTimer < 0 then
+					playerAni=playerAni-2
+					waitTimer=10
+				end
+			elseif playerAni == 44 then
+				if waitTimer < 0 then	
+					playerAni=playerAni+2
+					waitTimer=10
+				end
+			else playerAni=44 end
+		else playerAni = 3 end
 	end
 
 	function officerFOV()
-			if offFlip == 0 then
-					if x <= offX+10
-					and x > offX
-					and y <= offY+10
-					and y >= offY-10 then
-							offChase=1
-					elseif x <= offX+20
-					and x > offX
-					and y <= offY+15
-					and y >= offY-15 then
-							offChase=1
-					elseif x <= offX+30
-					and x > offX
-					and y <= offY+20
-					and y >= offY-20 then
-							offChase=1
-					elseif x <= offX+40
-					and x > offX
-					and y <= offY+30
-					and y >= offY-30 then
-							offChase=1
-					elseif offChase == 1
-					and (x >= offX+50
-					or x < offX
-					or y >= offY+30
-					or y <= offY-30) then
-							offChase=0
-							offReset=1
-					end
-			elseif offFlip == 1 then
-					if x >= offX-10
-					and x < offX
-					and y <= offY+10
-					and y >= offY-10 then
-							offChase=1
-					elseif x >= offX-20
-					and x < offX
-					and y <= offY+15
-					and y >= offY-15 then
-							offChase=1
-					elseif x >= offX-30
-					and x < offX
-					and y <= offY+20
-					and y >= offY-20 then
-							offChase=1
-					elseif x >= offX-40
-					and x < offX
-					and y <= offY+30
-					and y >= offY-30 then
-							offChase=1
-					elseif offChase == 1
-					and (x <= offX-50
-					or x >= offX+50
-					or y >= offY+30
-					or y <= offY-30) then
-							offChase=0
-							offReset=1
-					end
-			end -- first if statement
-			if offChase == 1 -- ani change 
-			and (officerAni == 236
-			or officerAni == 238) then
-					officerAni = 231
+		if offFlip == 0 then
+			if x <= offX+10
+			and x > offX
+			and y <= offY+10
+			and y >= offY-10 then
+				offChase=1
+			elseif x <= offX+20
+			and x > offX
+			and y <= offY+15
+			and y >= offY-15 then
+				offChase=1
+			elseif x <= offX+30
+			and x > offX
+			and y <= offY+20
+			and y >= offY-20 then
+				offChase=1
+			elseif x <= offX+40
+			and x > offX
+			and y <= offY+30
+			and y >= offY-30 then
+				offChase=1
+			elseif offChase == 1
+			and (x >= offX+50
+			or x < offX
+			or y >= offY+30
+			or y <= offY-30) then
+				offChase=0
+				offReset=1
 			end
-			if x < offX
-			and offFlip == 1
-			and offChase == 1 then -- flip when behind
-					offFlip = 0
-			elseif x > offX
-			and offFlip == 0
-			and offChase == 1 then
-					offFlip = 1
+		elseif offFlip == 1 then
+			if x >= offX-10
+			and x < offX
+			and y <= offY+10
+			and y >= offY-10 then
+				offChase=1
+			elseif x >= offX-20
+			and x < offX
+			and y <= offY+15
+			and y >= offY-15 then
+				offChase=1
+			elseif x >= offX-30
+			and x < offX
+			and y <= offY+20
+			and y >= offY-20 then
+				offChase=1
+			elseif x >= offX-40
+			and x < offX
+			and y <= offY+30
+			and y >= offY-30 then
+				offChase=1
+			elseif offChase == 1
+			and (x <= offX-50
+			or x >= offX+50
+			or y >= offY+30
+			or y <= offY-30) then
+				offChase=0
+				offReset=1
 			end
+		end -- first if statement
+		if offChase == 1 -- ani change 
+		and (officerAni == 236
+		or officerAni == 238) then
+			officerAni = 231
+		end
+		if x < offX -- flip when behind
+		and offFlip == 1
+		and offChase == 1 then
+			offFlip = 0
+		elseif x > offX
+		and offFlip == 0
+		and offChase == 1 then
+			offFlip = 1
+		end
+		if offResetX == 15
+		and offChase == 1 then
+			offResetX = offX
+		end
+		if offResetY == 17
+		and offChase == 1 then
+			offResetY = offY
+		end
 	end
 
 	function officer()
-			offTimer=offTimer-1
-			if officerAni == 231
-			or officerAni == 233
-			or officerAni == 236
-			or officerAni == 238 then
-					if offChase == 1 then
-							if offX == x
-							and offY == y then
-									offChase=0
-									offReset=1
-							elseif offX > x then
-									offFlip=1
-									offX=offX-1
-							elseif offX < x then
-									offFlip=0
-									offX=offX+1
-							elseif offY > y then
-									offY=offY-1
-							elseif offY < y then
-									offY=offY+1
-							end
-					else
-							if offReset == 1 then
-									if offX < 15 then
-											offX=offX+1
-											offFlip=0
-									elseif offX > 15 then
-											offX=offX-1
-											offFlip=1
-									elseif offY < 17 then
-											offY=offY+1
-									elseif offY > 17 then
-											offY=offY-1
-									elseif offX == 15
-									and offY == 17 then
-											offReset=0
-									end
-							elseif offTimer == 0 then
-									if offX == 203 --moving down
-									and offY ~= 91 then
-											offFlip=1
-											offY=offY+2
-									elseif offX ~= 203 --moving right
-									and offY == 17 then
-											if officerAni == 236
-											or officerAni == 238 then
-													officerAni=231
-											end
-											offFlip=0
-										offX=offX+2
-									elseif offY == 91 --moving left
-									and offX ~= 17 then
-											offX=offX-2
-									elseif offX == 17 --moving up
-								and offY ~= 17 then
-											if officerAni == 236 then
-													officerAni=238
-													offTimer=10
-											elseif officerAni == 238 then
-													officerAni=236
-													offTimer=10
-											else 
-													officerAni=236
-													offTimer=10
-											end
-											offFlip=0
-											offY=offY-2
-									end
-							end
+		offTimer=offTimer-1
+		if officerAni == 231
+		or officerAni == 233
+		or officerAni == 236
+		or officerAni == 238 then
+			if offChase == 1 then -- chase control
+				if offX == x
+				and offY == y then
+					offChase=0
+					offReset=1
+				elseif offX > x then
+					offFlip=1
+					offX=offX-1
+				elseif offX < x then
+					offFlip=0
+					offX=offX+1
+				elseif offY > y then
+					offY=offY-1
+				elseif offY < y then
+					offY=offY+1
+				end
+			else
+				if offReset == 1 then -- officer reset to position before chase
+					if offX < offResetX then
+						offX=offX+1
+						offFlip=0
+					elseif offX > offResetX then
+						offX=offX-1
+						offFlip=1
+					elseif offY < offResetY then
+						offY=offY+1
+					elseif offY > offResetY then
+						offY=offY-1
+					elseif offX == offResetX
+					and offY == offResetY then
+						offReset=0
+						offResetX = 15
+						offResetY = 17
 					end
+				elseif offTimer == 0 then
+					if offX == 203 --moving down
+					and offY ~= 91 then
+						offFlip=1
+						offY=offY+2
+					elseif offX ~= 203 --moving right
+					and offY == 17 then
+						if officerAni == 236
+						or officerAni == 238 then
+							officerAni=231
+						end
+						offFlip=0
+						offX=offX+2
+					elseif offY == 91 --moving left
+					and offX ~= 17 then
+						offX=offX-2
+					elseif offX == 17 --moving up
+					and offY ~= 17 then
+						if officerAni == 236 then
+							officerAni=238
+							offTimer=10
+						elseif officerAni == 238 then
+							officerAni=236
+							offTimer=10
+						else 
+							officerAni=236
+							offTimer=10
+						end
+						offFlip=0
+						offY=offY-2
+					end
+				end
 			end
-			if officerAni == 231
-			and offTimer == 0 then --ani control
-					officerAni=233
-					offTimer=10
-			elseif officerAni == 233
-			and offTimer == 0 then
-				officerAni=231
-					offTimer=10
-			end
+		end
+		if officerAni == 231
+		and offTimer == 0 then --ani control
+			officerAni=233
+			offTimer=10
+		elseif officerAni == 233
+		and offTimer == 0 then
+			officerAni=231
+			offTimer=10
+		end
 	end
 end
 
@@ -274,7 +285,7 @@ function interior_level_loop()
 	officerFOV()
 	officer()
 	spr(playerAni,x,y,0,1,flip,0,2,2)
-	spr(officerAni,offX,offY,0,1,offFlip,0,2,2)
+	spr(playerAni,offX,offY,0,1,offFlip,0,2,2)
 	print(offTimer,84,84) --for debuggin
 end
 
