@@ -54,10 +54,6 @@ function credits_init()
         "Professional gluer-upper-er",
         "Paradox",
         "Engine and framework developer",
-        "Credits subsystem",
-        "Menu subsystem",
-        "Video subsystems",
-        "Splash subsystems",
         "Player format",
         "Project headhunting",
         "Eating cake with a box cutter"
@@ -67,6 +63,14 @@ function credits_init()
       name = "Dylan whatshisface Holton",
       titles = {
         "Epic soundtracks of doom"
+      }
+    },
+    {
+      name = "Dialogue Submission",
+      titles = {
+        "dkienenb",
+        "Nathaniel Clark",
+        "Chris B"
       }
     },
     {
