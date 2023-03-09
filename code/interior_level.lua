@@ -23,8 +23,8 @@ function interior_level_init()
 	offDirection = 3
 	offResetX = 0
 	offResetY = 0
-	x=107
-	y=100
+	x=119
+	y=180
 
 	function roomBorder()
 		line(borderXMin, borderYMin, borderXMax, borderYMin, 2) -- top
@@ -275,18 +275,34 @@ function interior_level_init()
 	end
 end
 
+function simpleMovement() -- for testing map function
+	if btn(0) then
+		y=y+.5
+	elseif btn(1) then
+		y=y-.5
+	elseif btn(2) then
+		x=x+.5
+	elseif btn(3) then
+		x=x-.5
+	end
+end
+
 function interior_level_loop()
-	playerMovement()
 	cls(13)
 	waitTimer=waitTimer-1
 	offTimer=offTimer-1
-	roomBorder()
+	--roomBorder()
+	--playerMovement()
+	simpleMovement()
 	moveAnimation()
 	officerFOV()
 	officer()
-	spr(playerAni,x,y,0,1,flip,0,2,2)
-	spr(playerAni,offX,offY,0,1,offFlip,0,2,2)
-	print(offTimer,84,84) --for debugging
+	cameraX = math.min(120, 120-x)
+	cameraY = math.min(68, 68-y)
+	map(cameraX-15, cameraY-8, 32, 17, (cameraX%8)-8, (cameraY%8)-8, 0)
+	spr(playerAni,x+cameraX,y+cameraY,0,1,flip,0,2,2)
+	--spr(playerAni,offX,offY,0,1,offFlip,0,2,2)
+	print(x,84,84) --for debugging
 end
 
 make_system("interior_level", interior_level_init, interior_level_loop)
