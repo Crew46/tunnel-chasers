@@ -297,8 +297,8 @@ function interior_level_loop()
 	moveAnimation()
 	officerFOV()
 	officer()
-	cameraX = math.min(120, 120-x)
-	cameraY = math.min(68, 68-y)
+	cameraX = 120-x
+	cameraY = 68-y
 	map(cameraX-15, cameraY-8, 32, 17, (cameraX%8)-8, (cameraY%8)-8, 0)
 	spr(playerAni,x+cameraX,y+cameraY,0,1,flip,0,2,2)
 	--spr(playerAni,offX,offY,0,1,offFlip,0,2,2)
