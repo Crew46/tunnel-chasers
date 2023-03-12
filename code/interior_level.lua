@@ -26,53 +26,6 @@ function interior_level_init()
 	x=119
 	y=180
 
-	function roomBorder()
-		line(borderXMin, borderYMin, borderXMax, borderYMin, 2) -- top
-		line(borderXMin, borderYMin, borderXMin, borderYMax, 2) -- left side
-		line(borderXMax, borderYMin, borderXMax, borderYMax, 2) -- right side
-		line(borderXMin, borderYMax, doorwayStart, borderYMax, 2) -- bottom doorway side
-		line(doorwayEnd, borderYMax, borderXMax, borderYMax, 2)
-		line(doorwayStart, borderYMax, doorwayStart, 136, 2)
-		line(doorwayEnd, borderYMax, doorwayEnd, 136, 2)
-	end
-
-	function playerMovement()
-		moveDirection = 4
-		if btn(0) and y ~= borderYMin then
-			y=y-1
-			moveDirection=0
-		end
-		if btn(1) 
-		and (y ~= borderYMax-sprHeight
-		or (x >= doorwayStart
-		and x <= doorwayEnd-sprLength)) then
-			y=y+1
-			moveDirection=1
-		end
-		if btn(2) and x ~= borderXMin then
-			if y > borderYMax - sprHeight then
-				if x > doorwayStart then
-					x=x-1
-					moveDirection=2
-				end
-			else
-				x=x-1
-				moveDirection=2
-			end
-		end
-		if btn(3) and x ~= borderXMax - sprLength then
-			if y > borderYMax - sprHeight then
-				if x < doorwayEnd - sprLength then
-					x=x+1
-					moveDirection=3
-				end
-			else
-				x=x+1
-				moveDirection=3
-			end
-		end
-	end
-
 	function moveAnimation()
 		if moveDirection ~= 0
 		and moveDirection ~= 4 then
@@ -273,17 +226,21 @@ function interior_level_init()
 			offTimer=10
 		end
 	end
-end
 
-function simpleMovement() -- for testing map function
-	if btn(0) then
-		y=y+.5
-	elseif btn(1) then
-		y=y-.5
-	elseif btn(2) then
-		x=x+.5
-	elseif btn(3) then
-		x=x-.5
+	function simpleMovement()
+		if btn(0)
+		and fget(mget(cameraX, cameraY+137), 0) == false then
+			y=y+.25
+		elseif btn(1) 
+		and fget(mget(cameraX, cameraY+139), 0) == false then
+			y=y-.25
+		elseif btn(2)
+		and fget(mget(math.ceil(cameraX-1), cameraY+138), 0) == false then
+			x=x+.25
+		elseif btn(3)
+		and fget(mget(cameraX+1, cameraY+138), 0) == false then
+			x=x-.25
+		end
 	end
 end
 
@@ -291,18 +248,18 @@ function interior_level_loop()
 	cls(13)
 	waitTimer=waitTimer-1
 	offTimer=offTimer-1
-	--roomBorder()
-	--playerMovement()
 	simpleMovement()
 	moveAnimation()
 	officerFOV()
 	officer()
-	cameraX = 120-x
+	cameraX = 124-x
 	cameraY = 68-y
 	map(cameraX-15, cameraY-8, 32, 17, (cameraX%8)-8, (cameraY%8)-8, 0)
-	spr(playerAni,x+cameraX,y+cameraY,0,1,flip,0,2,2)
+	spr(264,x+cameraX-10.5,y+cameraY,0,1,flip,0,2,2)
 	--spr(playerAni,offX,offY,0,1,offFlip,0,2,2)
-	print(x,84,84) --for debugging
+	print(cameraX,84,84) --for debugging
+	print(fget(mget(math.floor(cameraX - 1), cameraY + 138), 0), 84, 100)
+	-- Sprite Flags: 117-113, 99-98, 83-82, 0
 end
 
 make_system("interior_level", interior_level_init, interior_level_loop)
