@@ -17,14 +17,14 @@ function interior_level_init()
 	waitTimer = 10
 	officerAni = 233
 	offTimer = 10
-	offX = 15
-	offY = 17
+	offX = 115
+	offY = 179
 	offChase = 0
 	offDirection = 3
 	offResetX = 0
 	offResetY = 0
-	x=119
-	y=180
+	x=115
+	y=179
 
 	function moveAnimation()
 		if moveDirection ~= 0
@@ -144,10 +144,7 @@ function interior_level_init()
 
 	function officer()
 		offTimer=offTimer-1
-		if officerAni == 231
-		or officerAni == 233
-		or officerAni == 236
-		or officerAni == 238 then
+		if officerAni == 454 then
 			if offChase == 1 then -- chase control
 				if offX == x
 				and offY == y then
@@ -237,11 +234,17 @@ function interior_level_init()
 		elseif btn(2)
 		and fget(mget(math.ceil(cameraX-1), cameraY+138), 0) == false then
 			x=x+.25
+			moveBy=1
 		elseif btn(3)
 		and fget(mget(cameraX+1, cameraY+138), 0) == false then
 			x=x-.25
-		end
+			moveBy=-1
+		else moveBy=0 end
 	end
+end
+
+function testOff()
+	offX=offX-1+moveBy
 end
 
 function interior_level_loop()
@@ -252,14 +255,17 @@ function interior_level_loop()
 	moveAnimation()
 	officerFOV()
 	officer()
-	cameraX = 124-x
+	camOffY = 68-offY
+	cameraX = 120-x
 	cameraY = 68-y
+	testOff()
 	map(cameraX-15, cameraY-8, 32, 17, (cameraX%8)-8, (cameraY%8)-8, 0)
 	spr(264,x+cameraX-10.5,y+cameraY,0,1,flip,0,2,2)
-	--spr(playerAni,offX,offY,0,1,offFlip,0,2,2)
+	spr(454,offX,offY+camOffY,0,1,offFlip,0,2,2)
 	print(cameraX,84,84) --for debugging
-	print(fget(mget(math.floor(cameraX - 1), cameraY + 138), 0), 84, 100)
-	-- Sprite Flags: 117-113, 99-98, 83-82, 0
+	print(offX, 84, 100)
+	print(x, 84, 120)
+	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
 
 make_system("interior_level", interior_level_init, interior_level_loop)
