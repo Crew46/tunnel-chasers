@@ -259,7 +259,7 @@ function interior_level_loop()
 	cameraX = 120-x
 	cameraY = 68-y
 	testOff()
-	map(cameraX-15, cameraY-8, 32, 17, (cameraX%8)-8, (cameraY%8)-8, 0)
+	map(cameraX-15, cameraY-8, 32, 17, (cameraX%8)-8, (cameraY%8)-8, -1)
 	spr(264,x+cameraX-10.5,y+cameraY,0,1,flip,0,2,2)
 	spr(454,offX,offY+camOffY,0,1,offFlip,0,2,2)
 	print(cameraX,84,84) --for debugging
