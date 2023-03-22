@@ -17,14 +17,15 @@ function interior_level_init()
 	waitTimer = 10
 	officerAni = 233
 	offTimer = 10
-	offX = 115
-	offY = 179
+	offX = 32
+	offY = 50
 	offChase = 0
 	offDirection = 3
 	offResetX = 0
 	offResetY = 0
-	x=115
-	y=179
+	x=185
+	y=-60
+	trackX = 120-x
 
 	function moveAnimation()
 		if moveDirection ~= 0
@@ -225,26 +226,28 @@ function interior_level_init()
 	end
 
 	function simpleMovement()
-		if btn(0)
-		and fget(mget(cameraX, cameraY+137), 0) == false then
-			y=y+.25
-		elseif btn(1) 
-		and fget(mget(cameraX, cameraY+139), 0) == false then
-			y=y-.25
-		elseif btn(2)
-		and fget(mget(math.ceil(cameraX-1), cameraY+138), 0) == false then
-			x=x+.25
-			moveBy=1
+		if btn(0) then
+			y=y+1
+			offY=offY+1
+		elseif btn(1) then
+			y=y-1
+			offY=offY-1
+		elseif btn(2) 
+		and fget(mget(-(trackX//8)-3, (cameraY//8)+10), 0) == false then
+			x=x+1
+			trackX=trackX+1
+			offX=offX+1
 		elseif btn(3)
-		and fget(mget(cameraX+1, cameraY+138), 0) == false then
-			x=x-.25
-			moveBy=-1
-		else moveBy=0 end
+		and fget(mget(-(trackX//8)-2, (cameraY//8)+10), 0) == false then
+			x=x-1
+			trackX=trackX-1
+			offX=offX-1
+		end
 	end
 end
 
 function testOff()
-	offX=offX-1+moveBy
+	offX=offX-1
 end
 
 function interior_level_loop()
@@ -255,16 +258,14 @@ function interior_level_loop()
 	moveAnimation()
 	officerFOV()
 	officer()
-	camOffY = 68-offY
 	cameraX = 120-x
 	cameraY = 68-y
-	testOff()
-	map(cameraX-15, cameraY-8, 32, 17, (cameraX%8)-8, (cameraY%8)-8, -1)
+	map(cameraX//8, cameraY//8, 32, 18, -(cameraX%8), -(cameraY%8), -1)
 	spr(264,x+cameraX-10.5,y+cameraY,0,1,flip,0,2,2)
-	spr(454,offX,offY+camOffY,0,1,offFlip,0,2,2)
-	print(cameraX,84,84) --for debugging
-	print(offX, 84, 100)
-	print(x, 84, 120)
+	spr(454,offX,offY,0,1,offFlip,0,2,2)
+	print(-(trackX//8), 84, 84) --for debugging
+	print(cameraY//8, 84, 100)
+	print(fget(mget(-(trackX//8)-2,(cameraY//8)+10), 0), 84, 120)
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
 
