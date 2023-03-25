@@ -8,5 +8,5 @@ Player format reference:
 | building      | String | "mechung_building" | snake case version of the name of the building the player is currently in                     |
 | ingenuity     | Number | char-dependent     | Number of choices given to the player during dialogue                                         |
 | charisma      | Number | char-dependent     | Increases effectiveness of discussion responses. Decreases risk.                              |
-| acuity        | Number | char-dependent?    | Increases the amount of time given to the player during dialogue                              |
+| acuity        | Number | char-dependent?    | Increases the amount of time in seconds given to the player during dialogue                   |
 | honesty       | Number | 0                  | Your honesty rating. Decreases for lies, increases for truths.                                |
