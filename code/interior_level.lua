@@ -17,8 +17,10 @@ function interior_level_init()
 	waitTimer = 10
 	officerAni = 233
 	offTimer = 10
-	offX = 32
-	offY = 50
+	offX = 90
+	offY = 190
+	trackOffX = offX
+	trackOffY = offY
 	offChase = 0
 	offDirection = 3
 	offResetX = 0
@@ -145,6 +147,7 @@ function interior_level_init()
 
 	function officer()
 		offTimer=offTimer-1
+		officerAni=454
 		if officerAni == 454 then
 			if offChase == 1 then -- chase control
 				if offX == x
@@ -181,46 +184,43 @@ function interior_level_init()
 						offResetY = 0
 					end
 				elseif offTimer == 0 then
-					if offX == 203 --moving down
-					and offY ~= 91 then
+					if trackOffX == 500 --moving down
+					and trackOffY ~= 230 then
 						offFlip=1
-						offY=offY+2
-					elseif offX ~= 203 --moving right
-					and offY == 17 then
+						offY=offY+1
+						trackOffY=trackOffY+1
+					elseif trackOffX ~= 500 --moving right
+					and trackOffY == 190 then
 						if officerAni == 236
 						or officerAni == 238 then
 							officerAni=231
 						end
 						offFlip=0
-						offX=offX+2
-					elseif offY == 91 --moving left
-					and offX ~= 17 then
-						offX=offX-2
-					elseif offX == 17 --moving up
-					and offY ~= 17 then
+						offX=offX+1
+						trackOffX=trackOffX+1
+					elseif trackOffY == 230 --moving left
+					and trackOffX ~= 90 then
+						offX=offX-1
+						trackOffX=trackOffX-1
+					elseif trackOffX == 90 --moving up
+					and trackOffY ~= 190 then
 						if officerAni == 236 then
 							officerAni=238
-							offTimer=10
 						elseif officerAni == 238 then
 							officerAni=236
-							offTimer=10
-						else 
-							officerAni=236
-							offTimer=10
 						end
 						offFlip=0
-						offY=offY-2
+						offY=offY-1
+						trackOffY=trackOffY-1
 					end
 				end
 			end
 		end
-		if officerAni == 231
+		if officerAni == 454
 		and offTimer == 0 then --ani control
-			officerAni=233
 			offTimer=10
-		elseif officerAni == 233
+		elseif officerAni == 454
 		and offTimer == 0 then
-			officerAni=231
 			offTimer=10
 		end
 	end
@@ -246,27 +246,23 @@ function interior_level_init()
 	end
 end
 
-function testOff()
-	offX=offX-1
-end
-
 function interior_level_loop()
 	cls(13)
 	waitTimer=waitTimer-1
 	offTimer=offTimer-1
 	simpleMovement()
 	moveAnimation()
-	officerFOV()
-	officer()
+	--officerFOV()
+	--officer()
 	cameraX = 120-x
 	cameraY = 68-y
+	camOffX = 120-offX
+	camOffY = 68-offY
 	map(cameraX//8, cameraY//8, 32, 18, -(cameraX%8), -(cameraY%8), -1)
-	spr(264,x+cameraX-10.5,y+cameraY,0,1,flip,0,2,2)
+	spr(264,109.5,68,0,1,flip,0,2,2)
 	spr(454,offX,offY,0,1,offFlip,0,2,2)
-	print(-(trackX//8), 84, 84) --for debugging
-	print(cameraY//8, 84, 100)
-	print(fget(mget(-(trackX//8)-2,(cameraY//8)+10), 0), 84, 120)
+	print((-trackX//8)-2, 84, 84) --for debugging
+	print(trackOffX, 84, 100)
+	print(trackOffY, 84, 120)
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
-
-make_system("interior_level", interior_level_init, interior_level_loop)
