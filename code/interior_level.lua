@@ -266,3 +266,7 @@ function interior_level_loop()
 	print(trackOffY, 84, 120)
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
+
+make_system("interior_level", interior_level_init, interior_level_loop)
+
+--end interior level
