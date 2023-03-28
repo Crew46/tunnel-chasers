@@ -13,10 +13,20 @@ public class CartAssembler {
     private static final byte CHUNK_CODE = 5;
     private static final byte CHUNK_TILES = 1;
     private static final byte CHUNK_SPRITES = 2;
+    private static final Byte CHUNK_FLAGS = 6;
     private static final byte CHUNK_MAP = 4;
     private static final byte CHUNK_PALETTE = 12;
     private static final byte CHUNK_DEFAULT = 17;
-    private static final List<Byte> ASSET_TYPES = Arrays.asList(CHUNK_SPRITES, CHUNK_TILES, CHUNK_MAP, CHUNK_PALETTE);
+    private static final byte CHUNK_MUSIC = 14;
+    private static final List<Byte> ASSET_TYPES = Arrays.asList(CHUNK_TILES, CHUNK_MAP, CHUNK_MUSIC);
+    private static final Map<Byte,List<Byte>> LINKED_TYPES = generateLinkedTypes();
+
+    private static Map<Byte, List<Byte>> generateLinkedTypes() {
+        Map<Byte,List<Byte>> linkedTypes = new HashMap<>();
+        linkedTypes.put(CHUNK_TILES, Arrays.asList(CHUNK_DEFAULT, CHUNK_PALETTE, CHUNK_SPRITES, CHUNK_FLAGS));
+        return linkedTypes;
+    }
+
     public static void main(String[] args) {
         Path workingDirectory = Paths.get(".").toAbsolutePath().normalize();
         Path codeDirectory = workingDirectory.resolve("code");
@@ -24,10 +34,6 @@ public class CartAssembler {
         Path output = workingDirectory.resolve("tunnels.tic");
         List<Byte> code = cat(codeDirectory, true);
         List<List<Byte>> chunks = new ArrayList<>();
-        for (byte i = 0; i <= 7; i++) {
-            List<Byte> defaultChunk = compileChunk(i, CHUNK_DEFAULT, null);
-            chunks.add(defaultChunk);
-        }
         List<Byte> codeChunk = compileChunk((byte) 0, CHUNK_CODE, code);
         chunks.add(codeChunk);
         chunks.addAll(compileAssets(assetDirectory));
@@ -47,14 +53,32 @@ public class CartAssembler {
                 byte chunkType = chunk.get(0);
                 if (ASSET_TYPES.contains(chunkType)) {
                     byte bankNumber = (byte) indexes.get(chunkType).getAndIncrement();
-                    List<Byte> newChunk = new ArrayList<>(chunk.subList(1, chunk.size()));
-                    byte controlByte = makeControlByte(bankNumber, chunkType);
-                    newChunk.add(0, controlByte);
+                    List<Byte> newChunk = bankifyChunk(chunk, bankNumber);
                     chunks.add(newChunk);
+                    if (LINKED_TYPES.containsKey(chunkType)) {
+                        List<Byte> linkedTypes = LINKED_TYPES.get(chunkType);
+                        for (Byte linkedType: linkedTypes) {
+                            for (List<Byte> comparedChunk: newChunks) {
+                                byte comparedChunkType = comparedChunk.get(0);
+                                if (comparedChunkType == linkedType) {
+                                    List<Byte> newComparedChunk = bankifyChunk(comparedChunk, bankNumber);
+                                    chunks.add(newComparedChunk);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         });
         return chunks;
+    }
+
+    private static List<Byte> bankifyChunk(List<Byte> chunk, byte bankNumber) {
+        byte chunkType = chunk.get(0);
+        List<Byte> newChunk = new ArrayList<>(chunk.subList(1, chunk.size()));
+        byte controlByte = makeControlByte(bankNumber, chunkType);
+        newChunk.add(0, controlByte);
+        return newChunk;
     }
 
     private static List<List<Byte>> splitIntoChunks(List<Byte> file) {
@@ -107,12 +131,12 @@ public class CartAssembler {
         return (b1 & 0xFF) << 8 | (b2 & 0xFF);
     }
 
-    private static List<Byte> compileChunk(byte bank, byte chunkCode, List<Byte> data) {
+    private static List<Byte> compileChunk(byte bank, byte chunkType, List<Byte> data) {
         if (data == null) {
             data = new ArrayList<>();
         }
         List<Byte> returnValue = new ArrayList<>();
-        byte controlByte = makeControlByte(bank, chunkCode);
+        byte controlByte = makeControlByte(bank, chunkType);
         byte[] size = clampIntToTwoBytes(data.size());
         returnValue.add(controlByte);
         returnValue.add(size[0]);
