@@ -226,10 +226,12 @@ function interior_level_init()
 	end
 
 	function simpleMovement()
-		if btn(0) then
+		if btn(0) 
+		and fget(mget(-(trackX//8)-1, (cameraY//8)+9), 0) == false then
 			y=y+1
 			offY=offY+1
-		elseif btn(1) then
+		elseif btn(1) 
+		and fget(mget(-(trackX//8)-1, (cameraY//8)+11), 0) == false then
 			y=y-1
 			offY=offY-1
 		elseif btn(2) 
@@ -253,7 +255,7 @@ function interior_level_loop()
 	simpleMovement()
 	moveAnimation()
 	--officerFOV()
-	--officer()
+	officer()
 	cameraX = 120-x
 	cameraY = 68-y
 	camOffX = 120-offX
