@@ -32,13 +32,18 @@ public class CartAssembler {
         Path codeDirectory = workingDirectory.resolve("code");
         Path assetDirectory = workingDirectory.resolve("assets");
         Path output = workingDirectory.resolve("tunnels.tic");
-        List<Byte> code = cat(codeDirectory, true);
         List<List<Byte>> chunks = new ArrayList<>();
-        List<Byte> codeChunk = compileChunk((byte) 0, CHUNK_CODE, code);
+        List<Byte> codeChunk = compileCodeChunk(codeDirectory);
         chunks.add(codeChunk);
         chunks.addAll(compileAssets(assetDirectory));
         byte[] data = flatten(chunks);
         write(output, data);
+    }
+
+    private static List<Byte> compileCodeChunk(Path codeDirectory) {
+        List<Byte> code = cat(codeDirectory, true);
+        List<Byte> codeChunk = compileChunk((byte) 0, CHUNK_CODE, code);
+        return codeChunk;
     }
 
     private static List<List<Byte>> compileAssets(Path assetDirectory) {
