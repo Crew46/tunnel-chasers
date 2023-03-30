@@ -11,6 +11,7 @@ pc={x=240/2,y=136/2,
 	spr_Id_h=256,spr_Id_b=264,CLRK=0,scale=1,flip=0,
 	changeFrame=false,CF=1,CF_timer=30,
 	isIdle=true,isRun=false,isTurned=false,
+	isCrouching=false,isHidden=false,
 	indx=1,selected="pig",speed=1,
 	nameTbl={"pig","nul","par","byz"},
   	sprTbl={256,288,320,352},
@@ -127,7 +128,7 @@ function animate()
 	end
 end
 
-function draw()
+function drawpc()
 	pcSpr_change()
 	mvChar()
 	resetPos()
@@ -138,5 +139,27 @@ function draw()
 	fr=(fr+1)%60
 	pc.CF_timer=pc.CF_timer-1	
 end
+
+function draw(sprite_name, sprite_variant, x, y, scale)
+	local sprite_number
+	local color_key = -1
+	local flip = 0
+	local rotate = 0
+	local width = 1
+	local height = 1
+	if sprite_name then
+	  if sprite_name == "player_portrait" then
+		local portraits = {8, 8, 0, 8, 226}
+		sprite_number = portraits[sprite_variant]
+		width = 2
+		height = 2
+	  elseif sprite_name == "player_portrait_box" then
+		rectb(x, y, 32, 32, 11)
+	  end
+	end
+	if sprite_number then
+	  spr(sprite_number, x, y, color_key, scale or 1, flip, rotate, width, height)
+	end
+  end
 
 -- end graphics
