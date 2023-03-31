@@ -1,8 +1,3 @@
--- title:  	tunnelchasers
--- author:  cordell/chimaezss
--- desc:    prototype sneaking
--- script:  lua
-
 function interior_level_init()
 	borderXMin = 10
 	borderXMax = 228
@@ -226,21 +221,23 @@ function interior_level_init()
 	end
 
 	function simpleMovement()
-		if btn(0) 
-		and fget(mget(-(trackX//8)-1, (cameraY//8)+9), 0) == false then
+		if btn(0)  
+		and (fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+8), 0) == false or 
+		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+8), 0) == false) then
 			y=y+1
 			offY=offY+1
-		elseif btn(1) 
-		and fget(mget(-(trackX//8)-1, (cameraY//8)+11), 0) == false then
+		elseif btn(1)
+		and (fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+9), 0) == false or
+		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+8), 0) == false) then
 			y=y-1
 			offY=offY-1
-		elseif btn(2) 
-		and fget(mget(-(trackX//8)-3, (cameraY//8)+10), 0) == false then
+		elseif btn(2)
+		and fget(mget(math.floor((-trackX/8)+.5)-3, (cameraY//8)+10),0) == false then
 			x=x+1
 			trackX=trackX+1
 			offX=offX+1
 		elseif btn(3)
-		and fget(mget(-(trackX//8)-2, (cameraY//8)+10), 0) == false then
+		and fget(mget(math.floor((-trackX/8)+.5)-2, (cameraY//8)+10),0) == false then
 			x=x-1
 			trackX=trackX-1
 			offX=offX-1
@@ -255,17 +252,17 @@ function interior_level_loop()
 	simpleMovement()
 	moveAnimation()
 	--officerFOV()
-	officer()
+	--officer()
 	cameraX = 120-x
-	cameraY = 68-y
+	cameraY = 64-y
 	camOffX = 120-offX
-	camOffY = 68-offY
+	camOffY = 64-offY
 	map(cameraX//8, cameraY//8, 32, 18, -(cameraX%8), -(cameraY%8), -1)
-	spr(264,109.5,68,0,1,flip,0,2,2)
+	spr(170,109.5,68,0,1,flip,0,2,2)
 	spr(454,offX,offY,0,1,offFlip,0,2,2)
-	print((-trackX//8)-2, 84, 84) --for debugging
-	print(trackOffX, 84, 100)
-	print(trackOffY, 84, 120)
+	print(math.floor((-trackX/8)+.5)-3, 84, 84, 12) --for debugging
+	print(fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+8), 0) == false,84,100,12)
+	print(fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+8), 0) == false,84,120,12)
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
 
