@@ -228,22 +228,25 @@ function interior_level_init()
 			offY=offY+1
 		elseif btn(1)
 		and (fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+9), 0) == false or
-		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+8), 0) == false) then
+		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+9), 0) == false) then
 			y=y-1
 			offY=offY-1
 		elseif btn(2)
-		and fget(mget(math.floor((-trackX/8)+.5)-3, (cameraY//8)+10),0) == false then
+		and (fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+8), 0) == false or
+		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+9), 0) == false) then
 			x=x+1
 			trackX=trackX+1
 			offX=offX+1
 		elseif btn(3)
-		and fget(mget(math.floor((-trackX/8)+.5)-2, (cameraY//8)+10),0) == false then
+		and (fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+8),0) == false or
+		fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+9), 0) == false) then
 			x=x-1
 			trackX=trackX-1
 			offX=offX-1
 		end
 	end
 end
+
 
 function interior_level_loop()
 	cls(13)
