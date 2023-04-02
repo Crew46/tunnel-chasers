@@ -1,139 +1,197 @@
 function interior_level_init()
-	borderXMin = 10
-	borderXMax = 228
-	borderYMin = 10
-	borderYMax = 116
-	doorwayStart = borderXMax/2-20
-	doorwayEnd = borderXMax/2+20
-	moveDirection = 3
-	sprLength = 13
-	playerAni = 0
-	sprHeight = 15
-	waitTimer = 10
-	officerAni = 233
-	offTimer = 10
+	MOVE_UP = 0
+	MOVE_DOWN = 1
+	MOVE_LEFT = 2
+	MOVE_RIGHT = 3
+	NOT_MOVING = -1
+	moveDirection = MOVE_RIGHT
+	playerAniHead = 264
+	playerAniLegs = 280
+	officerAniHead = 454
+	officerAniLegs = 470
+	waitTimer = 15
+	offTimer = 15
 	offX = 90
 	offY = 190
+	offFlip = 0
 	trackOffX = offX
 	trackOffY = offY
 	offChase = 0
-	offDirection = 3
+	offDirection = MOVE_RIGHT
 	offResetX = 0
 	offResetY = 0
 	x=185
 	y=-60
 	trackX = 120-x
 
-	function moveAnimation()
-		if moveDirection ~= 0
-		and moveDirection ~= 4 then
-			if moveDirection == 2 then
-				flip=1
-			else flip=0 end
-			if playerAni == 39 then
-				if waitTimer < 0 then
-					playerAni=playerAni-2
-					waitTimer=10
-				end
-			elseif playerAni == 37 then
-				if waitTimer < 0 then
-					playerAni=playerAni+2
-					waitTimer=10
-				end
-			else playerAni=37 end
-		elseif moveDirection == 0 then -- move up
-			if playerAni == 46 then
-				if waitTimer < 0 then
-					playerAni=playerAni-2
-					waitTimer=10
-				end
-			elseif playerAni == 44 then
-				if waitTimer < 0 then	
-					playerAni=playerAni+2
-					waitTimer=10
-				end
-			else playerAni=44 end
-		else playerAni = 3 end
+	function playerAnimation()
+		if moveDirection == MOVE_UP and waitTimer <= 0 then
+			playerAniHead = 268
+			if playerAniLegs == 300 then
+				playerAniLegs = playerAniLegs + 16
+			elseif playerAniLegs == 316 then
+				playerAniLegs = playerAniLegs - 16
+			else
+				playerAniLegs = 300
+			end
+		elseif moveDirection == MOVE_DOWN and waitTimer <= 0 then
+			playerAniHead = 264
+			if playerAniLegs == 296 then
+				playerAniLegs = playerAniLegs + 16
+			elseif playerAniLegs == 312 then
+				playerAniLegs = playerAniLegs - 16
+			else
+				playerAniLegs = 296
+			end
+		elseif moveDirection == MOVE_LEFT and waitTimer <= 0 then
+			flip = 1
+			playerAniHead = 264
+			if playerAniLegs == 296 then
+				playerAniLegs = playerAniLegs + 16
+			elseif playerAniLegs == 312 then
+				playerAniLegs = playerAniLegs - 16
+			else
+				playerAniLegs = 296
+			end
+		elseif moveDirection == MOVE_RIGHT and waitTimer <= 0 then
+			flip = 0
+			playerAniHead = 264
+			if playerAniLegs == 296 then
+				playerAniLegs = playerAniLegs + 16
+			elseif playerAniLegs == 312 then
+				playerAniLegs = playerAniLegs - 16
+			else
+				playerAniLegs = 296
+			end
+		elseif waitTimer <= 0 then
+			playerAniHead = 264
+			playerAniLegs = 280
+		end
+		if waitTimer <= 0 then
+			waitTimer = 15
+		end
+	end
+	
+	function officerAnimation()
+		if offDirection == MOVE_UP and offTimer <= 0 then
+			officerAniHead = 460
+			if officerAniLegs == 492 then
+				officerAniLegs = officerAniLegs + 16
+			elseif playerAniLegs == 508 then
+				officerAniLegs = officerAniLegs - 16
+			else
+				officerAniLegs = 492
+			end
+		elseif offDirection == MOVE_DOWN and offTimer <= 0 then
+			officerAniHead = 454
+			if officerAniLegs == 488 then
+				officerAniLegs = officerAniLegs + 16
+			elseif officerAniLegs == 504 then
+				officerAniLegs = officerAniLegs - 16
+			else
+				officerAniLegs = 488
+			end
+		elseif offDirection == MOVE_LEFT and offTimer <= 0 then
+			offFlip = 1
+			officerAniHead = 454
+			if officerAniLegs == 488 then
+				officerAniLegs = officerAniLegs + 16
+			elseif officerAniLegs == 504 then
+				officerAniLegs = officerAniLegs - 16
+			else
+				officerAniLegs = 488
+			end
+		elseif offDirection == MOVE_RIGHT and offTimer <= 0 then
+			offFlip = 0
+			officerAniHead = 454
+			if officerAniLegs == 488 then
+				officerAniLegs = officerAniLegs + 16
+			elseif officerAniLegs == 504 then
+				officerAniLegs = officerAniLegs - 16
+			else
+				officerAniLegs = 488
+			end
+		elseif offTimer <= 0 then
+			officerAniHead = 454
+			officerAniLegs = 470
+		end
 	end
 
 	function officerFOV()
+		trackPlayerX = x - 95 -- x - 95 for offX | x - 115 for trackOffX
+		trackPlayerY = -y - 114 -- -y - 114 for offY | -y + 8 for trackOffY
 		if offFlip == 0 then
-			if x <= offX+10
-			and x > offX
-			and y <= offY+10
-			and y >= offY-10 then
+			if trackPlayerX <= trackOffX+10
+			and trackPlayerX > trackOffX
+			and trackPlayerY <= trackOffY+10
+			and trackPlayerY >= trackOffY-10 then
 				offChase=1
-			elseif x <= offX+20
-			and x > offX
-			and y <= offY+15
-			and y >= offY-15 then
+			elseif trackPlayerX <= trackOffX+20
+			and trackPlayerX > trackOffX
+			and trackPlayerY <= trackOffY+15
+			and trackPlayerY >= trackOffY-15 then
 				offChase=1
-			elseif x <= offX+30
-			and x > offX
-			and y <= offY+20
-			and y >= offY-20 then
+			elseif trackPlayerX <= trackOffX+30
+			and trackPlayerX > trackOffX
+			and trackPlayerY <= trackOffY+20
+			and trackPlayerY >= trackOffY-20 then
 				offChase=1
-			elseif x <= offX+40
-			and x > offX
-			and y <= offY+30
-			and y >= offY-30 then
+			elseif trackPlayerX <= trackOffX+40
+			and trackPlayerX > trackOffX
+			and trackPlayerY <= trackOffY+30
+			and trackPlayerY >= trackOffY-30 then
 				offChase=1
 			elseif offChase == 1
-			and (x >= offX+50
-			or x < offX
-			or y >= offY+30
-			or y <= offY-30) then
+			and (trackPlayerX >= trackOffX+50
+			or trackPlayerX < trackOffX
+			or trackPlayerY >= trackOffY+30
+			or trackPlayerY <= trackOffY-30) then
 				offChase=0
 				offReset=1
 			end
 		elseif offFlip == 1 then
-			if x >= offX-10
-			and x < offX
-			and y <= offY+10
-			and y >= offY-10 then
+			if trackPlayerX >= trackOffX-10
+			and trackPlayerX < trackOffX
+			and trackPlayerY <= trackOffY+10
+			and trackPlayerY >= trackOffY-10 then
 				offChase=1
-			elseif x >= offX-20
-			and x < offX
-			and y <= offY+15
-			and y >= offY-15 then
+			elseif trackPlayerX >= trackOffX-20
+			and trackPlayerX < trackOffX
+			and trackPlayerY <= trackOffY+15
+			and trackPlayerY >= trackOffY-15 then
 				offChase=1
-			elseif x >= offX-30
-			and x < offX
-			and y <= offY+20
-			and y >= offY-20 then
+			elseif trackPlayerX >= trackOffX-30
+			and trackPlayerX < trackOffX
+			and trackPlayerY <= trackOffY+20
+			and trackPlayerY >= trackOffY-20 then
 				offChase=1
-			elseif x >= offX-40
-			and x < offX
-			and y <= offY+30
-			and y >= offY-30 then
+			elseif trackPlayerX >= trackOffX-40
+			and trackPlayerX < trackOffX
+			and trackPlayerY <= trackOffY+30
+			and trackPlayerY >= trackOffY-30 then
 				offChase=1
 			elseif offChase == 1
-			and (x <= offX-50
-			or x >= offX+50
-			or y >= offY+30
-			or y <= offY-30) then
+			and (trackPlayerX <= trackOffX-50
+			or trackPlayerX >= trackOffX+50
+			or trackPlayerY >= trackOffY+30
+			or trackPlayerY <= trackOffY-30) then
 				offChase=0
 				offReset=1
 			end
 		end -- first if statement
 		if offResetY == 0
 		and offChase == 1 then
-			offResetY = offY
+			offResetY = trackOffY
 		end
 		if offResetX == 0
 		and offChase == 1 then
-			offResetX = offX
+			offResetX = trackOffX
 		end
-		if offChase == 1 -- ani change 
-		and (officerAni == 236
-		or officerAni == 238) then
-			officerAni = 231
-		end
-		if x < offX -- flip when behind
+		if trackPlayerX < trackOffX -- flip when behind
 		and offFlip == 1
 		and offChase == 1 then
 			offFlip = 0
-		elseif x > offX
+		elseif trackPlayerX > trackOffX
 		and offFlip == 0
 		and offChase == 1 then
 			offFlip = 1
@@ -141,109 +199,102 @@ function interior_level_init()
 	end
 
 	function officer()
-		offTimer=offTimer-1
-		officerAni=454
-		if officerAni == 454 then
-			if offChase == 1 then -- chase control
-				if offX == x
-				and offY == y then
-					offChase=0
-					offReset=1
-				elseif offX > x then
-					offFlip=1
+		if offChase == 1 then -- chase control
+			if offX == x
+			and offY == y then
+				offChase=0
+				offReset=1
+			elseif offX > x then
+				offFlip=1
+				offX=offX-1
+			elseif offX < x then
+				offFlip=0
+				offX=offX+1
+			elseif offY > y then
+				offY=offY-1
+			elseif offY < y then
+				offY=offY+1
+			end
+		else
+			if offReset == 1 then -- officer reset to position before chase
+				if offX < offResetX then
+					offX=offX+1
+					offFlip=0
+				elseif offX > offResetX then
 					offX=offX-1
-				elseif offX < x then
+					offFlip=1
+				elseif offY < offResetY then
+					offY=offY+1
+				elseif offY > offResetY then
+					offY=offY-1
+				elseif offX == offResetX
+				and offY == offResetY then
+					offReset=0
+					offResetX = 0
+					offResetY = 0
+				end
+			elseif offTimer <= 0 then
+				if trackOffX == 500 --moving down
+				and trackOffY ~= 230 then
+					offDirection = MOVE_DOWN
+					offFlip=1
+					offY=offY+1
+					trackOffY=trackOffY+1
+				elseif trackOffX ~= 500 --moving right
+				and trackOffY == 190 then
+					offDirection = MOVE_RIGHT
 					offFlip=0
 					offX=offX+1
-				elseif offY > y then
+					trackOffX=trackOffX+1
+				elseif trackOffY == 230 --moving left
+				and trackOffX ~= 90 then
+					offDirection = MOVE_LEFT
+					offX=offX-1
+					trackOffX=trackOffX-1
+				elseif trackOffX == 90 --moving up
+				and trackOffY ~= 190 then
+					offDirection = MOVE_UP
+					offFlip=0
 					offY=offY-1
-				elseif offY < y then
-					offY=offY+1
-				end
-			else
-				if offReset == 1 then -- officer reset to position before chase
-					if offX < offResetX then
-						offX=offX+1
-						offFlip=0
-					elseif offX > offResetX then
-						offX=offX-1
-						offFlip=1
-					elseif offY < offResetY then
-						offY=offY+1
-					elseif offY > offResetY then
-						offY=offY-1
-					elseif offX == offResetX
-					and offY == offResetY then
-						offReset=0
-						offResetX = 0
-						offResetY = 0
-					end
-				elseif offTimer == 0 then
-					if trackOffX == 500 --moving down
-					and trackOffY ~= 230 then
-						offFlip=1
-						offY=offY+1
-						trackOffY=trackOffY+1
-					elseif trackOffX ~= 500 --moving right
-					and trackOffY == 190 then
-						if officerAni == 236
-						or officerAni == 238 then
-							officerAni=231
-						end
-						offFlip=0
-						offX=offX+1
-						trackOffX=trackOffX+1
-					elseif trackOffY == 230 --moving left
-					and trackOffX ~= 90 then
-						offX=offX-1
-						trackOffX=trackOffX-1
-					elseif trackOffX == 90 --moving up
-					and trackOffY ~= 190 then
-						if officerAni == 236 then
-							officerAni=238
-						elseif officerAni == 238 then
-							officerAni=236
-						end
-						offFlip=0
-						offY=offY-1
-						trackOffY=trackOffY-1
-					end
+					trackOffY=trackOffY-1
 				end
 			end
 		end
-		if officerAni == 454
-		and offTimer == 0 then --ani control
-			offTimer=10
-		elseif officerAni == 454
-		and offTimer == 0 then
-			offTimer=10
+		officerAnimation()
+		if offTimer <= 0 then -- timer reset
+			offTimer = 15
 		end
 	end
 
-	function simpleMovement()
-		if btn(0)  
+	function playerMovement()
+		if btn(MOVE_UP)  
 		and (fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+8), 0) == false or 
 		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+8), 0) == false) then
+			moveDirection = MOVE_UP
 			y=y+1
 			offY=offY+1
-		elseif btn(1)
-		and (fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+9), 0) == false or
-		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+9), 0) == false) then
+		elseif btn(MOVE_DOWN)
+		and (fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+10), 0) == false or
+		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+10), 0) == false) then
+			moveDirection = MOVE_DOWN
 			y=y-1
 			offY=offY-1
-		elseif btn(2)
+		elseif btn(MOVE_LEFT)
 		and (fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+8), 0) == false or
-		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+9), 0) == false) then
+		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+10), 0) == false) then
+			moveDirection = MOVE_LEFT
 			x=x+1
 			trackX=trackX+1
 			offX=offX+1
-		elseif btn(3)
+		elseif btn(MOVE_RIGHT)
 		and (fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+8),0) == false or
-		fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+9), 0) == false) then
+		fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+10), 0) == false) then
+			moveDirection = MOVE_RIGHT
 			x=x-1
 			trackX=trackX-1
 			offX=offX-1
-		end
+		else moveDirection = NOT_MOVING end
+		playerAnimation()
 	end
 end
 
@@ -252,20 +303,19 @@ function interior_level_loop()
 	cls(13)
 	waitTimer=waitTimer-1
 	offTimer=offTimer-1
-	simpleMovement()
-	moveAnimation()
-	--officerFOV()
-	--officer()
+	playerMovement()
+	officerFOV()
+	officer()
 	cameraX = 120-x
 	cameraY = 64-y
-	camOffX = 120-offX
-	camOffY = 64-offY
 	map(cameraX//8, cameraY//8, 32, 18, -(cameraX%8), -(cameraY%8), -1)
-	spr(170,109.5,68,0,1,flip,0,2,2)
-	spr(454,offX,offY,0,1,offFlip,0,2,2)
-	print(math.floor((-trackX/8)+.5)-3, 84, 84, 12) --for debugging
-	print(fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+8), 0) == false,84,100,12)
-	print(fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+8), 0) == false,84,120,12)
+	spr(playerAniHead,109.5,68,0,1,flip,0,2,1)
+	spr(playerAniLegs,109.5,76,0,1,flip,0,2,1)
+	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
+	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
+	print(x, 84, 84, 12) --for debugging
+	print(offX,84,100,12)
+	print(trackPlayerX,84,120,12)
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
 
