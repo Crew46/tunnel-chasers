@@ -5,14 +5,14 @@
 
 fr=0
 --bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
-bttn={u=0,d=1,l=2,r=3,w=23,s=19,a=1,d=4,q=17,e=5,z=26,x=24}
+bttn={u=0,d=1,l=2,r=3,w=23,s=19,a=1,d=4,q=17,e=5,z=26,x=24,shift=64}
 
 pc={x=240/2,y=136/2,
 	spr_Id_h=256,spr_Id_b=264,CLRK=0,scale=1,flip=0,
 	changeFrame=false,CF=1,CF_timer=30,
 	isIdle=true,isRun=false,isTurned=false,
-	isCrouching=false,isHidden=false,
-	indx=1,selected="pig",speed=1,
+	isCrouch=false,isHidden=false,
+	indx=1,selected="pig",state="Idle",speed=1,
 	nameTbl={"pig","nul","par","byz"},
   	sprTbl={256,288,320,352},
   	spdTbl={0.8,0.65,0.75,0.7},
@@ -54,55 +54,92 @@ function resetPos()
 	end
 end
 
-function mvChar()
+function pcActions()
 	local hold=1
- 	local period=1
- 	local rate=0.707
-	local spd=pc.speed
-
-  	if (keyp(bttn.w,hold,period) and (keyp(bttn.a,hold,period) or keyp(bttn.d,hold,period))) 
-	or (keyp(bttn.s,hold,period) and (keyp(bttn.a,hold,period) or keyp(bttn.d,hold,period))) then
-		spd=spd*rate
+ 	local diag_rate=0.78
+	local rate=pc.speed
+	local hor_spd=0
+	local ver_spd=0
+	local period=key(bttn.shift) and 2 or 1
+	
+	--Diagonal speed change
+	if ((key(bttn.w) or key(bttn.s)) 
+	and (key(bttn.a) or key(bttn.d))) then
+		rate=rate*diag_rate
 	end
-    
-	if keyp(bttn.w,hold,period) then
-		pc.isTurned=true
-		pc.y=pc.y-spd
-	elseif keyp(bttn.s,hold,period) then
-		pc.isTurned=false
-		pc.y=pc.y+spd
+	
+	--Block unwanted input
+	if ((key(bttn.a) and key(bttn.d)) 
+		or (key(bttn.w) and key(bttn.s))
+		or ((key(bttn.a) and key(bttn.d)) and (key(bttn.w) or key(bttn.s)))
+		or ((key(bttn.w) and key(bttn.s)) and (key(bttn.a) or key(bttn.d))))
+		and key(bttn.shift) then 
+			hor_spd=0
+			ver_spd=0
+	else
+		--Horizontal speed
+		if keyp(bttn.a,hold,period) then 
+			pc.flip=1
+			hor_spd=hor_spd-rate
+		elseif keyp(bttn.d,hold,period) then 
+			pc.flip=0
+			hor_spd=hor_spd+rate
+		end
+		
+		--Vertical speed
+		if keyp(bttn.w,hold,period) then
+			pc.isTurned=true
+			ver_spd=ver_spd-rate
+		elseif keyp(bttn.s,hold,period) then
+			pc.isTurned=false
+			ver_spd=ver_spd+rate
+		end
 	end
 
-	if keyp(bttn.a,hold,period) then 
-		pc.flip=1
-    	pc.x=pc.x-spd
-	elseif keyp(bttn.d,hold,period) then 
-		pc.flip=0
-    	pc.x=pc.x+spd
-	end
+	--Change player state
+	pc.isCrouch=(key(bttn.shift)) and true or false
 
-	if keyp(bttn.w,hold,period) or keyp(bttn.s,hold,period) or keyp(bttn.a,hold,period) or keyp(bttn.d,hold,period) then
+	if ((key(bttn.a) and key(bttn.d))
+	or (key(bttn.w) and key(bttn.s))) 
+	and key(bttn.shift) then
+		pc.isIdle=true
+		pc.isRun=false
+		pc.state="Idle"
+		pc.changeFrame=true
+	elseif (key(bttn.w) or key(bttn.s) 
+	or key(bttn.a) or key(bttn.d))
+	and isCrouch then
+		pc.isIdle=false
+		pc.isRun=false
+		pc.state="Crouched"
+		pc.changeFrame=true
+	elseif key(bttn.w) or key(bttn.s) 
+	or key(bttn.a) or key(bttn.d) then
 		pc.isIdle=false
 		pc.isRun=true
+		pc.state="Running"
 		pc.changeFrame=true
 	else 
 		pc.isIdle=true
 		pc.isRun=false
+		pc.state="Idle"
+		pc.changeFrame=true
 	end
-	--if keyp(bttn.x,60,6) then
-		--local iniy=pc.y
-        --pc.y=
-	--end
+
+	pc.x=pc.x+hor_spd
+	pc.y=pc.y+ver_spd
+
 end
 
 function animate()
 	print("Change frame: "..pc.CF,0,18,6)
   	print("Change frame timer: "..pc.CF_timer,30,0,6)
+	print("PC state: "..pc.state,50,70,12)
 	if pc.CF_timer == 0 then
 		pc.changeFrame=true
 		pc.CF=(pc.CF==1) and 2 or 1
 		if pc.isIdle then pc.CF_timer=30
-		elseif pc.isRun then pc.CF_timer=15
+		elseif pc.isRun or pc.isCrouch then pc.CF_timer=15
 		end
 	end
 	if pc.isIdle and pc.changeFrame then
@@ -113,6 +150,16 @@ function animate()
 		else
 			pc.spr_Id_h=pc.sprites[pc.indx][pc.CF+2]
 			pc.spr_Id_b=pc.sprites[pc.indx][pc.CF+6]
+			pc.changeFrame=false
+		end
+	elseif pc.isCrouch and pc.changeFrame then
+		if not pc.isTurned then
+			pc.spr_Id_h=pc.sprites[pc.indx][2]
+			pc.spr_Id_b=pc.sprites[pc.indx][pc.CF+12]
+			pc.changeFrame=false
+		else
+			pc.spr_Id_h=pc.sprites[pc.indx][4]
+			pc.spr_Id_b=pc.sprites[pc.indx][pc.CF+14]
 			pc.changeFrame=false
 		end
 	elseif pc.isRun and pc.changeFrame then
@@ -130,7 +177,7 @@ end
 
 function drawpc()
 	pcSpr_change()
-	mvChar()
+	pcActions()
 	resetPos()
 	animate()
 	spr(pc.spr_Id_h,pc.x,pc.y-8,pc.CLRK,pc.scale,pc.flip,0,2,1)
