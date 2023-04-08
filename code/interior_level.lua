@@ -20,9 +20,10 @@ function interior_level_init()
 	offDirection = MOVE_RIGHT
 	offResetX = 0
 	offResetY = 0
-	x=185
-	y=-60
-	trackX = 120-x
+	x=24
+	y=28
+	truePosX=185
+	moveOffset=0
 
 	function playerAnimation()
 		if moveDirection == MOVE_UP and waitTimer <= 0 then
@@ -267,57 +268,46 @@ function interior_level_init()
 	end
 
 	function playerMovement()
-		if btn(MOVE_UP)  
-		and (fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+8), 0) == false or 
-		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+8), 0) == false) then
-			moveDirection = MOVE_UP
-			y=y+1
-			offY=offY+1
-		elseif btn(MOVE_DOWN)
-		and (fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+10), 0) == false or
-		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+10), 0) == false) then
-			moveDirection = MOVE_DOWN
+		if btn(MOVE_UP)
+		and (fget(mget(x//8, y//8+19), 0) == false or
+		fget(mget(x//8+2, y//8+19), 0) == false) then
 			y=y-1
-			offY=offY-1
-		elseif btn(MOVE_LEFT)
-		and (fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+8), 0) == false or
-		fget(mget(math.floor((-trackX/8)+.5)-3,math.floor((cameraY/8)+.5)+10), 0) == false) then
-			moveDirection = MOVE_LEFT
-			x=x+1
-			trackX=trackX+1
-			offX=offX+1
-		elseif btn(MOVE_RIGHT)
-		and (fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+8),0) == false or
-		fget(mget(math.floor((-trackX/8)+.5)-2,math.floor((cameraY/8)+.5)+10), 0) == false) then
-			moveDirection = MOVE_RIGHT
+		elseif btn(MOVE_DOWN)
+		and (fget(mget(x//8, y//8+21), 0) == false or
+		fget(mget(x//8+2, y//8+21), 0) == false) then
+			y=y+1
+		elseif btn(MOVE_LEFT) 
+		and (fget(mget(x//8, y//8+19), 0) == false or
+		fget(mget(x//8, y//8+21), 0) == false) then
 			x=x-1
-			trackX=trackX-1
-			offX=offX-1
-		else moveDirection = NOT_MOVING end
-		playerAnimation()
-	end
+		elseif btn(MOVE_RIGHT) 
+		and (fget(mget(x//8+2, y//8+19), 0) == false or
+		fget(mget(x//8+2, y//8+21), 0) == false) then
+			x=x+1
+		end
+	end 
 end
-
 
 function interior_level_loop()
 	cls(13)
 	waitTimer=waitTimer-1
 	offTimer=offTimer-1
 	playerMovement()
-	officerFOV()
-	officer()
+ 	--officerFOV()
+	--officer()
 	cameraX = 120-x
 	cameraY = 64-y
-	map(cameraX//8, cameraY//8, 32, 18, -(cameraX%8), -(cameraY%8), -1)
-	spr(playerAniHead,109.5,68,0,1,flip,0,2,1)
-	spr(playerAniLegs,109.5,76,0,1,flip,0,2,1)
+	map(0, 17, 32, 18, 0, 0, -1)
+	spr(playerAniHead,x,y+17,0,1,flip,0,2,1)
+	spr(playerAniLegs,x,y+25,0,1,flip,0,2,1)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
-	print(x, 84, 84, 12) --for debugging
-	print(offX,84,100,12)
-	print(trackPlayerX,84,120,12)
+	print(mget(x+1,y), 84, 84, 12) --for debugging
+	print(x//8,84,100,12)
+	print(y//8+19,84,120,12)
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
+
 
 make_system("interior_level", interior_level_init, interior_level_loop)
 
