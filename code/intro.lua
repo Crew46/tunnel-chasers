@@ -1,5 +1,5 @@
 ---
---- Created by dkienenb.
+--- Coded by dkienenb and AshBC.
 --- DateTime: 2/13/23 12:00 PM
 --- Intro subsystem
 ---
@@ -23,8 +23,13 @@ end
 
 function intro_frame(frame)
   cls(13)
+  sync( 1|2|4,1,false)
   local display = intro_frames[frame]
-  print_centered(display.text, 240/2, 136/2, display.color)
+  if display.text == "CCC" then
+    draw("title_screen",frame,0,0,1)
+  else
+    print_centered(display.text, 240/2, 136/2, display.color)
+  end
 end
 
 intro_init()
