@@ -3,7 +3,7 @@
 -- desc:   TunnelRunners overworld prototyping TIC.
 
 function overworld_system_init()
-    sync( 1|2|4,3,false)
+    sync( 1|2|4|64,3,false)
 
     --[[
     Globally used variables / constants.
