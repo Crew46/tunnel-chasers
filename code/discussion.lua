@@ -4,6 +4,8 @@
 --- Discussion "combat" system
 
 function discussion_init()
+  sync(1|2|4|32,2,false)
+
   progression = {orphan_kick=true}
 
   local function make_question(names)
@@ -220,13 +222,22 @@ function discussion_init()
       for i = 1, #question.selected_responses do
         local response = question.selected_responses[i]
         -- todo color these dynamically depending on their stats
-        print_centered("(" .. button_to_string(response.button) .. ") " .. response.response_text, 120, 20 + (10 * i), 13)
+        print_centered("(" .. button_to_string(response.button) .. ") " .. response.response_text, 120, 20 + (10 * i), 5)
       end
     end
   end
 
   function discussion_graphics_loop()
     cls()
+    --making it pretty
+    vbank(0)
+    map(30,17,240,136,0,0,-1)
+    map(30,00,240,136,0,3,0,2)
+    vbank(1)   
+    spr(480,170,78,0,2,1,0,2,2)
+    spr(256,70,78,0,2,0,0,2,2)
+    map(180,134,240,136,0,120,0)
+    --
     if selected_question then
       print_question(selected_question)
     end
