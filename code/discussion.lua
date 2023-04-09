@@ -222,7 +222,7 @@ function discussion_init()
       for i = 1, #question.selected_responses do
         local response = question.selected_responses[i]
         -- todo color these dynamically depending on their stats
-        print_centered("(" .. button_to_string(response.button) .. ") " .. response.response_text, 120, 20 + (10 * i), 5)
+        print_centered("(" .. button_to_string(response.button) .. ") " .. response.response_text, 120, 20 + (10 * i), 12)
       end
     end
   end
@@ -244,10 +244,10 @@ function discussion_init()
     local effectiveness, incrimination = get_stats()
     print(effectiveness, 0, 50, 10)
     print(incrimination, 0, 60, 3)
-    print(officer_result, 0, 70, 13)
+    print(officer_result, 0, 70, 12)
     print(player.honesty, 0, 80, 2)
-    print(officer_trust, 0, 90, 13)
-    if timer and timer > 0 then print(timer, 0, 100, 13) end
+    print(officer_trust, 0, 90, 12)
+    if timer and timer > 0 then print(timer, 0, 100, 12) end
   end
 end
 
