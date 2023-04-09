@@ -194,18 +194,29 @@ function draw(sprite_name, sprite_variant, x, y, scale)
 	local rotate = 0
 	local width = 1
 	local height = 1
+	local draw_portrait = false
 	if sprite_name then
 	  if sprite_name == "player_portrait" then
-		local portraits = {8, 8, 0, 8, 226}
-		sprite_number = portraits[sprite_variant]
+		draw_portrait = true
+		local head_portraits = {352,256,320,288,480}
+		local body_portraits = {360,264,328,296,496}
+		sprite_number_head = head_portraits[sprite_variant]
+		sprite_number_body = body_portraits[sprite_variant]
 		width = 2
-		height = 2
+		height = 1
 	  elseif sprite_name == "player_portrait_box" then
+		draw_portrait = false
 		rectb(x, y, 32, 32, 11)
+	  elseif sprite_name == "title_screen" then
+		local title = intro_frames[sprite_variant]
+		if title.text == "CCC" then
+			map(0,0,15,9,0,0,-1,2)
+		end
 	  end
 	end
-	if sprite_number then
-	  spr(sprite_number, x, y, color_key, scale or 1, flip, rotate, width, height)
+	if draw_portrait and sprite_number_head and sprite_number_body then
+	  spr(sprite_number_head, x, y, color_key, scale or 1, flip, rotate, width, height)
+	  spr(sprite_number_body, x, y+16, color_key, scale or 1, flip, rotate, width, height)
 	end
   end
 
