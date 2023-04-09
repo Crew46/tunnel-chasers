@@ -1,3 +1,5 @@
+-- Interior level
+
 function interior_level_init()
 	sync(0,0,false)
 
