@@ -1,4 +1,6 @@
 function interior_level_init()
+	sync(0,0,false)
+
 	MOVE_UP = 0
 	MOVE_DOWN = 1
 	MOVE_LEFT = 2
