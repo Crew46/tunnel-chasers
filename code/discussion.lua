@@ -4,7 +4,7 @@
 --- Discussion "combat" system
 
 function discussion_init()
-  sync(1|2|4|32,2,false)
+  sync(1|2|4|32|128,2,false)
 
   progression = {orphan_kick=true}
 
@@ -228,16 +228,6 @@ function discussion_init()
   end
 
   function discussion_graphics_loop()
-    cls()
-    --making it pretty
-    vbank(0)
-    map(30,17,240,136,0,0,-1)
-    map(30,00,240,136,0,3,0,2)
-    vbank(1)   
-    spr(480,170,78,0,2,1,0,2,2)
-    spr(256,70,78,0,2,0,0,2,2)
-    map(180,134,240,136,0,120,0)
-    --
     if selected_question then
       print_question(selected_question)
     end
@@ -252,6 +242,23 @@ function discussion_init()
 end
 
 function discussion_loop()
+  cls()
+  --making it pretty
+  vbank(1)
+  map(30,17,240,136,0,0,-1)
+  map(30,00,240,136,0,3,0,2)
+  --poke(0x03FF8,0)
+  --spr(461,64,35,5,2,0,0,1,1)--light
+  --spr(461,160,35,5,2,0,0,1,1)--light
+  --spr(430,48,49,5,3,0,0,2,3)--spotlight
+  --spr(430,144,49,5,3,0,0,2,3)--spotlight
+  --vbank(0)
+  --map(30,17,240,136,0,0,-1)
+  --map(30,00,240,136,0,3,0,2)
+  --spr(480,154,78,0,2,1,0,2,2)--officer
+  --spr(256,55,78,0,2,0,0,2,2)--pc
+  --map(180,134,240,136,0,120,0)
+  --
   discussion_logic_loop()
   discussion_graphics_loop()
 end
