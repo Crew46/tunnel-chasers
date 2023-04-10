@@ -26,6 +26,8 @@ function interior_level_init()
 	offResetY = 0
 	x=24
 	y=28
+	cameraX=0
+	cameraY=17
 	truePosX=185
 	moveOffset=0
 
@@ -273,23 +275,35 @@ function interior_level_init()
 
 	function playerMovement()
 		if btn(MOVE_UP)
-		and (fget(mget(x//8, y//8+19), 0) == false or
-		fget(mget(x//8+2, y//8+19), 0) == false) then
+		and (fget(mget(math.floor(mapPosX-.5), math.floor(mapPosY-.5)), 0) == false or
+		fget(mget(math.floor(mapPosX+.5), math.floor(mapPosY-.5)), 0) == false) then
 			y=y-1
+			mapPosY=mapPosY-1/8
 		elseif btn(MOVE_DOWN)
-		and (fget(mget(x//8, y//8+21), 0) == false or
-		fget(mget(x//8+2, y//8+21), 0) == false) then
+		and (fget(mget(math.floor(mapPosX-.5), math.floor(mapPosY+1.5)), 0) == false or
+		fget(mget(math.floor(mapPosX+.5), math.floor(mapPosY+1.5)), 0) == false) then
 			y=y+1
+			mapPosY=mapPosY+1/8
 		elseif btn(MOVE_LEFT) 
-		and (fget(mget(x//8, y//8+19), 0) == false or
-		fget(mget(x//8, y//8+21), 0) == false) then
+		and (fget(mget(math.floor(mapPosX-.5), math.floor(mapPosY-.5)), 0) == false or
+		fget(mget(math.floor(mapPosX-.5), math.floor(mapPosY+1.5)), 0) == false) then
 			x=x-1
+			mapPosX=mapPosX-1/8
 		elseif btn(MOVE_RIGHT) 
-		and (fget(mget(x//8+2, y//8+19), 0) == false or
-		fget(mget(x//8+2, y//8+21), 0) == false) then
+		and (fget(mget(math.floor(mapPosX+.5), math.floor(mapPosY-.5)), 0) == false or
+		fget(mget(math.floor(mapPosX+.5), math.floor(mapPosY+1.5)), 0) == false) then
 			x=x+1
+			mapPosX=mapPosX+1/8
 		end
-	end 
+	end
+
+	function roomOne()
+		mapPosX=4
+		mapPosY=23
+	end
+
+	roomOne()
+
 end
 
 function interior_level_loop()
@@ -299,9 +313,7 @@ function interior_level_loop()
 	playerMovement()
  	--officerFOV()
 	--officer()
-	cameraX = 120-x
-	cameraY = 64-y
-	map(0, 17, 32, 18, 0, 0, -1)
+	map(cameraX, cameraY, 32, 18, 0, 0, -1)
 	spr(playerAniHead,x,y+17,0,1,flip,0,2,1)
 	spr(playerAniLegs,x,y+25,0,1,flip,0,2,1)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
