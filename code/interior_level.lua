@@ -30,6 +30,8 @@ function interior_level_init()
 	cameraY=17
 	truePosX=185
 	moveOffset=0
+	roomInit=0
+	cameraShift=0
 
 	function playerAnimation()
 		if moveDirection == MOVE_UP and waitTimer <= 0 then
@@ -302,7 +304,25 @@ function interior_level_init()
 		mapPosY=23
 	end
 
-	roomOne()
+	function roomTwo()
+		if roomInit == 0 then
+			mapPosX=23.5
+			mapPosY=40
+			cameraY=34
+			x=182
+			y=60
+		end
+		roomInit=1
+		if mapPosX >= 30 then
+			cameraX=30
+			if cameraShift == 0 then x=x-215 end
+			cameraShift=1
+		elseif mapPosX <= 30 and cameraShift == 1 then
+			cameraX=0
+			cameraShift=0
+			x=x+215
+		end
+	end
 
 end
 
@@ -313,17 +333,17 @@ function interior_level_loop()
 	playerMovement()
  	--officerFOV()
 	--officer()
+	roomTwo()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)
-	spr(playerAniHead,x,y+17,0,1,flip,0,2,1)
-	spr(playerAniLegs,x,y+25,0,1,flip,0,2,1)
+	spr(playerAniHead,x-cameraX,y-cameraY+17,0,1,flip,0,2,1)
+	spr(playerAniLegs,x-cameraX,y-cameraY+25,0,1,flip,0,2,1)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
-	print(mget(x+1,y), 84, 84, 12) --for debugging
-	print(x//8,84,100,12)
-	print(y//8+19,84,120,12)
+	print(cameraX, 84, 84, 12) --for debugging
+	print(mapPosX,84,100,12)
+	print(x//8,84,120,12)
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
-
 
 make_system("interior_level", interior_level_init, interior_level_loop)
 
