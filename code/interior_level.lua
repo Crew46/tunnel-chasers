@@ -32,6 +32,8 @@ function interior_level_init()
 	moveOffset=0
 	roomInit=0
 	cameraShift=0
+	currentRoom=1
+	previousRoom=1
 
 	function playerAnimation()
 		if moveDirection == MOVE_UP and waitTimer <= 0 then
@@ -281,27 +283,39 @@ function interior_level_init()
 		fget(mget(math.floor(mapPosX+.5), math.floor(mapPosY-.5)), 0) == false) then
 			y=y-1
 			mapPosY=mapPosY-1/8
+			moveDirection=MOVE_UP
 		elseif btn(MOVE_DOWN)
 		and (fget(mget(math.floor(mapPosX-.5), math.floor(mapPosY+1.5)), 0) == false or
 		fget(mget(math.floor(mapPosX+.5), math.floor(mapPosY+1.5)), 0) == false) then
 			y=y+1
 			mapPosY=mapPosY+1/8
+			moveDirection=MOVE_DOWN
 		elseif btn(MOVE_LEFT) 
 		and (fget(mget(math.floor(mapPosX-.5), math.floor(mapPosY-.5)), 0) == false or
 		fget(mget(math.floor(mapPosX-.5), math.floor(mapPosY+1.5)), 0) == false) then
 			x=x-1
 			mapPosX=mapPosX-1/8
+			moveDirection=MOVE_LEFT
 		elseif btn(MOVE_RIGHT) 
 		and (fget(mget(math.floor(mapPosX+.5), math.floor(mapPosY-.5)), 0) == false or
 		fget(mget(math.floor(mapPosX+.5), math.floor(mapPosY+1.5)), 0) == false) then
 			x=x+1
 			mapPosX=mapPosX+1/8
-		end
+			moveDirection=MOVE_RIGHT
+		else moveDirection=NOT_MOVING end
+		playerAnimation()
 	end
 
 	function roomOne()
-		mapPosX=4
-		mapPosY=23
+		if roomInit == 0 then
+			x=24
+			y=44
+			cameraX=0
+			cameraY=17
+			mapPosX=4
+			mapPosY=23
+			roomInit=1
+		end
 	end
 
 	function roomTwo()
@@ -324,6 +338,72 @@ function interior_level_init()
 		end
 	end
 
+	function roomThree()
+		if roomInit == 0 then
+			x=173
+			y=236
+			cameraX=35
+			cameraY=17
+			mapPosX=53
+			mapPosY=32
+			roomInit=1
+		end
+		if mapPosY <= 17 then
+			cameraY=0
+			if cameraShift == 0 then y=y+120 end
+			cameraShift=1
+		elseif mapPosY >= 17 then
+			cameraY=17
+			if cameraShift == 1 then y=y-120 end
+			cameraShift=0
+		end
+	end
+
+	function roomControl()
+		if currentRoom == 1 then -- Room 1 to Room 2
+			roomOne()
+			if mapPosY >= 32
+			and (mapPosX >= 23 and mapPosX <= 25) then
+				if btnp(4) then
+					previousRoom = 1
+					currentRoom = 2
+					roomInit=0
+					roomTwo()
+				end
+			end
+		elseif currentRoom == 2 then -- Room 2 back to Room 1
+			roomTwo()
+			if mapPosY <= 39.375
+			and (mapPosX >= 23.0 and mapPosX <= 24.5) then
+				if btnp(4) then
+					previousRoom = 2
+					currentRoom = 1
+					roomInit = 0
+					roomOne() -- Change init
+				end
+			elseif mapPosY <= 39.375 -- Room 2 to Room 3
+			and (mapPosX >= 52.5 and mapPosX <= 54.0) then
+				if btnp(4) then
+					previousRoom = 2
+					currentRoom = 3
+					roomInit = 0
+					roomThree()
+				end
+			end
+		elseif currentRoom == 3 then -- Room 3 back to Room 2
+			roomThree()
+			if mapPosY >= 31.5
+			and (mapPosX >= 52 and mapPosX <= 53.5) then
+				if btnp(4) then
+					previousRoom = 3
+					currentRoom = 2
+					roomInit = 0
+					roomTwo() -- Change init
+				end
+			end
+		end
+	end
+
 end
 
 function interior_level_loop()
@@ -333,14 +413,14 @@ function interior_level_loop()
 	playerMovement()
  	--officerFOV()
 	--officer()
-	roomTwo()
+	roomControl()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)
 	spr(playerAniHead,x-cameraX,y-cameraY+17,0,1,flip,0,2,1)
 	spr(playerAniLegs,x-cameraX,y-cameraY+25,0,1,flip,0,2,1)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
-	print(cameraX, 84, 84, 12) --for debugging
-	print(mapPosX,84,100,12)
+	print(mapPosX, 84, 84, 12) --for debugging
+	print(mapPosY,84,100,12)
 	print(x//8,84,120,12)
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
