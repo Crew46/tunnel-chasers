@@ -314,7 +314,15 @@ function interior_level_init()
 			cameraY=17
 			mapPosX=4
 			mapPosY=23
-			roomInit=1
+			roomInit=-1
+		elseif roomInit == 1 then
+			x=184
+			y=114
+			cameraX=0
+			cameraY=17
+			mapPosX=24
+			mapPosY=31.75
+			roomInit=-1
 		end
 	end
 
@@ -325,8 +333,15 @@ function interior_level_init()
 			cameraY=34
 			x=182
 			y=60
+		elseif roomInit == 1 then
+			x=201
+			y=60
+			cameraY=34
+			cameraShift=1
+			mapPosX=52.5
+			mapPosY=39.75
 		end
-		roomInit=1
+		roomInit=-1
 		if mapPosX >= 30 then
 			cameraX=30
 			if cameraShift == 0 then x=x-215 end
@@ -378,8 +393,8 @@ function interior_level_init()
 				if btnp(4) then
 					previousRoom = 2
 					currentRoom = 1
-					roomInit = 0
-					roomOne() -- Change init
+					roomInit = 1
+					roomOne()
 				end
 			elseif mapPosY <= 39.375 -- Room 2 to Room 3
 			and (mapPosX >= 52.5 and mapPosX <= 54.0) then
@@ -397,8 +412,8 @@ function interior_level_init()
 				if btnp(4) then
 					previousRoom = 3
 					currentRoom = 2
-					roomInit = 0
-					roomTwo() -- Change init
+					roomInit = 1
+					roomTwo()
 				end
 			end
 		end
