@@ -18,14 +18,16 @@ public class CartAssembler {
     private static final byte CHUNK_PALETTE = 12;
     private static final byte CHUNK_DEFAULT = 17;
     private static final byte CHUNK_MUSIC = 14;
-    private static final Byte CHUNK_MUSIC_PATTERNS = 15;
+    private static final byte CHUNK_MUSIC_PATTERNS = 15;
+    private static final byte CHUNK_SFX = 9;
+    private static final byte CHUNK_WAVEFORM = 10;
     private static final List<Byte> ASSET_TYPES = Arrays.asList(CHUNK_TILES, CHUNK_MAP, CHUNK_MUSIC);
     private static final Map<Byte,List<Byte>> LINKED_TYPES = generateLinkedTypes();
 
     private static Map<Byte, List<Byte>> generateLinkedTypes() {
         Map<Byte,List<Byte>> linkedTypes = new HashMap<>();
         linkedTypes.put(CHUNK_TILES, Arrays.asList(CHUNK_DEFAULT, CHUNK_PALETTE, CHUNK_SPRITES, CHUNK_FLAGS));
-        linkedTypes.put(CHUNK_MUSIC, Arrays.asList(CHUNK_MUSIC_PATTERNS));
+        linkedTypes.put(CHUNK_MUSIC, Arrays.asList(CHUNK_MUSIC_PATTERNS, CHUNK_SFX, CHUNK_WAVEFORM));
         return linkedTypes;
     }
 
@@ -38,6 +40,12 @@ public class CartAssembler {
         List<Byte> codeChunk = compileCodeChunk(codeDirectory);
         chunks.add(codeChunk);
         chunks.addAll(compileAssets(assetDirectory));
+        for (List<Byte> chunk: chunks) {
+            Byte controlByte = chunk.get(0);
+            int bank = (controlByte & 0xE0) >> 5;
+            int type = controlByte & 0x1f;
+            System.out.println("Bank " + bank + ", type " + type);
+        }
         byte[] data = flatten(chunks);
         write(output, data);
     }
