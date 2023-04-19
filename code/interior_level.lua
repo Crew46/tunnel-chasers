@@ -14,12 +14,12 @@ function interior_level_init()
 	officerAniHead = 454
 	officerAniLegs = 470
 	waitTimer = 15
-	offTimer = 15
+	offTimer = 10
 	offX = 90
 	offY = 190
 	offFlip = 0
-	trackOffX = offX
-	trackOffY = offY
+	trackOffX = 20
+	trackOffY = 90
 	offChase = 0
 	offDirection = MOVE_RIGHT
 	offResetX = 0
@@ -28,8 +28,6 @@ function interior_level_init()
 	y=28
 	cameraX=0
 	cameraY=17
-	truePosX=185
-	moveOffset=0
 	roomInit=0
 	cameraShift=0
 	currentRoom=1
@@ -245,35 +243,35 @@ function interior_level_init()
 					offResetY = 0
 				end
 			elseif offTimer <= 0 then
-				if trackOffX == 500 --moving down
-				and trackOffY ~= 230 then
-					offDirection = MOVE_DOWN
+				if trackOffX == 455 --moving up
+				and trackOffY ~= 45 then
+					offDirection = MOVE_UP
 					offFlip=1
-					offY=offY+1
-					trackOffY=trackOffY+1
-				elseif trackOffX ~= 500 --moving right
-				and trackOffY == 190 then
+					offY=offY-1
+					trackOffY=trackOffY-1
+				elseif trackOffX ~= 455 --moving right
+				and trackOffY == 90 then
 					offDirection = MOVE_RIGHT
 					offFlip=0
 					offX=offX+1
 					trackOffX=trackOffX+1
-				elseif trackOffY == 230 --moving left
-				and trackOffX ~= 90 then
+				elseif trackOffX ~= 20 --moving left
+				and trackOffY == 45 then
 					offDirection = MOVE_LEFT
 					offX=offX-1
 					trackOffX=trackOffX-1
-				elseif trackOffX == 90 --moving up
-				and trackOffY ~= 190 then
-					offDirection = MOVE_UP
+				elseif trackOffX == 20 --moving down
+				and trackOffY ~= 90 then
+					offDirection = MOVE_DOWN
 					offFlip=0
-					offY=offY-1
-					trackOffY=trackOffY-1
+					offY=offY+1
+					trackOffY=trackOffY+1
 				end
 			end
 		end
 		officerAnimation()
 		if offTimer <= 0 then -- timer reset
-			offTimer = 15
+			offTimer = 10
 		end
 	end
 
@@ -333,6 +331,8 @@ function interior_level_init()
 			cameraY=34
 			x=182
 			y=60
+			offX=20
+			offY=90
 		elseif roomInit == 1 then
 			x=201
 			y=60
@@ -340,16 +340,22 @@ function interior_level_init()
 			cameraShift=1
 			mapPosX=52.5
 			mapPosY=39.75
+			offX=20
+			offY=90
 		end
 		roomInit=-1
 		if mapPosX >= 30 then
 			cameraX=30
-			if cameraShift == 0 then x=x-215 end
+			if cameraShift == 0 then
+				x=x-215
+				offX=offX-240
+			end
 			cameraShift=1
 		elseif mapPosX <= 30 and cameraShift == 1 then
 			cameraX=0
 			cameraShift=0
 			x=x+215
+			offX=offX+240
 		end
 	end
 
@@ -388,6 +394,7 @@ function interior_level_init()
 			end
 		elseif currentRoom == 2 then -- Room 2 back to Room 1
 			roomTwo()
+			officer()
 			if mapPosY <= 39.375
 			and (mapPosX >= 23.0 and mapPosX <= 24.5) then
 				if btnp(4) then
@@ -427,15 +434,14 @@ function interior_level_loop()
 	offTimer=offTimer-1
 	playerMovement()
  	--officerFOV()
-	--officer()
 	roomControl()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)
 	spr(playerAniHead,x-cameraX,y-cameraY+17,0,1,flip,0,2,1)
 	spr(playerAniLegs,x-cameraX,y-cameraY+25,0,1,flip,0,2,1)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
-	print(mapPosX, 84, 84, 12) --for debugging
-	print(mapPosY,84,100,12)
+	print(trackOffX, 84, 84, 12) --for debugging
+	print(trackOffY,84,100,12)
 	print(x//8,84,120,12)
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
