@@ -212,7 +212,7 @@ function draw(sprite_name, sprite_variant, x, y, scale)
 		if title.text == "CCC" then
 			map(0,0,15,9,0,0,-1,2)
 		elseif title.text == "Lab46" then
-			cls(1)
+			cls(0)
 			map(15,0,15,9,0,0,0,2)
 		elseif title.text == "Crew46" then
 			cls(0)
