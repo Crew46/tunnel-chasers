@@ -22,6 +22,7 @@ public class CartAssembler {
     private static final byte CHUNK_SFX = 9;
     private static final byte CHUNK_WAVEFORM = 10;
     private static final List<Byte> ASSET_TYPES = Arrays.asList(CHUNK_TILES, CHUNK_MAP, CHUNK_MUSIC);
+    private static final String[] LABELS = {"0", "Tiles", "Sprites", "3", "Map", "Code", "Flags", "7", "8", "SFX", "Waveform", "11", "Palette", "13", "Music", "Music Pattern", "16", "Default"};
     private static final Map<Byte,List<Byte>> LINKED_TYPES = generateLinkedTypes();
 
     private static Map<Byte, List<Byte>> generateLinkedTypes() {
@@ -44,7 +45,7 @@ public class CartAssembler {
             Byte controlByte = chunk.get(0);
             int bank = (controlByte & 0xE0) >> 5;
             int type = controlByte & 0x1f;
-            System.out.println("Bank " + bank + ", type " + type);
+            System.out.println("Bank " + bank + ", type " + LABELS[type]);
         }
         byte[] data = flatten(chunks);
         write(output, data);
