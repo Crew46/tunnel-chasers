@@ -4,27 +4,39 @@
 -- script:  lua
 
 function character_menu_init()
-  default_player = {
-    spr_id = 0,
-    speed = 1,
-    lives = 3,
-    ingenuity = 3,
-    charisma = 1,
-    acuity = 5,
-    honesty = 0,
-    building = "mechung_hall"
+
+  pc={x=240/2,y=136/2,spr_id=0,
+    spr_Id_h=256,spr_Id_b=264,CLRK=0,scale=1,flip=0,
+    changeFrame=false,CF=1,CF_timer=30,
+    isIdle=true,isRun=false,isTurned=false,
+    isCrouch=false,isHidden=false,
+    indx=1,selected="pig",state="Idle",speed=1,
+    lives=3,ingenuity=3,charisma=1,acuity=5,honesty=0,
+    building = "mechung_hall",
+    nameTbl={"pig","nul","par","byz"},
+      sprTbl={256,288,320,352},
+      spdTbl={0.8,0.65,0.75,0.7},
+    sprites={}
   }
+
+  for n=1,4 do
+    local spr_id=pc.sprTbl[n]
+    pc.sprites[n]={}
+    for c=1,16 do
+      pc.sprites[n][c]=spr_id
+      spr_id=spr_id+2
+    end
+  end
 
   player_choice = {
     {
-      name = "BYzLi",
-      skill_desc = "Charismatic",
-      ingenuity = 4,
-      charisma = 3
-    },
-    {
       name = "DirtPig",
       skill_desc = "Fast",
+    },
+    {
+      name = "Null",
+      skill_desc = "Equipped",
+      ingenuity = 2
     },
     {
       name = "Paradox",
@@ -32,9 +44,10 @@ function character_menu_init()
       ingenuity = 4
     },
     {
-      name = "Null",
-      skill_desc = "Equipped",
-      ingenuity = 2
+      name = "BYzLi",
+      skill_desc = "Charismatic",
+      ingenuity = 4,
+      charisma = 3
     },
     {
       name = "Plant",
@@ -56,7 +69,7 @@ function character_menu_init()
   end
 
   function initialize_player()
-    player = default_player
+    player = pc
     local index = player_choice.index
     local selection = player_choice[index]
     local ingenuity = selection.ingenuity
@@ -72,6 +85,11 @@ function character_menu_init()
     if acuity then
       player.acuity = acuity
     end
+    pc.indx=index
+    pc.selected=pc.nameTbl[pc.indx]
+    pc.spr_Id_h=pc.sprTbl[pc.indx]
+    pc.spr_Id_b=pc.spr_Id_h+8
+    pc.speed=pc.spdTbl[pc.indx]
   end
 
   function create_new_game()
@@ -89,7 +107,6 @@ function character_menu_init()
 
     if btnp(select_button) then
       create_new_game()
-      initialize_player()
       current_system = "interior_level"
     end
     if btnp(cancel_button) then
@@ -159,8 +176,11 @@ function character_menu_init()
   end
 end
 
-function character_menu_loop()
+function character_menu_loop()  
   character_menu_logic()
+  print("Head: "..pc.spr_Id_h,0,6,6)
+  print("Body: "..pc.spr_Id_b,60,6,6)
+	print("Selected char: "..pc.selected,0,12,6)
 end
 
 make_system("character_selection_menu", character_menu_init, character_menu_loop)

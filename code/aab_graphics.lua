@@ -7,27 +7,6 @@ fr=0
 --bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
 bttn={u=0,d=1,l=2,r=3,w=23,s=19,a=1,d=4,q=17,e=5,z=26,x=24,shift=64}
 
-pc={x=240/2,y=136/2,
-	spr_Id_h=256,spr_Id_b=264,CLRK=0,scale=1,flip=0,
-	changeFrame=false,CF=1,CF_timer=30,
-	isIdle=true,isRun=false,isTurned=false,
-	isCrouch=false,isHidden=false,
-	indx=1,selected="pig",state="Idle",speed=1,
-	nameTbl={"pig","nul","par","byz"},
-  	sprTbl={256,288,320,352},
-  	spdTbl={0.8,0.65,0.75,0.7},
-	sprites={}
-}
-
-for n=1,4 do
-	local spr_id=pc.sprTbl[n]
-	pc.sprites[n]={}
-	for c=1,16 do
-		pc.sprites[n][c]=spr_id
-		spr_id=spr_id+2
-	end
-end
-
 function pcSpr_change()
 	if keyp(bttn.q,60,15) then 
 		pc.indx=(pc.indx>1) and pc.indx-1 or 1
@@ -198,8 +177,8 @@ function draw(sprite_name, sprite_variant, x, y, scale)
 	if sprite_name then
 	  if sprite_name == "player_portrait" then
 		draw_portrait = true
-		local head_portraits = {352,256,320,288,480}
-		local body_portraits = {360,264,328,296,496}
+		local head_portraits = {256,288,320,352,480}
+		local body_portraits = {264,296,328,360,496}
 		sprite_number_head = head_portraits[sprite_variant]
 		sprite_number_body = body_portraits[sprite_variant]
 		width = 2

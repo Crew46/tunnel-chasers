@@ -2,7 +2,7 @@
 
 function interior_level_init()
 	sync(0,0,false)
-
+	
 	MOVE_UP = 0
 	MOVE_DOWN = 1
 	MOVE_LEFT = 2
@@ -32,54 +32,6 @@ function interior_level_init()
 	cameraShift=0
 	currentRoom=1
 	previousRoom=1
-
-	function playerAnimation()
-		if moveDirection == MOVE_UP and waitTimer <= 0 then
-			playerAniHead = 268
-			if playerAniLegs == 300 then
-				playerAniLegs = playerAniLegs + 16
-			elseif playerAniLegs == 316 then
-				playerAniLegs = playerAniLegs - 16
-			else
-				playerAniLegs = 300
-			end
-		elseif moveDirection == MOVE_DOWN and waitTimer <= 0 then
-			playerAniHead = 264
-			if playerAniLegs == 296 then
-				playerAniLegs = playerAniLegs + 16
-			elseif playerAniLegs == 312 then
-				playerAniLegs = playerAniLegs - 16
-			else
-				playerAniLegs = 296
-			end
-		elseif moveDirection == MOVE_LEFT and waitTimer <= 0 then
-			flip = 1
-			playerAniHead = 264
-			if playerAniLegs == 296 then
-				playerAniLegs = playerAniLegs + 16
-			elseif playerAniLegs == 312 then
-				playerAniLegs = playerAniLegs - 16
-			else
-				playerAniLegs = 296
-			end
-		elseif moveDirection == MOVE_RIGHT and waitTimer <= 0 then
-			flip = 0
-			playerAniHead = 264
-			if playerAniLegs == 296 then
-				playerAniLegs = playerAniLegs + 16
-			elseif playerAniLegs == 312 then
-				playerAniLegs = playerAniLegs - 16
-			else
-				playerAniLegs = 296
-			end
-		elseif waitTimer <= 0 then
-			playerAniHead = 264
-			playerAniLegs = 280
-		end
-		if waitTimer <= 0 then
-			waitTimer = 15
-		end
-	end
 	
 	function officerAnimation()
 		if offDirection == MOVE_UP and offTimer <= 0 then
@@ -432,17 +384,22 @@ function interior_level_loop()
 	cls(13)
 	waitTimer=waitTimer-1
 	offTimer=offTimer-1
-	playerMovement()
+	pcActions()
+	animate()
+	--playerMovement()
  	--officerFOV()
 	roomControl()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)
-	spr(playerAniHead,x-cameraX,y-cameraY+17,0,1,flip,0,2,1)
-	spr(playerAniLegs,x-cameraX,y-cameraY+25,0,1,flip,0,2,1)
+	spr(pc.spr_Id_h,x-cameraX,y-cameraY+17,pc.CLRK,pc.scale,pc.flip,0,2,1)
+	spr(pc.spr_Id_b,x-cameraX,y-cameraY+25,pc.CLRK,pc.scale,pc.flip,0,2,1)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
 	print(trackOffX, 84, 84, 12) --for debugging
 	print(trackOffY,84,100,12)
 	print(x//8,84,120,12)
+	print("Head: "..pc.spr_Id_h,0,6,6)
+  	print("Body: "..pc.spr_Id_b,60,6,6)
+	print("Selected char: "..pc.selected,0,12,6)
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
 
