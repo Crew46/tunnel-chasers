@@ -177,8 +177,8 @@ function draw(sprite_name, sprite_variant, x, y, scale)
 	if sprite_name then
 	  if sprite_name == "player_portrait" then
 		draw_portrait = true
-		local head_portraits = {256,288,320,352,480}
-		local body_portraits = {264,296,328,360,496}
+		local head_portraits = {256,288,320,352,384}
+		local body_portraits = {264,296,328,360,390}
 		sprite_number_head = head_portraits[sprite_variant]
 		sprite_number_body = body_portraits[sprite_variant]
 		width = 2
