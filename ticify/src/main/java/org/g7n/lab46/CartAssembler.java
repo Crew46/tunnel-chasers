@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 public class CartAssembler {
     private static final boolean PRINT = false;
+    private static final boolean CONDENSE = true;
     private static final byte CHUNK_CODE = 5;
     private static final byte CHUNK_TILES = 1;
     private static final byte CHUNK_SPRITES = 2;
@@ -29,18 +30,20 @@ public class CartAssembler {
 
     private static Map<String, String> generateReplacements() {
         Map<String, String> replacements = new HashMap<>();
-        replacements.put("  ", " ");
-        replacements.put("\t", "    ");
-        replacements.put("--[a-zA-Z0-9 -:./={}(),_`]", "--");
-        replacements.put("--\\[\\[((.|\\n)*?)\\]\\]", "");
-        replacements.put("-\n", "\n\n");
-        replacements.put(" \n", "\n");
-        replacements.put("\n ", "\n");
-        replacements.put("\n\n", "\n");
-        replacements.put(" =", "=");
-        replacements.put("= ", "=");
-        replacements.put(" \\+", "\\+");
-        replacements.put("\\+ ", "\\+");
+        if (CONDENSE) {
+            replacements.put("  ", " ");
+            replacements.put("\t", "    ");
+            replacements.put("--[a-zA-Z0-9 -:./={}(),_`]", "--");
+            replacements.put("--\\[\\[((.|\\n)*?)\\]\\]", "");
+            replacements.put("-\n", "\n\n");
+            replacements.put(" \n", "\n");
+            replacements.put("\n ", "\n");
+            replacements.put("\n\n", "\n");
+            replacements.put(" =", "=");
+            replacements.put("= ", "=");
+            replacements.put(" \\+", "\\+");
+            replacements.put("\\+ ", "\\+");
+        }
         return replacements;
     }
 
