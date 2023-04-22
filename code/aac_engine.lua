@@ -41,5 +41,6 @@ function TIC()
   end
   previous_system = cache;
 end
+gsync.load()
 
 -- end engine

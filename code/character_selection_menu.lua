@@ -14,8 +14,8 @@ function character_menu_init()
     lives=3,ingenuity=3,charisma=1,acuity=5,honesty=0,
     building = "mechung_hall",
     nameTbl={"pig","nul","par","byz","pla"},
-      sprTbl={256,288,320,352},
-      spdTbl={0.8,0.65,0.75,0.7},
+      sprTbl={256,288,320,352,384},
+      spdTbl={0.8,0.65,0.75,0.7,1},
     sprites={}
   }
 

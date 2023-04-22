@@ -4,7 +4,7 @@
 -- script: lua
 
 function looping_runner_init()
- -- sync(0, checkbank, false)
+ -- gsync(0, checkbank, false)
   fr=0
   bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
   selected_pc="pig"

@@ -23,7 +23,7 @@ end
 
 function intro_frame(frame)
   cls(13)
-  sync( 1|2|4,1,false)
+  gsync( 1|2|4,1,false)
   local display = intro_frames[frame]
   if display.text == "CCC" then
     draw("title_screen",frame,0,0,2)

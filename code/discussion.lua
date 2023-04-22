@@ -4,7 +4,7 @@
 --- Discussion "combat" system
 
 function discussion_init()
-  sync(1|2|4|32|128,2,false)
+  gsync(1|2|4|32|128,2,false)
 
   progression = {orphan_kick=true}
 
