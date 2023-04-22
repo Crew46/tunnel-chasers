@@ -17,10 +17,6 @@ function intro_init()
     {
       text="Crew46",
       color=12
-    },
-    {
-      text="Tunnel Chasers",
-      color=0
     }
   }
 end

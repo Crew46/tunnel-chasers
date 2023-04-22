@@ -253,7 +253,6 @@ function interior_level_init()
 			mapPosX=mapPosX+1/8
 			moveDirection=MOVE_RIGHT
 		else moveDirection=NOT_MOVING end
-		playerAnimation()
 	end
 
 	function roomOne()
@@ -377,23 +376,24 @@ function interior_level_init()
 			end
 		end
 	end
-
 end
 
 function interior_level_loop()
+	vbank(1)
 	cls(13)
 	waitTimer=waitTimer-1
 	offTimer=offTimer-1
-	pcActions()
-	animate()
-	--playerMovement()
+	--pcActions()
+	--animate()
+	playerMovement()
  	--officerFOV()
 	roomControl()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)
-	gsync(1,1,false)
+	map(cameraX+60,cameraY,32,18,0,0,0)
+	gsync(2,1,false)
 	spr(pc.spr_Id_h,x-cameraX,y-cameraY+17,pc.CLRK,pc.scale,pc.flip,0,2,1)
 	spr(pc.spr_Id_b,x-cameraX,y-cameraY+25,pc.CLRK,pc.scale,pc.flip,0,2,1)
-	gsync(1,0,false)
+	gsync(2,0,false)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
 	print(trackOffX, 84, 84, 12) --for debugging
