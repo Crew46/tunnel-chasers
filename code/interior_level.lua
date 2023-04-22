@@ -379,7 +379,6 @@ function interior_level_init()
 end
 
 function interior_level_loop()
-	vbank(1)
 	cls(13)
 	waitTimer=waitTimer-1
 	offTimer=offTimer-1

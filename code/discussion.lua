@@ -4,7 +4,8 @@
 --- Discussion "combat" system
 
 function discussion_init()
-  gsync(1|2|4|32|128,2,false)
+  gsync(0,2,false)
+  gsync(32,0,false)
 
   progression = {orphan_kick=true}
 
@@ -216,51 +217,65 @@ function discussion_init()
     check_thresholds()
   end
 
-  function print_question(question)
-    print_centered(question.question_text, 120, 20, 11)
+  function print_question(question, color)
+    print_centered(question.question_text, 121, 8, color or 9)
+    print_centered(question.question_text, 120, 7, color or 11)
     if question.selected_responses then
       for i = 1, #question.selected_responses do
         local response = question.selected_responses[i]
         -- todo color these dynamically depending on their stats
-        print_centered("(" .. button_to_string(response.button) .. ") " .. response.response_text, 120, 20 + (10 * i), 12)
+        print_centered("(" .. button_to_string(response.button) .. ") " .. response.response_text, 121, 8 + (10 * i), color or 7)
+        print_centered("(" .. button_to_string(response.button) .. ") " .. response.response_text, 120, 7 + (10 * i), color or 5)
       end
     end
   end
 
-  function discussion_graphics_loop()
+  function discussion_graphics_loop(color)
     if selected_question then
-      print_question(selected_question)
+      print_question(selected_question,color)
     end
     local effectiveness, incrimination = get_stats()
-    print(effectiveness, 0, 50, 10)
-    print(incrimination, 0, 60, 3)
-    print(officer_result, 0, 70, 12)
-    print(player.honesty, 0, 80, 2)
-    print(officer_trust, 0, 90, 12)
-    if timer and timer > 0 then print(timer, 0, 100, 12) end
+    print(effectiveness, 0, 50, color or 10)
+    print(incrimination, 0, 60, color or 3)
+    print(officer_result, 0, 70, color or 12)
+    print(player.honesty, 0, 80, color or 2)
+    print(officer_trust, 0, 90, color or 12)
+    if timer and timer > 0 then print(timer, 0, 100, color or 12) end
+  end
+
+  function makingItPretty()
+    vbank(0)
+    map(30,17,240,136,0,0,-1)
+    map(60,00,240,136,0,3,0,2)
+  
+    vbank(1)
+    poke(0x03FF8,0)
+    map(30,17,240,136,0,0,-1)
+    map(60,00,240,136,0,3,0,2)
+    
+    spr(461,64,35,5,2,0,0,1,1)--light
+    spr(461,160,35,5,2,0,0,1,1)--light
+    spr(430,48,49,5,3,0,0,2,3)--spotlight
+    spr(430,144,49,5,3,0,0,2,3)--spotlight
+      
+    vbank(0)
+    spr(445,158,102,5,2,1,0,1,1)--shadow officer
+    spr(445,164,102,5,2,1,0,1,1)--shadow officer
+    spr(445,61,102,5,2,1,0,1,1)--shadow pc
+    spr(480,154,78,0,2,1,0,2,2)--officer
+    spr(pc.spr_Id_h,55,78,pc.CLRK,2,pc.flip,0,2,2)--pc
+    discussion_graphics_loop()
+  
+    vbank(1)
+    map(180,134,240,136,0,120,0)
   end
 end
 
 function discussion_loop()
   cls()
-  --making it pretty
-  vbank(1)
-  map(30,17,240,136,0,0,-1)
-  map(30,00,240,136,0,3,0,2)
-  --poke(0x03FF8,0)
-  --spr(461,64,35,5,2,0,0,1,1)--light
-  --spr(461,160,35,5,2,0,0,1,1)--light
-  --spr(430,48,49,5,3,0,0,2,3)--spotlight
-  --spr(430,144,49,5,3,0,0,2,3)--spotlight
-  --vbank(0)
-  --map(30,17,240,136,0,0,-1)
-  --map(30,00,240,136,0,3,0,2)
-  --spr(480,154,78,0,2,1,0,2,2)--officer
-  --spr(256,55,78,0,2,0,0,2,2)--pc
-  --map(180,134,240,136,0,120,0)
-  --
+  makingItPretty()
   discussion_logic_loop()
-  discussion_graphics_loop()
+  discussion_graphics_loop(0)
 end
 
 make_system("discussion", discussion_init, discussion_loop)
