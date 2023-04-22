@@ -4,5 +4,9 @@
 --- Title splash screen
 ---
 
-make_splash_system("title", "main_menu", nil, 13)
+local function render_function()
+    print("Tunnel Chasers",42,58,0,false,2)
+end
+
+make_splash_system("title", "main_menu", render_function, 13)
 --end title

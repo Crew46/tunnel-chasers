@@ -10,19 +10,19 @@ bttn={u=0,d=1,l=2,r=3,w=23,s=19,a=1,d=4,q=17,e=5,z=26,x=24,shift=64}
 function pcSpr_change()
 	if keyp(bttn.q,60,15) then 
 		pc.indx=(pc.indx>1) and pc.indx-1 or 1
-    	pc.selected=pc.nameTbl[pc.indx]
-    	pc.spr_Id_h=pc.sprTbl[pc.indx]
-    	pc.spr_Id_b=pc.spr_Id_h+8
-    	pc.speed=pc.spdTbl[pc.indx]
+		pc.selected=pc.nameTbl[pc.indx]
+		pc.spr_Id_h=pc.sprTbl[pc.indx]
+		pc.spr_Id_b=pc.spr_Id_h+8
+		pc.speed=pc.spdTbl[pc.indx]
 	elseif keyp(bttn.e,60,15) then 
-		pc.indx=(pc.indx<=3)and pc.indx+1 or 4
-    	pc.selected=pc.nameTbl[pc.indx]
+		pc.indx=(pc.indx<=4)and pc.indx+1 or 5
+  		pc.selected=pc.nameTbl[pc.indx]
 		pc.spr_Id_h=pc.sprTbl[pc.indx]
 		pc.spr_Id_b=pc.spr_Id_h+8
 		pc.speed=pc.spdTbl[pc.indx]
 	end
 	print("Head: "..pc.spr_Id_h,0,6,6)
-  	print("Body: "..pc.spr_Id_b,60,6,6)
+ 	print("Body: "..pc.spr_Id_b,60,6,6)
 	print("Selected char: "..pc.selected,0,12,6)
 end
 
@@ -175,29 +175,29 @@ function draw(sprite_name, sprite_variant, x, y, scale)
 	local height = 1
 	local draw_portrait = false
 	if sprite_name then
-	  if sprite_name == "player_portrait" then
-		draw_portrait = true
-		local head_portraits = {256,288,320,352,384}
-		local body_portraits = {264,296,328,360,390}
-		sprite_number_head = head_portraits[sprite_variant]
-		sprite_number_body = body_portraits[sprite_variant]
-		width = 2
-		height = 1
-	  elseif sprite_name == "player_portrait_box" then
-		draw_portrait = false
-		rectb(x, y, 32, 32, 11)
-	  elseif sprite_name == "title_screen" then
-		local title = intro_frames[sprite_variant]
-		if title.text == "CCC" then
-			map(0,0,15,9,0,0,-1,2)
-		elseif title.text == "Lab46" then
-			cls(0)
-			map(15,0,15,9,0,0,0,2)
-		elseif title.text == "Crew46" then
-			cls(0)
-			map(0,9,8,3,55,44,0,2)
-		end
-	  end
+	 	if sprite_name == "player_portrait" then
+			draw_portrait = true
+			local head_portraits = {256,288,320,352,384}
+			local body_portraits = {264,296,328,360,392}
+			sprite_number_head = head_portraits[sprite_variant]
+			sprite_number_body = body_portraits[sprite_variant]
+			width = 2
+			height = 1
+		elseif sprite_name == "player_portrait_box" then
+			draw_portrait = false
+			rectb(x, y, 32, 32, 11)
+		elseif sprite_name == "title_screen" then
+			local title = intro_frames[sprite_variant]
+			if title.text == "CCC" then
+				map(0,0,15,9,0,0,-1,2)
+			elseif title.text == "Lab46" then
+				cls(0)
+				map(15,0,15,9,0,0,0,2)
+			elseif title.text == "Crew46" then
+				cls(0)
+				map(0,9,8,3,55,44,0,2)
+			end
+	  	end
 	end
 	if draw_portrait and sprite_number_head and sprite_number_body then
 	  spr(sprite_number_head, x, y, color_key, scale or 1, flip, rotate, width, height)

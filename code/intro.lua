@@ -17,13 +17,17 @@ function intro_init()
     {
       text="Crew46",
       color=12
+    },
+    {
+      text="Tunnel Chasers",
+      color=0
     }
   }
 end
 
 function intro_frame(frame)
   cls(13)
-  gsync( 1|2|4,1,false)
+  gsync(1|2|4|32,1,false)
   local display = intro_frames[frame]
   if display.text == "CCC" then
     draw("title_screen",frame,0,0,2)

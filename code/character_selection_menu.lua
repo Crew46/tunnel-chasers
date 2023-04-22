@@ -25,7 +25,6 @@ function character_menu_init()
     for c=1,16 do
       pc.sprites[n][c]=spr_id
       spr_id=spr_id+2
-      if (n==5) and (c==5) then break end
     end
   end
 
@@ -177,7 +176,7 @@ function character_menu_init()
   end
 end
 
-function character_menu_loop()  
+function character_menu_loop()
   character_menu_logic()
   print("Head: "..pc.spr_Id_h,0,6,6)
   print("Body: "..pc.spr_Id_b,60,6,6)
