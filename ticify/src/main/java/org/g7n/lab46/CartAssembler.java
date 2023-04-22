@@ -69,9 +69,14 @@ public class CartAssembler {
 
     private static List<Byte> compileCodeChunk(Path codeDirectory) {
         List<Byte> code = cat(codeDirectory, true);
+        code = clean(code);
         List<Byte> codeChunk = compileChunk((byte) 0, CHUNK_CODE, code);
         return codeChunk;
     }
+
+   private static List<Byte> clean(List<Byte> code) {
+        return code;
+   }
 
 //    private static List<List<Byte>> compileCodeChunks(Path codeDirectory) {
 //        List<Byte> data = cat(codeDirectory, true);
