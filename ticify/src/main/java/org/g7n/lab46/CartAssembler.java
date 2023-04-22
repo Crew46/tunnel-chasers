@@ -37,6 +37,10 @@ public class CartAssembler {
         replacements.put(" \n", "\n");
         replacements.put("\n ", "\n");
         replacements.put("\n\n", "\n");
+        replacements.put(" =", "=");
+        replacements.put("= ", "=");
+        replacements.put(" +", "+");
+        replacements.put("+ ", "+");
         return replacements;
     }
 
