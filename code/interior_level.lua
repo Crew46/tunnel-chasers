@@ -79,80 +79,78 @@ function interior_level_init()
 	end
 
 	function officerFOV()
-		trackPlayerX = x - 95 -- x - 95 for offX | x - 115 for trackOffX
-		trackPlayerY = -y - 114 -- -y - 114 for offY | -y + 8 for trackOffY
 		if offFlip == 0 then
-			if trackPlayerX <= trackOffX+10
-			and trackPlayerX > trackOffX
-			and trackPlayerY <= trackOffY+10
-			and trackPlayerY >= trackOffY-10 then
+			if mapPosX <= offMapX+1
+			and mapPosX > offMapX
+			and mapPosY <= offMapY+.5
+			and mapPosY >= offMapY-.5 then
 				offChase=1
-			elseif trackPlayerX <= trackOffX+20
-			and trackPlayerX > trackOffX
-			and trackPlayerY <= trackOffY+15
-			and trackPlayerY >= trackOffY-15 then
+			elseif mapPosX <= offMapX+1.5
+			and mapPosX > offMapX
+			and mapPosY <= offMapY+1
+			and mapPosY >= offMapY-1 then
 				offChase=1
-			elseif trackPlayerX <= trackOffX+30
-			and trackPlayerX > trackOffX
-			and trackPlayerY <= trackOffY+20
-			and trackPlayerY >= trackOffY-20 then
+			elseif mapPosX <= offMapX+2
+			and mapPosX > offMapX
+			and mapPosY <= offMapY+1.5
+			and mapPosY >= offMapY-1.5 then
 				offChase=1
-			elseif trackPlayerX <= trackOffX+40
-			and trackPlayerX > trackOffX
-			and trackPlayerY <= trackOffY+30
-			and trackPlayerY >= trackOffY-30 then
+			elseif mapPosX <= offMapX+3
+			and mapPosX > offMapX
+			and mapPosY <= offMapY+2
+			and mapPosY >= offMapY-2 then
 				offChase=1
 			elseif offChase == 1
-			and (trackPlayerX >= trackOffX+50
-			or trackPlayerX < trackOffX
-			or trackPlayerY >= trackOffY+30
-			or trackPlayerY <= trackOffY-30) then
+			and (mapPosX >= offMapX+4
+			or mapPosX < offMapX
+			or mapPosY >= offMapY+2.5
+			or mapPosY <= offMapY-2.5) then
 				offChase=0
 				offReset=1
 			end
 		elseif offFlip == 1 then
-			if trackPlayerX >= trackOffX-10
-			and trackPlayerX < trackOffX
-			and trackPlayerY <= trackOffY+10
-			and trackPlayerY >= trackOffY-10 then
+			if mapPosX >= offMapX-1
+			and mapPosX < offMapX
+			and mapPosY <= offMapY+.5
+			and mapPosY >= offMapY-.5 then
 				offChase=1
-			elseif trackPlayerX >= trackOffX-20
-			and trackPlayerX < trackOffX
-			and trackPlayerY <= trackOffY+15
-			and trackPlayerY >= trackOffY-15 then
+			elseif mapPosX >= offMapX-1.5
+			and mapPosX < offMapX
+			and mapPosY <= offMapY+1
+			and mapPosY >= offMapY-1 then
 				offChase=1
-			elseif trackPlayerX >= trackOffX-30
-			and trackPlayerX < trackOffX
-			and trackPlayerY <= trackOffY+20
-			and trackPlayerY >= trackOffY-20 then
+			elseif mapPosX >= offMapX-2
+			and mapPosX < offMapX
+			and mapPosY <= offMapY+1.5
+			and mapPosY >= offMapY-1.5 then
 				offChase=1
-			elseif trackPlayerX >= trackOffX-40
-			and trackPlayerX < trackOffX
-			and trackPlayerY <= trackOffY+30
-			and trackPlayerY >= trackOffY-30 then
+			elseif mapPosX >= offMapX-2.5
+			and mapPosX < offMapX
+			and mapPosY <= offMapY+2
+			and mapPosY >= offMapY-2 then
 				offChase=1
 			elseif offChase == 1
-			and (trackPlayerX <= trackOffX-50
-			or trackPlayerX >= trackOffX+50
-			or trackPlayerY >= trackOffY+30
-			or trackPlayerY <= trackOffY-30) then
+			and (mapPosX <= offMapX-3
+			or mapPosX >= offMapX+3
+			or mapPosY >= offMapY+2
+			or mapPosY <= offMapY-2) then
 				offChase=0
 				offReset=1
 			end
 		end -- first if statement
 		if offResetY == 0
 		and offChase == 1 then
-			offResetY = trackOffY
+			offResetY = offMapY
 		end
 		if offResetX == 0
 		and offChase == 1 then
-			offResetX = trackOffX
+			offResetX = offMapX
 		end
-		if trackPlayerX < trackOffX -- flip when behind
+		if mapPosX < offMapX -- flip when behind
 		and offFlip == 1
 		and offChase == 1 then
 			offFlip = 0
-		elseif trackPlayerX > trackOffX
+		elseif mapPosX > offMapX
 		and offFlip == 0
 		and offChase == 1 then
 			offFlip = 1
@@ -161,35 +159,43 @@ function interior_level_init()
 
 	function officer()
 		if offChase == 1 then -- chase control
-			if offX == x
-			and offY == y then
+			if offMapX == mapPosX
+			and offMapY == mapPosY then
 				offChase=0
 				offReset=1
-			elseif offX > x then
+			elseif offMapX > mapPosX then
 				offFlip=1
 				offX=offX-1
-			elseif offX < x then
+				offMapX=offMapX-1/8
+			elseif offMapX < mapPosX then
 				offFlip=0
 				offX=offX+1
-			elseif offY > y then
+				offMapX=offMapX+1/8
+			elseif offMapY > mapPosY then
 				offY=offY-1
-			elseif offY < y then
+				offMapY=offMapY-1/8
+			elseif offMapY < mapPosY then
 				offY=offY+1
+				offMapY=offMapY+1/8
 			end
 		else
 			if offReset == 1 then -- officer reset to position before chase
-				if offX < offResetX then
+				if offMapX < offResetX then
 					offX=offX+1
+					offMapX=offMapX+1/8
 					offFlip=0
-				elseif offX > offResetX then
+				elseif offMapX > offResetX then
 					offX=offX-1
+					offMapX=offMapX-1/8
 					offFlip=1
-				elseif offY < offResetY then
+				elseif offMapY < offResetY then
 					offY=offY+1
-				elseif offY > offResetY then
+					offMapY=offMapY+1/8
+				elseif offMapY > offResetY then
 					offY=offY-1
-				elseif offX == offResetX
-				and offY == offResetY then
+					offMapY=offMapY-1/8
+				elseif offMapX == offResetX
+				and offMapY == offResetY then
 					offReset=0
 					offResetX = 0
 					offResetY = 0
@@ -200,24 +206,24 @@ function interior_level_init()
 					offDirection = MOVE_UP
 					offFlip=1
 					offY=offY-1
-					trackOffY=trackOffY-1
+					offMapY=offMapY-1/8
 				elseif trackOffX ~= 455 --moving right
 				and trackOffY == 90 then
 					offDirection = MOVE_RIGHT
 					offFlip=0
 					offX=offX+1
-					trackOffX=trackOffX+1
+					offMapX=offMapX+1/8
 				elseif trackOffX ~= 20 --moving left
 				and trackOffY == 45 then
 					offDirection = MOVE_LEFT
 					offX=offX-1
-					trackOffX=trackOffX-1
+					offMapX=offMapX-1/8
 				elseif trackOffX == 20 --moving down
 				and trackOffY ~= 90 then
 					offDirection = MOVE_DOWN
 					offFlip=0
 					offY=offY+1
-					trackOffY=trackOffY+1
+					offMapY=offMapY+1/8
 				end
 			end
 		end
@@ -284,6 +290,8 @@ function interior_level_init()
 			y=60
 			offX=20
 			offY=90
+			offMapX=3
+			offMapY=45.5
 		elseif roomInit == 1 then
 			x=201
 			y=60
@@ -346,6 +354,7 @@ function interior_level_init()
 		elseif currentRoom == 2 then -- Room 2 back to Room 1
 			roomTwo()
 			officer()
+			officerFOV()
 			if mapPosY <= 39.375
 			and (mapPosX >= 23.0 and mapPosX <= 24.5) then
 				if btnp(4) then
@@ -376,6 +385,7 @@ function interior_level_init()
 			end
 		end
 	end
+
 end
 
 function interior_level_loop()
@@ -395,8 +405,8 @@ function interior_level_loop()
 	gsync(2,0,false)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
-	print(trackOffX, 84, 84, 12) --for debugging
-	print(trackOffY,84,100,12)
+	print(mapPosX,84,84,12) --for debugging
+	print(offMapX,84,100,12)
 	print(x//8,84,120,12)
 	print("Head: "..pc.spr_Id_h,0,6,6)
   	print("Body: "..pc.spr_Id_b,60,6,6)
