@@ -1,6 +1,7 @@
 package org.g7n.lab46;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,10 +25,25 @@ public class CartAssembler {
     private static final byte CHUNK_WAVEFORM = 10;
     private static final List<Byte> ASSET_TYPES = Arrays.asList(CHUNK_TILES, CHUNK_MAP, CHUNK_MUSIC);
     private static final String[] LABELS = {"0", "Tiles", "Sprites", "3", "Map", "Code", "Flags", "7", "8", "SFX", "Waveform", "11", "Palette", "13", "Music", "Music Pattern", "16", "Default"};
-    private static final Map<Byte,List<Byte>> LINKED_TYPES = generateLinkedTypes();
+    private static final Map<String, String> PATTERN_REPLACEMENTS = generateReplacements();
+
+    private static Map<String, String> generateReplacements() {
+        Map<String, String> replacements = new HashMap<>();
+        replacements.put("  ", " ");
+        replacements.put("\t", "    ");
+        replacements.put("--[a-zA-Z0-9 -:./={}(),_`]", "--");
+        replacements.put("--\\[\\[((.|\\n)*?)\\]\\]", "");
+        replacements.put("-\n", "\n\n");
+        replacements.put(" \n", "\n");
+        replacements.put("\n ", "\n");
+        replacements.put("\n\n", "\n");
+        return replacements;
+    }
+
+    private static final Map<Byte, List<Byte>> LINKED_TYPES = generateLinkedTypes();
 
     private static Map<Byte, List<Byte>> generateLinkedTypes() {
-        Map<Byte,List<Byte>> linkedTypes = new HashMap<>();
+        Map<Byte, List<Byte>> linkedTypes = new HashMap<>();
         linkedTypes.put(CHUNK_TILES, Arrays.asList(CHUNK_DEFAULT, CHUNK_PALETTE, CHUNK_SPRITES, CHUNK_FLAGS));
         linkedTypes.put(CHUNK_MUSIC, Arrays.asList(CHUNK_MUSIC_PATTERNS, CHUNK_SFX, CHUNK_WAVEFORM));
         return linkedTypes;
@@ -74,9 +90,26 @@ public class CartAssembler {
         return codeChunk;
     }
 
-   private static List<Byte> clean(List<Byte> code) {
-        return code;
-   }
+    private static List<Byte> clean(List<Byte> code) {
+        StringBuilder builder = new StringBuilder();
+        for (byte character : code) {
+            builder.append(Character.valueOf((char) character));
+        }
+        String currentString = builder.toString();
+        String previousString = null;
+        while (!currentString.equals(previousString)) {
+            previousString = currentString;
+            for (var entry : PATTERN_REPLACEMENTS.entrySet()) {
+                currentString = currentString.replaceAll(entry.getKey(), entry.getValue());
+            }
+        }
+        byte[] bytes = currentString.getBytes(StandardCharsets.UTF_8);
+        List<Byte> cleanCode = new ArrayList<>();
+        for(byte b: bytes) {
+            cleanCode.add(b);
+        }
+        return cleanCode;
+    }
 
 //    private static List<List<Byte>> compileCodeChunks(Path codeDirectory) {
 //        List<Byte> data = cat(codeDirectory, true);
@@ -109,7 +142,7 @@ public class CartAssembler {
             List<Byte> bytes = new ArrayList<>();
             readBytes(bytes, path, false);
             List<List<Byte>> newChunks = splitIntoChunks(bytes);
-            for (List<Byte> chunk: newChunks) {
+            for (List<Byte> chunk : newChunks) {
                 byte chunkType = chunk.get(0);
                 if (ASSET_TYPES.contains(chunkType)) {
                     byte bankNumber = (byte) indexes.get(chunkType).getAndIncrement();
@@ -117,8 +150,8 @@ public class CartAssembler {
                     chunks.add(newChunk);
                     if (LINKED_TYPES.containsKey(chunkType)) {
                         List<Byte> linkedTypes = LINKED_TYPES.get(chunkType);
-                        for (Byte linkedType: linkedTypes) {
-                            for (List<Byte> comparedChunk: newChunks) {
+                        for (Byte linkedType : linkedTypes) {
+                            for (List<Byte> comparedChunk : newChunks) {
                                 byte comparedChunkType = comparedChunk.get(0);
                                 if (comparedChunkType == linkedType) {
                                     List<Byte> newComparedChunk = bankifyChunk(comparedChunk, bankNumber);
@@ -209,7 +242,7 @@ public class CartAssembler {
     private static byte makeControlByte(byte bank, byte chunkCode) {
         int firstByteLastThreeBits = bank & 0x07;
         int secondByteLastFiveBits = chunkCode & 0x1F;
-        return (byte)((firstByteLastThreeBits << 5) | secondByteLastFiveBits);
+        return (byte) ((firstByteLastThreeBits << 5) | secondByteLastFiveBits);
     }
 
     private static List<Path> streamDir(Path dir) {
