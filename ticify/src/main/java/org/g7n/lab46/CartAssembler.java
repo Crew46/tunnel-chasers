@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CartAssembler {
+    private static final boolean PRINT = false;
     private static final byte CHUNK_CODE = 5;
     private static final byte CHUNK_TILES = 1;
     private static final byte CHUNK_SPRITES = 2;
@@ -38,41 +39,62 @@ public class CartAssembler {
         Path assetDirectory = workingDirectory.resolve("assets");
         Path output = workingDirectory.resolve("tunnels.tic");
         List<List<Byte>> chunks = new ArrayList<>();
-        List<List<Byte>> codeChunks = compileCodeChunks(codeDirectory);
-        chunks.addAll(codeChunks);
+        List<Byte> codeChunk = compileCodeChunk(codeDirectory);
+        chunks.add(codeChunk);
+        //List<List<Byte>> codeChunks = compileCodeChunks(codeDirectory);
+        //chunks.addAll(codeChunks);
         chunks.addAll(compileAssets(assetDirectory));
-        for (List<Byte> chunk: chunks) {
-            Byte controlByte = chunk.get(0);
-            int bank = (controlByte & 0xE0) >> 5;
-            int type = controlByte & 0x1f;
-            System.out.println("Bank " + bank + ", type " + LABELS[type]);
+        if (PRINT) {
+            printChunks(chunks);
         }
         byte[] data = flatten(chunks);
         write(output, data);
     }
 
-    private static List<List<Byte>> compileCodeChunks(Path codeDirectory) {
-        List<Byte> data = cat(codeDirectory, true);
-        return compileChunks((byte) 0, (byte) 8, CHUNK_CODE, data, 65530);
+    private static void printChunks(List<List<Byte>> chunks) {
+        for (List<Byte> chunk : chunks) {
+            Byte controlByte = chunk.get(0);
+            int bank = (controlByte & 0xE0) >> 5;
+            int type = controlByte & 0x1f;
+            byte least = chunk.get(1);
+            byte most = chunk.get(2);
+            int chunkSize = convertBytesToInt(most, least);
+            System.out.print("Bank " + bank + ", type " + LABELS[type] + ", size " + chunkSize + ", raw data (including this information):");
+            for (Byte b : chunk) {
+                System.out.printf(" %02X", b);
+            }
+            System.out.println();
+        }
     }
 
-    private static List<List<Byte>> compileChunks(byte bankBegin, byte maxBanks, byte chunkType, List<Byte> data, int blockSize) {
-        List<List<Byte>> compiledChunks = new ArrayList<>();
-        int dataSize = data.size();
-        int blocks = dataSize / blockSize;
-        if (blocks > maxBanks) {
-            throw new IllegalArgumentException("Too much data of type " + chunkType);
-        }
-        int dataIndex = 0;
-        byte bankIndex = bankBegin;
-        while (dataIndex < dataSize) {
-            List<Byte> dataBlock = data.subList(dataIndex, Math.min(dataSize - 1, dataIndex + blockSize));
-            compiledChunks.add(compileChunk(bankIndex, chunkType, dataBlock));
-            dataIndex += blockSize;
-            bankIndex++;
-        }
-        return compiledChunks;
+    private static List<Byte> compileCodeChunk(Path codeDirectory) {
+        List<Byte> code = cat(codeDirectory, true);
+        List<Byte> codeChunk = compileChunk((byte) 0, CHUNK_CODE, code);
+        return codeChunk;
     }
+
+//    private static List<List<Byte>> compileCodeChunks(Path codeDirectory) {
+//        List<Byte> data = cat(codeDirectory, true);
+//        return compileChunks((byte) 0, (byte) 8, CHUNK_CODE, data, 65536);
+//    }
+//
+//    private static List<List<Byte>> compileChunks(byte bankBegin, byte maxBanks, byte chunkType, List<Byte> data, int blockSize) {
+//        List<List<Byte>> compiledChunks = new ArrayList<>();
+//        int dataSize = data.size();
+//        int blocks = dataSize / blockSize;
+//        if (blocks > maxBanks) {
+//            throw new IllegalArgumentException("Too much data of type " + chunkType);
+//        }
+//        int dataIndex = 0;
+//        byte bankIndex = bankBegin;
+//        while (dataIndex < dataSize) {
+//            List<Byte> dataBlock = data.subList(dataIndex, Math.min(dataSize - 1, dataIndex + blockSize));
+//            compiledChunks.add(compileChunk(bankIndex, chunkType, dataBlock));
+//            dataIndex += blockSize;
+//            bankIndex++;
+//        }
+//        return compiledChunks;
+//    }
 
     private static List<List<Byte>> compileAssets(Path assetDirectory) {
         List<List<Byte>> chunks = new ArrayList<>();
@@ -108,7 +130,7 @@ public class CartAssembler {
 
     private static List<Byte> bankifyChunk(List<Byte> chunk, byte bankNumber) {
         byte chunkType = chunk.get(0);
-        List<Byte> newChunk = new ArrayList<>(chunk.subList(0, chunk.size()));
+        List<Byte> newChunk = new ArrayList<>(chunk.subList(1, chunk.size()));
         byte controlByte = makeControlByte(bankNumber, chunkType);
         newChunk.add(0, controlByte);
         return newChunk;
