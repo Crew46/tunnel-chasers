@@ -149,16 +149,16 @@ function interior_level_init()
 		if mapPosX < offMapX -- flip when behind
 		and offFlip == 1
 		and offChase == 1 then
-			offFlip = 0
+			offFlip = 1
 		elseif mapPosX > offMapX
 		and offFlip == 0
 		and offChase == 1 then
-			offFlip = 1
+			offFlip = 0
 		end
 	end
 
 	function officer()
-		if offChase == 1 then -- chase control
+		if offChase == 1 and offReset ~= 1 then -- chase control
 			if offMapX == mapPosX
 			and offMapY == mapPosY then
 				offChase=0
@@ -201,25 +201,25 @@ function interior_level_init()
 					offResetY = 0
 				end
 			elseif offTimer <= 0 then
-				if trackOffX == 455 --moving up
-				and trackOffY ~= 45 then
+				if offMapX == 55 --moving up
+				and offMapY ~= 40.5 then
 					offDirection = MOVE_UP
 					offFlip=1
 					offY=offY-1
 					offMapY=offMapY-1/8
-				elseif trackOffX ~= 455 --moving right
-				and trackOffY == 90 then
+				elseif offMapX ~= 55 --moving right
+				and offMapY == 45.5 then
 					offDirection = MOVE_RIGHT
 					offFlip=0
 					offX=offX+1
 					offMapX=offMapX+1/8
-				elseif trackOffX ~= 20 --moving left
-				and trackOffY == 45 then
+				elseif offMapX ~= 3 --moving left
+				and offMapY == 40.5 then
 					offDirection = MOVE_LEFT
 					offX=offX-1
 					offMapX=offMapX-1/8
-				elseif trackOffX == 20 --moving down
-				and trackOffY ~= 90 then
+				elseif offMapX == 3 --moving down
+				and offMapY ~= 45.5 then
 					offDirection = MOVE_DOWN
 					offFlip=0
 					offY=offY+1
@@ -299,11 +299,13 @@ function interior_level_init()
 			cameraShift=1
 			mapPosX=52.5
 			mapPosY=39.75
-			offX=20
+			offX=-220
 			offY=90
+			offMapX=3
+			offMapY=45.5
 		end
 		roomInit=-1
-		if mapPosX >= 30 then
+		if mapPosX > 30 then
 			cameraX=30
 			if cameraShift == 0 then
 				x=x-215
@@ -351,11 +353,11 @@ function interior_level_init()
 					roomTwo()
 				end
 			end
-		elseif currentRoom == 2 then -- Room 2 back to Room 1
+		elseif currentRoom == 2 then 
 			roomTwo()
 			officer()
 			officerFOV()
-			if mapPosY <= 39.375
+			if mapPosY <= 39.375 -- Room 2 back to Room 1
 			and (mapPosX >= 23.0 and mapPosX <= 24.5) then
 				if btnp(4) then
 					previousRoom = 2
