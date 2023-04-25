@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CartAssembler {
-    private static final boolean PRINT = false;
+    private static final boolean PRINT = true;
     private static final boolean CONDENSE = true;
     private static final byte CHUNK_CODE = 5;
     private static final byte CHUNK_TILES = 1;
@@ -24,7 +24,7 @@ public class CartAssembler {
     private static final byte CHUNK_MUSIC_PATTERNS = 15;
     private static final byte CHUNK_SFX = 9;
     private static final byte CHUNK_WAVEFORM = 10;
-    private static final List<Byte> ASSET_TYPES = Arrays.asList(CHUNK_TILES, CHUNK_MAP, CHUNK_MUSIC);
+    private static final List<Byte> ASSET_TYPES = Arrays.asList(CHUNK_DEFAULT, CHUNK_TILES, CHUNK_MAP, CHUNK_MUSIC);
     private static final String[] LABELS = {"0", "Tiles", "Sprites", "3", "Map", "Code", "Flags", "7", "8", "SFX", "Waveform", "11", "Palette", "13", "Music", "Music Pattern", "16", "Default"};
     private static final Map<String, String> PATTERN_REPLACEMENTS = generateReplacements();
 
@@ -51,7 +51,7 @@ public class CartAssembler {
 
     private static Map<Byte, List<Byte>> generateLinkedTypes() {
         Map<Byte, List<Byte>> linkedTypes = new HashMap<>();
-        linkedTypes.put(CHUNK_TILES, Arrays.asList(CHUNK_DEFAULT, CHUNK_PALETTE, CHUNK_SPRITES, CHUNK_FLAGS));
+        linkedTypes.put(CHUNK_TILES, Arrays.asList(CHUNK_PALETTE, CHUNK_SPRITES, CHUNK_FLAGS));
         linkedTypes.put(CHUNK_MUSIC, Arrays.asList(CHUNK_MUSIC_PATTERNS, CHUNK_SFX, CHUNK_WAVEFORM));
         return linkedTypes;
     }
@@ -68,6 +68,7 @@ public class CartAssembler {
         //chunks.addAll(codeChunks);
         chunks.addAll(compileAssets(assetDirectory));
         if (PRINT) {
+            System.out.println("Tunnels.tic:");
             printChunks(chunks);
         }
         byte[] data = flatten(chunks);
@@ -82,10 +83,11 @@ public class CartAssembler {
             byte least = chunk.get(1);
             byte most = chunk.get(2);
             int chunkSize = convertBytesToInt(most, least);
-            System.out.print("Bank " + bank + ", type " + LABELS[type] + ", size " + chunkSize + ", raw data (including this information):");
+            System.out.print("Bank " + bank + ", type " + LABELS[type] + ", size " + chunkSize); /* + ", raw data (including this information):");
             for (Byte b : chunk) {
                 System.out.printf(" %02X", b);
             }
+            */
             System.out.println();
         }
     }
@@ -146,9 +148,11 @@ public class CartAssembler {
         Map<Byte, AtomicInteger> indexes = new HashMap<>();
         ASSET_TYPES.forEach(type -> indexes.put(type, new AtomicInteger()));
         streamDir(assetDirectory).forEach(path -> {
+            System.out.println("Scanning " + path);
             List<Byte> bytes = new ArrayList<>();
             readBytes(bytes, path, false);
             List<List<Byte>> newChunks = splitIntoChunks(bytes);
+            printChunks(newChunks);
             for (List<Byte> chunk : newChunks) {
                 byte chunkType = chunk.get(0);
                 if (ASSET_TYPES.contains(chunkType)) {
