@@ -2,30 +2,56 @@
 -- Created by: MacklenF, AshBC, Sashami 
 -- desc:   Looping Runner PrototypeV2
 -- script: lua
-
+ 
 function looping_runner_init()
- -- gsync(0, checkbank, false)
+  --gsync(0,checkbank,false)
+  sync(16,0,false)
+  music(1,0,0,true)
   fr=0
   bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
   selected_pc="pig"
 
   pc={x=55,y=78,sprId=256,CLRK=0,scale=2,flip=0,
-    indx=1,changeFrame=false,CF=1,
-    wait=30,isIdle=true,isRun=false,
-    name={"pig","nul","par","byz"},
-    iniSpr={256,288,320,352},
-    spdTbl={0.8,0.65,0.75,0.7},
-    sprites={}
+      indx=1,changeFrame=false,CF=1,
+      r_wait=30,isIdle=true,isRun=false,
+      name={"pig","nul","par","byz"},
+      iniSpr={256,288,320,352},
+      spdTbl={0.8,0.65,0.75,0.7},
+     sprites={}
   }
 
   for n=1,4 do
-    local spr_id=pc.iniSpr[n]
-    pc.sprites[n]={}
-    for c=1,8 do
-      pc.sprites[n][c]=spr_id
-      spr_id=spr_id+2
-    end
+   local spr_id=pc.iniSpr[n]
+     pc.sprites[n]={}
+     for c=1,8 do
+       pc.sprites[n][c]=spr_id
+       spr_id=spr_id+2
+     end
   end
+  -- runner vars 
+  local gm_state = {win=false,fail=false}
+  local tm = {gm_ct=30*60, wt=60, intvl=0} -- timers
+  local y_vel = 0
+  run_floor = 78 -- =player y pos
+  jump_max = 60
+  cur_dist = 6.0
+  grav = 0.2     -- speed for jump fall   
+  local obs = {} -- obstacles
+  local boosts  = {}
+
+  ofc = {x=200,id=484,flip=1} --officer table
+  -- officer vars
+  o = {runId=488,idleId=480,hitId=492,FR=0,t=10}
+  mapX = 210 
+  decor = {x=210, y=34} 
+  
+  local p = pc
+  p.x = 152
+  p.isIdle = false
+  p.isRun=true
+  p.changeFrame=true
+  p.flip = 1
+  mp_spd = -.25
 
   function pcSpr()
     if btnp(bttn.a,60,15) then 
@@ -39,38 +65,12 @@ function looping_runner_init()
     end
   end
 
-  function mvChar()
-    if btn(bttn.u) and ((pc.y+31)>99) then
-      pc.y=pc.y-1
-    elseif btn(bttn.d) and ((pc.y+31)<140) then
-      pc.y=pc.y+1
-    else 
-      pc.isIdle=true
-      pc.isRun=false
-    end
-    if btn(bttn.l) and ((pc.x+14)>=3) then 
-      pc.x=pc.x-1
-      pc.flip=1
-    elseif btn(bttn.r) and ((pc.x+14)<=233) then 
-      pc.x=pc.x+1
-      pc.flip=0
-    else 
-      pc.isIdle=true
-      pc.isRun=false
-    end
-    if btn(bttn.u) or btn(bttn.d) or btn(bttn.l) or btn(bttn.r) then
-      pc.isIdle=false
-      pc.isRun=true
-      pc.changeFrame=true
-    end
-  end
-
   function animate()
-    if pc.wait == 0 then
+    if pc.r_wait == 0 then
       pc.changeFrame=true
       pc.CF=(pc.CF==1) and 2 or 1
-      if pc.isIdle then pc.wait=30
-      elseif pc.isRun then pc.wait=15
+      if pc.isIdle then pc.r_wait=30
+      elseif pc.isRun then pc.r_wait=15
       end
     end
     if pc.isIdle and pc.changeFrame then
@@ -84,83 +84,75 @@ function looping_runner_init()
   
   function rt_draw()
     pcSpr()
-	animate()
+    animate()
     if (pc.y >= 78) then
---		spr(418,officer.x+6,101,5,2,1,0,1,1)--shadow officer
---		spr(418,pc.x+6,pc.y+24,5,2,1,0,1,1)--shadow pc
-        spr(officer.id,officer.x,78,0,2,officer.flip,0,2,2)--oficcer
-        spr(pc.sprId,pc.x,pc.y,pc.CLRK,pc.scale,pc.flip,0,2,2)--pc
-	else
---		spr(418,pc.x+6,102,5,2,1,0,1,1)--shadow pc
---		spr(418,officer.x+6,101,5,2,1,0,1,1)--shadow officer
-        spr(pc.sprId,pc.x,pc.y,pc.CLRK,pc.scale,pc.flip,0,2,2)--pc
-        spr(officer.id,officer.x,78,0,2,officer.flip,0,2,2)--officer
+      spr(445,ofc.x+6,101,5,2,1,0,1,1)--shadow officer
+      spr(445,pc.x+8,pc.y+24,5,2,1,0,1,1)--shadow pc
+      spr(ofc.id+o.FR//20*2,ofc.x,78,0,2,ofc.flip,0,2,2)--oficcer
+      spr(pc.sprId,pc.x,pc.y,pc.CLRK,pc.scale,pc.flip,0,2,2)--pc
+    else
+      spr(445,pc.x+8,102,5,2,1,0,1,1)--shadow pc
+      spr(445,ofc.x+6,101,5,2,1,0,1,1)--shadow officer
+      spr(pc.sprId,pc.x,pc.y,pc.CLRK,pc.scale,pc.flip,0,2,2)--pc
+      spr(ofc.id+o.FR//20*2,ofc.x,78,0,2,ofc.flip,0,2,2)--officer
     end
+  end
+
+  function print_debug(color)
+    print("Press A or S to change character",0,0,color or 3)	
+    print("Change frame: "..pc.CF,0,7,color or 12)
+    print(", ID: "..pc.sprId,83,7,color or 12)
+    print(", Character: "..selected_pc,126,7,color or 12)
+    print("UP to jump  DOWN to slide",0,14,color or 3)
+    print("player y: "..p.y,160,14,12)	
   end
 
   function runner_sprsheet03()
     cls()
-    map(mapX,34,30,17,0,0,-1)--bg
-    map(decorX,decorY,30,17,0,3,0,2)--decorations
-    rt_draw()	
-    map(180,134,240,136,0,120,0)--overlay	
+    vbank(0)
+    map(mapX,17,30,17,0,0,-1)--bg
+    map(decor.x,decor.y,30,17,0,3,0,2)--decorations
+    vbank(1)
+    poke(0x03FF8,0)
+    map(mapX,17,30,17,0,0,-1)--bg
+    map(decor.x,decor.y,30,17,0,3,0,2)--decorations
+    rt_draw()
+
     fr=(fr+1)%60
-    pc.wait=pc.wait-1
+    pc.r_wait=pc.r_wait-1
+    o.t = o.t-1
+    if ofc_state == "hit" then
+      o.FR = 1
+    end
+    if ofc_state == "run" then  
+      o.FR=(o.FR+1)%40
+    end
   end --- end sprsheet03 ---
---
--- desc:   Looping Runner
--- 
-  local game_over = false
-  local winner = false
-  local t = 0
-  local count = 30*60 -- game time*60/fps
-  local wait_t = 60
-  local y_vel = 0
-  run_floor = 78 -- =player y pos
-  jump_max = 60
-  cur_dist = 6.0
-  grav = 0.2     -- speed for jump fall   
-  local obs = {} -- obstacles
-  local boosts  = {}
 
-  -- integrate sprsheet03 with runner
-  officer = {x=200,id=486,flip=1}
-  mapX   = 210 -- vars to "scroll" map
-  decorX = 0 
-  decorY = 51 
-  
-  local p = pc
-  p.x = 152
-  p.isIdle = false
-  p.isRun=true
-  p.changeFrame=true
-  p.flip = 1
-  mp_spd = -1/6
-
-  -- set runner sprite info
+  -- set runner anim sprites
   local function set_runSpr()   
     if pc.indx == 1 then
       jumpSpr_id  = 268
       slideSpr_id = 270
-      hitSpr_id   = 384
+      hitSpr_id   = 416
       sprSpd = pc.spdTbl[1]
       sprHit = .75
     elseif pc.indx == 2 then
       jumpSpr_id  = 300
       slideSpr_id = 302
-      hitSpr_id   = 386
+      hitSpr_id   = 418
       sprSpd = pc.spdTbl[2]
       sprHit = 1.5
     elseif pc.indx == 3 then
       jumpSpr_id  = 332
       slideSpr_id = 334
-      hitSpr_id   = 388
+      hitSpr_id   = 420
       sprSpd = pc.spdTbl[3]
       sprHit = 1.0
     elseif pc.indx == 4 then
       jumpSpr_id  = 364
       slideSpr_id = 366
-      hitSpr_id   = 390
+      hitSpr_id   = 422
       sprSpd = pc.spdTbl[4]
       sprHit = 1.25
     end
@@ -168,20 +160,22 @@ function looping_runner_init()
   
   -- set runner direction
   run_dir = {right = false, left = false}
-  run_dir.left = true
+  run_dir.right = true
   -- defaults set to run left  
   new_ob_x = 0
   obs_spd = 2  
   bst_spd = .5
- 
+  end_wallX = 0
+
   function set_direction(run_dir)
     if (run_dir.right) then
       p.x = 58
-      officer.x = 10
+      ofc.x = 10
       mp_spd = -mp_spd
       p.flip = 0
-      officer.flip = 0
+      ofc.flip = 0
       new_ob_x = 240
+      end_wallX = 29
       obs_spd = -obs_spd 
       bst_spd = -bst_spd 
     end
@@ -192,20 +186,20 @@ function looping_runner_init()
     if btnp(0) and (grounded) then
       y_vel = -2.5
       mid_jump = true      
-      p.wait = 45
+      p.r_wait = 45
       p.sprId = jumpSpr_id
     end
     if btnp(1) and (grounded) then
-      p.wait = 45
+      p.r_wait = 45
       p.sprId = slideSpr_id
       mid_slide = true
-      wait_t = 45        
+      tm.wt = 45        
     end
   end
       
   function set_timer(n)
-    if t > 0 then
-      if (t/60) % n == 0 then -- every n seconds
+    if tm.intvl > 0 then
+      if (tm.intvl/60) % n == 0 then -- every n seconds
         return true
       end
     end
@@ -221,7 +215,7 @@ function looping_runner_init()
       y_vel = y_vel + grav
     end
     if (mid_slide) then
-      if wait_t < 0 then 
+      if tm.wt < 0 then 
         mid_slide = false 
       end    
     end
@@ -262,7 +256,7 @@ function looping_runner_init()
   function draw_obs()
     for i = 1,#obs do
       if obs[i] ~= nil then
-        -- set obs y
+        -- rand obs y
         if obs[i].yp == 1 then obs[i].yp = 94     -- jump
         elseif obs[i].yp == 2 then obs[i].yp = 70 -- slide
         end
@@ -312,19 +306,19 @@ function looping_runner_init()
       if obs[i] ~= nil then
         if obs[i].active and
           (object_col(obs[i].xp, obs[i].yp)) then
-            
-            p.wait = 30
+           
+            p.r_wait = 30
             p.sprId = hitSpr_id
             show_setback = true
             cur_dist = cur_dist - sprHit
             obs[i].active = false           
             if (show_setback) and 
               (run_dir.left) then
-              officer.x = officer.x - 4  
+              ofc.x = ofc.x - 4  
               show_setback = false
             elseif (show_setback) and 
               (run_dir.right) then
-              officer.x = officer.x + 4
+              ofc.x = ofc.x + 4
               show_setback = false
             end
         end
@@ -334,18 +328,18 @@ function looping_runner_init()
       if boosts[i] ~= nil then
         if boosts[i].active and
           (boost_col(boosts[i].xp, boosts[i].yp)) then
-            
+
             show_boost = true
             cur_dist = cur_dist + sprSpd
             boosts[i].active = false
             table.remove(boosts, i)            
             if (show_boost) and 
              (run_dir.left) then            
-              officer.x = officer.x + 4
+              ofc.x = ofc.x + 4
               show_boost = false
             elseif (show_boost) and 
              (run_dir.right) then
-              officer.x = officer.x - 4
+              ofc.x = ofc.x - 4
               show_boost = false
             end
         end
@@ -354,10 +348,10 @@ function looping_runner_init()
     -- check for collision number display
     if cur_dist > check_dist then
       display_boost = true
-      wait_t = 60
+      tm.wt = 60
     elseif cur_dist < check_dist then
       display_setback = true
-      wait_t = 60
+      tm.wt = 60
     end
   end 
   
@@ -365,15 +359,42 @@ function looping_runner_init()
     if (display_boost) then
       if (display_setback) then display_boost = false end
         print("+ "..sprSpd, 100, 127, 5)
-      if wait_t < 0 then display_boost = false end
+      if tm.wt < 0 then display_boost = false end
     end
     if (display_setback) then
       if (display_boost) then display_setback = false end
         print("- "..sprHit, 100, 127, 2)
-      if wait_t < 0 then display_setback = false end
+      if tm.wt < 0 then display_setback = false end
     end
   end
-
+  
+  function ofc_col()
+    for i = 1,#obs do
+      if obs[i] ~= nil then
+        if (run_dir.left) then 
+          if ofc.x <= obs[i].xp+7 then
+            ofc_state = "hit"
+            ofc.id = o.hitId
+            o.t = 8
+            table.remove(obs, i)
+          end
+        end
+        if (run_dir.right) then 
+          if ofc.x+31 >= obs[i].xp then
+            ofc_state = "hit"
+            ofc.id = o.hitId
+            o.t = 8
+            table.remove(obs, i)
+          end
+        end
+      end
+    end
+    if o.t <= 0 then
+       ofc_state="run"
+       ofc.id=o.runId
+    end
+  end 
+  
   function object_col(ob_x, ob_y)
     if p.x + 12 > ob_x + 8  and 
        p.x + 12 < ob_x + 15  or
@@ -415,14 +436,11 @@ function looping_runner_init()
   end
   
   function end_runner()
-      count = 1
-      t = 1
+      tm.gm_ct = 1
+      tm.intvl = 1
       mp_spd = 0 -- stop scrolling
-      map(150,102,240,136,0,0,0)-- overlay end wall
-      officer.id = 480+fr//30*2 -- idle officer
-      p.isIdle = true
-      p.changeFrame = false
-      p.isRun = false
+      o.t=1
+      ofc.id=o.idleId
       obs_spd = 0
       bst_spd = 0
       need_object = false
@@ -430,71 +448,91 @@ function looping_runner_init()
       table.remove(obs, 1)  -- clear obs
       table.remove(boosts, 1)
       grounded = false -- stop run_lvl_mv
-      mvChar()         -- free player movement
-      if (winner) then 
-        if (p.x < 50) then
-          p.x = 50
-          officer_result = "ran_away_success"
-          current_system = "continue_menu"
-        end 
-        if (p.x > 160) then -- block from going back
-          p.x = 160
+      if (gm_state.win) then 
+        rt_draw()
+        if (run_dir.left) then 
+          p.x = p.x - 1
+          if p.x <= 16 then
+            p.x = 16
+            p.isIdle = true
+            p.isRun=false
+            officer_result = "ran_away_success"
+            current_system = "continue_menu"
+          end
         end
-        if (p.y > 86) then
-          p.y = 86
+        if (run_dir.right) then 
+          p.x = p.x + 1 
+          if p.x >= 192 then
+            p.x = 192
+            p.isIdle = true
+            p.isRun=false
+            officer_result = "ran_away_success"
+            current_system = "continue_menu"
+          end
         end
       end
-      if (game_over) then
+      if (gm_state.fail) then
         officer_result = "ran_away_fail"
         current_system = "continue_menu"      
       end
   end
 
   function update()
-    t = t + 1
-    count = count - 1
-    wait_t = wait_t - 1
-    -- animate officer
-    officer.id = 486+t%60//15*2
-    -- update player y pos  
+    tm.intvl = tm.intvl + 1
+    tm.gm_ct = tm.gm_ct - 1
+    tm.wt = tm.wt - 1
     p.y = p.y + y_vel
     -- "scroll" map
     mapX = mapX + mp_spd*sprSpd
-    decorX = decorX + mp_spd*sprSpd
-	-- win/lose conditions
+    decor.x = decor.x + mp_spd*sprSpd
+    -- win/lose conditions
     if (cur_dist <= 0) then
-      game_over = true
+      gm_state.fail = true
     end
-    if (count/60 == 0) then -- 60 for testing
-      winner = true
+    if (tm.gm_ct/60 < 5) then
+      if (run_dir.left) then
+	      map(0+tm.gm_ct/60*16,51,240,136,0,0,0)
+      end
+      if (run_dir.right) then
+       map(240-tm.gm_ct/60*16,68,240,136,0,0,0) 
+      end
     end
-    -- update display
+    if (tm.gm_ct/60 == 0) then -- 60 for testing
+      gm_state.win = true
+    end
+  end
+  
+  function run_display()
+    print_debug()
+    map(180,134,240,136,0,120,0)--overlay	
     display_col()
-    print("Distance: "..cur_dist,10,128,12,false,1,true)
-    print("Time: "..math.floor((count/60)*10)/10,200,128,12,false,1,true)
+    print("Distance: "..cur_dist,6,128,12,false,1,true)
+    print("Time: "..math.floor((tm.gm_ct/60)*10)/10,200,128,12,false,1,true)
   end
  
   function looping_runner_logic()
-    if (not game_over) then
-      runner_sprsheet03() -- sprsheet03 code
-      -- runner level code
+    if (not gm_state.fail) then
+      runner_sprsheet03()
       set_runSpr()
       run_lvl_mv()
       generate_obs()
       draw_obs()
       pos_check()
       update()
+      ofc_col()
       collision()
+      run_display()
     end
-    if (game_over) or (winner) then
+    if (gm_state.fail) or (gm_state.win) then
       end_runner()
     end
   end
 end -- end looping_runner init
 
 looping_runner_init()
-
+  
 function looping_runner_loop()
+ -- sync(1|2|4|8|32|64|128, 2, false)  
   looping_runner_logic()
 end
 
