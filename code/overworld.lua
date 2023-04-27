@@ -546,7 +546,7 @@ function overworld_system_init()
 			for subIndex = 1, #entrances do
 				if absoluteXBlock == entrances[subIndex].mapX and
 				   absoluteYBlock == entrances[subIndex].mapY then
-					temp_system = entrances[subIndex].name
+					current_system = entrances[subIndex].name
 					return
 				end
 			end
