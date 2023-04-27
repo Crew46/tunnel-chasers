@@ -24,7 +24,7 @@ public class CartAssembler {
     private static final byte CHUNK_MUSIC_PATTERNS = 15;
     private static final byte CHUNK_SFX = 9;
     private static final byte CHUNK_WAVEFORM = 10;
-    private static final List<Byte> ASSET_TYPES = Arrays.asList(CHUNK_DEFAULT, CHUNK_TILES, CHUNK_MAP, CHUNK_MUSIC);
+    private static final List<Byte> ASSET_TYPES = Arrays.asList(CHUNK_TILES, CHUNK_MAP, CHUNK_MUSIC);
     private static final String[] LABELS = {"0", "Tiles", "Sprites", "3", "Map", "Code", "Flags", "7", "8", "SFX", "Waveform", "11", "Palette", "13", "Music", "Music Pattern", "16", "Default"};
     private static final Map<String, String> PATTERN_REPLACEMENTS = generateReplacements();
 
@@ -64,6 +64,9 @@ public class CartAssembler {
         List<List<Byte>> chunks = new ArrayList<>();
         List<Byte> codeChunk = compileCodeChunk(codeDirectory);
         chunks.add(codeChunk);
+        for (byte i = 0; i < 8; i++) {
+            chunks.add(compileChunk(i, CHUNK_DEFAULT, new ArrayList<>()));
+        }
         //List<List<Byte>> codeChunks = compileCodeChunks(codeDirectory);
         //chunks.addAll(codeChunks);
         chunks.addAll(compileAssets(assetDirectory));
