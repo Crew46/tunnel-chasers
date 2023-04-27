@@ -405,12 +405,16 @@ function interior_level_loop()
 	gsync(2,0,false)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
-	print(offMapX,84,84,12) --for debugging
+	-- stuff below for debugging
+	print(offMapX,84,84,12)
 	print(offMapY,84,100,12)
 	print(x//8,84,120,12)
 	print("Head: "..pc.spr_Id_h,0,6,6)
   	print("Body: "..pc.spr_Id_b,60,6,6)
 	print("Selected char: "..pc.selected,0,12,6)
+	if keyp(24) then
+		current_system = "overworld_system"
+	end
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
 
