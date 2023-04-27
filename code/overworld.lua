@@ -338,7 +338,7 @@ function overworld_system_init()
 	current player in order to draw the
 	player and their hitbox correctly.
 	--]]
-	player = {
+	overwrldPlayer = {
 		relativeX = (screenMaxX/2)-4,
 		relativeY = (screenMaxY/2)-4,
 		absoluteX = 0,
@@ -362,17 +362,17 @@ function overworld_system_init()
 
 		-- just setting up the player's abolute X and Y
 		-- positions (these are relative to the map bank)
-		player.absoluteX = screen.mapX + player.relativeX
-		player.absoluteY = screen.mapY + player.relativeY
+		overwrldPlayer.absoluteX = screen.mapX + overwrldPlayer.relativeX
+		overwrldPlayer.absoluteY = screen.mapY + overwrldPlayer.relativeY
 
 		-- starting looking down
-		player.direction = 1
+		overwrldPlayer.direction = 1
 
 		-- setting up player's collisionbox
-		collisionBox.topY    = player.relativeY + 6
-		collisionBox.bottomY = player.relativeY + 7
-		collisionBox.leftX   = player.relativeX
-		collisionBox.rightX  = player.relativeX + 7
+		collisionBox.topY    = overwrldPlayer.relativeY + 6
+		collisionBox.bottomY = overwrldPlayer.relativeY + 7
+		collisionBox.leftX   = overwrldPlayer.relativeX
+		collisionBox.rightX  = overwrldPlayer.relativeX + 7
 	end
 	overworld_init()
 
@@ -385,8 +385,8 @@ function overworld_system_init()
 		-- Player pressed up button.    --
 		----------------------------------
 		if btn(BTN_UP)    then
-			player.isBtnPressed = true
-			player.direction = PLAYER_UP
+			overwrldPlayer.isBtnPressed = true
+			overwrldPlayer.direction = PLAYER_UP
 
 			-- getting any of the collisionbox points that
 			-- will end up colliding
@@ -417,8 +417,8 @@ function overworld_system_init()
 		-- Player pressed down button.  --
 		----------------------------------
 		if btn(BTN_DOWN)  then
-			player.isBtnPressed = true
-			player.direction = PLAYER_DOWN
+			overwrldPlayer.isBtnPressed = true
+			overwrldPlayer.direction = PLAYER_DOWN
 
 			-- getting any of the collisionbox points that
 			-- will end up colliding
@@ -449,8 +449,8 @@ function overworld_system_init()
 		-- Player pressed left button.  --
 		----------------------------------
 		if btn(BTN_LEFT)  then
-			player.isBtnPressed = true
-			player.direction = PLAYER_LEFT
+			overwrldPlayer.isBtnPressed = true
+			overwrldPlayer.direction = PLAYER_LEFT
 
 			-- getting any of the collisionbox points that
 			-- will end up colliding
@@ -481,8 +481,8 @@ function overworld_system_init()
 		-- Player pressed right button. --
 		----------------------------------
 		if btn(BTN_RIGHT) then
-			player.isBtnPressed = true
-			player.direction = PLAYER_RIGHT
+			overwrldPlayer.isBtnPressed = true
+			overwrldPlayer.direction = PLAYER_RIGHT
 
 			-- getting any of the collisionbox points that
 			-- will end up colliding
@@ -512,7 +512,7 @@ function overworld_system_init()
 
 		-- checking if none of the buttons got pressed
 		if not (btn(BTN_UP) or btn(BTN_DOWN) or btn(BTN_LEFT) or btn(BTN_RIGHT)) then
-			player.isBtnPressed = false
+			overwrldPlayer.isBtnPressed = false
 		end
 
 		-- hard limits for top-left of the entire map
@@ -562,13 +562,13 @@ function overworld_system_init()
 		frameTick = ticks % 40
 
 		if     frameTick == 0 then
-			player.frame = FIRST_FRAME
+			overwrldPlayer.frame = FIRST_FRAME
 		elseif frameTick == 10 then
-			player.frame = SECOND_FRAME
+			overwrldPlayer.frame = SECOND_FRAME
 		elseif frameTick == 20 then
-			player.frame = FIRST_FRAME
+			overwrldPlayer.frame = FIRST_FRAME
 		elseif frameTick == 30 then
-			player.frame = THIRD_FRAME
+			overwrldPlayer.frame = THIRD_FRAME
 		end
 	end
 
@@ -616,16 +616,16 @@ function overworld_system_init()
 		print("mapX:"..screen.mapX, 0, 122)
 		print("mapY:"..screen.mapY, 0, 130)
 
-		print("character(j):"..player.characterId, 50, 122)
+		print("character(j):"..overwrldPlayer.characterId, 50, 122)
 		print("hitbox(h):"..tostring(showHitbox),  50, 130)
 
 		isCollision = FLAG_COLLISION == 0
 		print("collision(c):"..tostring(isCollision), 134, 122)
 
 		if keyp(10) then
-			player.characterId = player.characterId + 1
-			if player.characterId == 4 then
-				player.characterId = 0
+			overwrldPlayer.characterId = overwrldPlayer.characterId + 1
+			if overwrldPlayer.characterId == 4 then
+				overwrldPlayer.characterId = 0
 			end
 		end
 
@@ -674,11 +674,11 @@ function overworld_system_loop()
 		map(screen.mapX/8, screen.mapY/8, 31, 18, -(screen.mapX%8), -(screen.mapY%8), -1)
 		
 		-- drawing sprite based on player direction and frame
-		if not player.isBtnPressed then
-			player.frame = 0
+		if not overwrldPlayer.isBtnPressed then
+			overwrldPlayer.frame = 0
 		end
-		spriteId = 256 + (64*player.characterId) + (16*player.direction) + player.frame
-		spr(spriteId, player.relativeX, player.relativeY, spriteTransparencyKey)
+		spriteId = 256 + (64*overwrldPlayer.characterId) + (16*overwrldPlayer.direction) + overwrldPlayer.frame
+		spr(spriteId, overwrldPlayer.relativeX, overwrldPlayer.relativeY, spriteTransparencyKey)
 
 		-- drawing overlay map
 		map((screen.mapX/8)+120, (screen.mapY/8), 31, 18, -(screen.mapX%8), -(screen.mapY%8), 0)
