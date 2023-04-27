@@ -163,6 +163,7 @@ function interior_level_init()
 			and offMapY == mapPosY then
 				offChase=0
 				offReset=1
+				current_system="discussion"
 			elseif offMapX > mapPosX then
 				offFlip=1
 				offX=offX-1
