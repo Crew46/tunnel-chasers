@@ -80,60 +80,58 @@ function interior_level_init()
 
 	function officerFOV()
 		if offFlip == 0 then
-			if mapPosX <= offMapX+1
-			and mapPosX > offMapX
-			and mapPosY <= offMapY+.5
-			and mapPosY >= offMapY-.5 then
-				offChase=1
-			elseif mapPosX <= offMapX+1.5
+			if mapPosX <= offMapX+3
 			and mapPosX > offMapX
 			and mapPosY <= offMapY+1
 			and mapPosY >= offMapY-1 then
 				offChase=1
-			elseif mapPosX <= offMapX+2
-			and mapPosX > offMapX
-			and mapPosY <= offMapY+1.5
-			and mapPosY >= offMapY-1.5 then
-				offChase=1
-			elseif mapPosX <= offMapX+3
+			elseif mapPosX <= offMapX+5
 			and mapPosX > offMapX
 			and mapPosY <= offMapY+2
 			and mapPosY >= offMapY-2 then
 				offChase=1
+			elseif mapPosX <= offMapX+6
+			and mapPosX > offMapX
+			and mapPosY <= offMapY+3
+			and mapPosY >= offMapY-3 then
+				offChase=1
+			elseif mapPosX <= offMapX+8
+			and mapPosX > offMapX
+			and mapPosY <= offMapY+4
+			and mapPosY >= offMapY-4 then
+				offChase=1
 			elseif offChase == 1
-			and (mapPosX >= offMapX+4
-			or mapPosX < offMapX
-			or mapPosY >= offMapY+2.5
-			or mapPosY <= offMapY-2.5) then
+			and (mapPosX >= offMapX+8
+			or mapPosY >= offMapY+5
+			or mapPosY <= offMapY-5) then
 				offChase=0
 				offReset=1
 			end
 		elseif offFlip == 1 then
-			if mapPosX >= offMapX-1
-			and mapPosX < offMapX
-			and mapPosY <= offMapY+.5
-			and mapPosY >= offMapY-.5 then
-				offChase=1
-			elseif mapPosX >= offMapX-1.5
+			if mapPosX >= offMapX-3
 			and mapPosX < offMapX
 			and mapPosY <= offMapY+1
 			and mapPosY >= offMapY-1 then
 				offChase=1
-			elseif mapPosX >= offMapX-2
-			and mapPosX < offMapX
-			and mapPosY <= offMapY+1.5
-			and mapPosY >= offMapY-1.5 then
-				offChase=1
-			elseif mapPosX >= offMapX-2.5
+			elseif mapPosX >= offMapX-5
 			and mapPosX < offMapX
 			and mapPosY <= offMapY+2
 			and mapPosY >= offMapY-2 then
 				offChase=1
+			elseif mapPosX >= offMapX-6
+			and mapPosX < offMapX
+			and mapPosY <= offMapY+3
+			and mapPosY >= offMapY-3 then
+				offChase=1
+			elseif mapPosX >= offMapX-8
+			and mapPosX < offMapX
+			and mapPosY <= offMapY+4
+			and mapPosY >= offMapY-4 then
+				offChase=1
 			elseif offChase == 1
-			and (mapPosX <= offMapX-3
-			or mapPosX >= offMapX+3
-			or mapPosY >= offMapY+2
-			or mapPosY <= offMapY-2) then
+			and (mapPosX <= offMapX-8
+			or mapPosY >= offMapY+5
+			or mapPosY <= offMapY-5) then
 				offChase=0
 				offReset=1
 			end
@@ -166,35 +164,35 @@ function interior_level_init()
 				current_system="discussion"
 			elseif offMapX > mapPosX then
 				offFlip=1
-				offX=offX-1
-				offMapX=offMapX-1/8
+				offX=offX-.5
+				offMapX=offMapX-1/16
 			elseif offMapX < mapPosX then
 				offFlip=0
-				offX=offX+1
-				offMapX=offMapX+1/8
+				offX=offX+.5
+				offMapX=offMapX+1/16
 			elseif offMapY > mapPosY then
-				offY=offY-1
-				offMapY=offMapY-1/8
+				offY=offY-.5
+				offMapY=offMapY-1/16
 			elseif offMapY < mapPosY then
-				offY=offY+1
-				offMapY=offMapY+1/8
+				offY=offY+.5
+				offMapY=offMapY+1/16
 			end
 		else
 			if offReset == 1 then -- officer reset to position before chase
 				if offMapX < offResetX then
-					offX=offX+1
-					offMapX=offMapX+1/8
+					offX=offX+.5
+					offMapX=offMapX+1/16
 					offFlip=0
 				elseif offMapX > offResetX then
-					offX=offX-1
-					offMapX=offMapX-1/8
+					offX=offX-.5
+					offMapX=offMapX-1/16
 					offFlip=1
 				elseif offMapY < offResetY then
-					offY=offY+1
-					offMapY=offMapY+1/8
+					offY=offY+.5
+					offMapY=offMapY+1/16
 				elseif offMapY > offResetY then
-					offY=offY-1
-					offMapY=offMapY-1/8
+					offY=offY-.5
+					offMapY=offMapY-1/16
 				elseif offMapX == offResetX
 				and offMapY == offResetY then
 					offReset=0
@@ -398,7 +396,6 @@ function interior_level_loop()
 	--pcActions()
 	--animate()
 	playerMovement()
- 	--officerFOV()
 	roomControl()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)
 	map(cameraX+60,cameraY,32,18,0,0,0)
@@ -408,8 +405,8 @@ function interior_level_loop()
 	gsync(2,0,false)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
-	print(mapPosX,84,84,12) --for debugging
-	print(offMapX,84,100,12)
+	print(offMapX,84,84,12) --for debugging
+	print(offMapY,84,100,12)
 	print(x//8,84,120,12)
 	print("Head: "..pc.spr_Id_h,0,6,6)
   	print("Body: "..pc.spr_Id_b,60,6,6)
