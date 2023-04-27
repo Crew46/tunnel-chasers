@@ -282,52 +282,52 @@ function overworld_system_init()
 	]]--
 	entrances = {
 		{
-			name = "side1",
+			name = "interior_level",
 			mapX = 36,
 			mapY = 20
 		},
 		{
-			name = "side1",
+			name = "interior_level",
 			mapX = 36,
 			mapY = 21
 		},
 		{
-			name = "side2",
+			name = "interior_level",
 			mapX = 46,
 			mapY = 20
 		},
 		{
-			name = "side2",
+			name = "interior_level",
 			mapX = 46,
 			mapY = 21
 		},
 		{
-			name = "left",
+			name = "interior_level",
 			mapX = 29,
 			mapY = 33
 		},
 		{
-			name = "left",
+			name = "interior_level",
 			mapX = 30,
 			mapY = 33
 		},
 		{
-			name = "main",
+			name = "interior_level",
 			mapX = 38,
 			mapY = 33
 		},
 		{
-			name = "main",
+			name = "interior_level",
 			mapX = 39,
 			mapY = 33
 		},
 		{
-			name = "right",
+			name = "interior_level",
 			mapX = 47,
 			mapY = 33
 		},
 		{
-			name = "right",
+			name = "interior_level",
 			mapX = 48,
 			mapY = 33
 		}
