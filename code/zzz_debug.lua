@@ -12,7 +12,5 @@ end
 
 debug_init()
 
-symlink_system("interior_level", "discussion")
-
 make_system_selector_menu_system("debug", "Debug: Select system to load", debug_entries)
 -- end debug
