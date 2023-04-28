@@ -32,7 +32,7 @@ function interior_level_init()
 	cameraShift=0
 	currentRoom=1
 	previousRoom=1
-	
+
 	function officerAnimation()
 		if offDirection == MOVE_UP and offTimer <= 0 then
 			officerAniHead = 460
@@ -277,6 +277,16 @@ function interior_level_init()
 			mapPosX=24
 			mapPosY=31.75
 			roomInit=-1
+		-- SM
+		elseif roomInit == 2 then
+			x=27*8
+			y=8*8
+			cameraX=0
+			cameraY=17
+			mapPosX=27
+			mapPosY=25
+			roomInit=-1
+		-- SM
 		end
 	end
 
@@ -390,6 +400,29 @@ function interior_level_init()
 end
 
 function interior_level_loop()
+	-- SM
+	if info_pass ~= nil then
+		if     info_pass == "side1" then
+			roomInit = 2
+			currentRoom=1
+		elseif info_pass == "side2" then
+			currentRoom=3
+		elseif info_pass == "left"  then
+			currentRoom=2
+		elseif info_pass == "main"  then
+			currentRoom=2
+		elseif info_pass == "right" then
+			currentRoom=2
+		end
+		info_pass = nil
+	else
+		if currentRoom == 1 and x == 212 and y == 62 then
+			info_pass = "side1"
+			current_system = "overworld_system"
+		end
+	end
+	-- SM
+
 	cls(13)
 	waitTimer=waitTimer-1
 	offTimer=offTimer-1
@@ -408,10 +441,11 @@ function interior_level_loop()
 	-- stuff below for debugging
 	print(offMapX,84,84,12)
 	print(offMapY,84,100,12)
-	print(x//8,84,120,12)
+	print((x).." "..(y),84,120,12)
 	print("Head: "..pc.spr_Id_h,0,6,6)
   	print("Body: "..pc.spr_Id_b,60,6,6)
 	print("Selected char: "..pc.selected,0,12,6)
+	print(info_pass)
 	if keyp(24) then
 		current_system = "overworld_system"
 	end

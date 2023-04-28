@@ -228,8 +228,6 @@ function overworld_system_init()
 	spriteTransparencyKey = 0
 	rolloverAmount = 4
 	isDebug = false
-	-- this should be removed in final version
-	temp_system = "overworld"
 
 	--[[
 	Tile flags.
@@ -282,52 +280,52 @@ function overworld_system_init()
 	]]--
 	entrances = {
 		{
-			name = "interior_level",
+			name = "side1",
 			mapX = 36,
 			mapY = 20
 		},
 		{
-			name = "interior_level",
+			name = "side1",
 			mapX = 36,
 			mapY = 21
 		},
 		{
-			name = "interior_level",
+			name = "side2",
 			mapX = 46,
 			mapY = 20
 		},
 		{
-			name = "interior_level",
+			name = "side2",
 			mapX = 46,
 			mapY = 21
 		},
 		{
-			name = "interior_level",
+			name = "left",
 			mapX = 29,
 			mapY = 33
 		},
 		{
-			name = "interior_level",
+			name = "left",
 			mapX = 30,
 			mapY = 33
 		},
 		{
-			name = "interior_level",
+			name = "main",
 			mapX = 38,
 			mapY = 33
 		},
 		{
-			name = "interior_level",
+			name = "main",
 			mapX = 39,
 			mapY = 33
 		},
 		{
-			name = "interior_level",
+			name = "right",
 			mapX = 47,
 			mapY = 33
 		},
 		{
-			name = "interior_level",
+			name = "right",
 			mapX = 48,
 			mapY = 33
 		}
@@ -546,7 +544,8 @@ function overworld_system_init()
 			for subIndex = 1, #entrances do
 				if absoluteXBlock == entrances[subIndex].mapX and
 				   absoluteYBlock == entrances[subIndex].mapY then
-					current_system = entrances[subIndex].name
+					info_pass = entrances[subIndex].name
+					current_system = "interior_level"
 					return
 				end
 			end
@@ -655,59 +654,66 @@ function overworld_system_init()
 end
 
 function overworld_system_loop()
-	-- simualates final "systems" functionality
-	-- in main tunnels TIC
-	if temp_system == "overworld" then
-		-- checking player movement and animation frame
-		check_overworld_movement()
-		temp_generate_animation_frame()
+	-- checking if system was transferred with new info
+	if info_pass ~= nil then
+		if     info_pass == "side1" then
+			screen.mapX = 177
+			screen.mapY = 102
+		elseif info_pass == "side2" then
+			screen.mapX = 0
+			screen.mapY = 0
+		elseif info_pass == "left"  then
+			screen.mapX = 0
+			screen.mapY = 0
+		elseif info_pass == "main"  then
+			screen.mapX = 0
+			screen.mapY = 0
+		elseif info_pass == "right" then
+			screen.mapX = 0
+			screen.mapY = 0
+		end
+		info_pass = nil
+	end
 
-		-- checking if player entered something
-		check_overworld_entrance()
+	-- checking player movement and animation frame
+	check_overworld_movement()
+	temp_generate_animation_frame()
 
-		-- changing the collisionbox's screen position, this is
-		-- required to make the collisionbox work
-		collisionBox.screenMap.x = screen.mapX
-		collisionBox.screenMap.y = screen.mapY
+	-- checking if player entered something
+	check_overworld_entrance()
 
-		-- drawing map based on how player moves
-		map(screen.mapX/8, screen.mapY/8, 31, 18, -(screen.mapX%8), -(screen.mapY%8), -1)
+	-- changing the collisionbox's screen position, this is
+	-- required to make the collisionbox work
+	collisionBox.screenMap.x = screen.mapX
+	collisionBox.screenMap.y = screen.mapY
+
+	-- drawing map based on how player moves
+	map(screen.mapX/8, screen.mapY/8, 31, 18, -(screen.mapX%8), -(screen.mapY%8), -1)
 		
-		-- drawing sprite based on player direction and frame
-		if not overwrldPlayer.isBtnPressed then
-			overwrldPlayer.frame = 0
-		end
-		spriteId = 256 + (64*overwrldPlayer.characterId) + (16*overwrldPlayer.direction) + overwrldPlayer.frame
-		spr(spriteId, overwrldPlayer.relativeX, overwrldPlayer.relativeY, spriteTransparencyKey)
+	-- drawing sprite based on player direction and frame
+	if not overwrldPlayer.isBtnPressed then
+		overwrldPlayer.frame = 0
+	end
+	spriteId = 256 + (64*overwrldPlayer.characterId) + (16*overwrldPlayer.direction) + overwrldPlayer.frame
+	spr(spriteId, overwrldPlayer.relativeX, overwrldPlayer.relativeY, spriteTransparencyKey)
 
-		-- drawing overlay map
-		map((screen.mapX/8)+120, (screen.mapY/8), 31, 18, -(screen.mapX%8), -(screen.mapY%8), 0)
+	-- drawing overlay map
+	map((screen.mapX/8)+120, (screen.mapY/8), 31, 18, -(screen.mapX%8), -(screen.mapY%8), 0)
 
-		-- checking to see if we should enable debug mode
-		if keyp(28) then
-			isDebug = not isDebug
-		end
-		-- enabling/prompting debug mode
-		if isDebug then
-			temp_overworld_debug()
-		else
-			temp_show_debug_prompt()
-		end
+	-- checking to see if we should enable debug mode
+	if keyp(28) then
+		isDebug = not isDebug
+	end
+	-- enabling/prompting debug mode
+	if isDebug then
+		temp_overworld_debug()
 	else
-		map(0, 119)
-		print("You are in a different system now.", 28, 58)
-		print("Press 'X' to go back.", 60, 68)
-		print("System: "..temp_system, 78, 88)
-
-		if key(24) then
-			temp_system = "overworld"
-			overworld_init()
-		end
+		temp_show_debug_prompt()
 	end
 
 	ticks = ticks + 1
 end
 
-make_system("overworld_system",overworld_system_init,overworld_system_loop)
+make_system("overworld_system", overworld_system_init, overworld_system_loop)
 
 -- end overworld
