@@ -2,8 +2,10 @@
 --- Created by dkienenb.
 --- Engine
 ---
+
 current_system = "intro"
 previous_system = nil
+info_pass = nil
 
 systems = {}
 
