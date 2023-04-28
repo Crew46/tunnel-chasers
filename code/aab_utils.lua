@@ -129,4 +129,78 @@ local gsync = (function()
 	return setmetatable(ret, {__call = function(t, mask, bank, tocart) return t.sync(mask, bank, tocart) end})
 end)()
 
+collisionBox = {
+	screenMap = {
+		x = 0,
+		y = 0
+	},
+	topY    = 0,
+	bottomY = 0,
+	leftX   = 0,
+	rightX  = 0
+}
+function collisionbox_positioncheck(point, sweep)
+	sweep = sweep or { }
+	absoluteX = collisionBox.screenMap.x
+	absoluteY = collisionBox.screenMap.y
+	if     point == 0 then
+		absoluteX = absoluteX + collisionBox.leftX
+		absoluteY = absoluteY + collisionBox.topY
+		if sweep.wallCheck then
+			absoluteX = absoluteX - sweep.wallCheck
+		end
+		if sweep.roofCheck then
+			absoluteY = absoluteY - sweep.roofCheck
+		end
+	elseif point == 1 then
+		absoluteX = absoluteX + collisionBox.rightX
+		absoluteY = absoluteY + collisionBox.topY
+		if sweep.wallCheck then
+			absoluteX = absoluteX + sweep.wallCheck
+		end
+		if sweep.roofCheck then
+			absoluteY = absoluteY - sweep.roofCheck
+		end
+	elseif point == 2 then
+		absoluteX = absoluteX + collisionBox.leftX
+		absoluteY = absoluteY + collisionBox.bottomY
+		if sweep.wallCheck then
+			absoluteX = absoluteX - sweep.wallCheck
+		end
+		if sweep.roofCheck then
+			absoluteY = absoluteY + sweep.roofCheck
+		end
+	elseif point == 3 then
+		absoluteX = absoluteX + collisionBox.rightX
+		absoluteY = absoluteY + collisionBox.bottomY
+		if sweep.wallCheck then
+			absoluteX = absoluteX + sweep.wallCheck
+		end
+		if sweep.roofCheck then
+			absoluteY = absoluteY + sweep.roofCheck
+		end
+	else
+		error("Collisionbox point out-of-bounds.", 2)
+	end
+
+	return {absoluteX, absoluteY}
+end
+function collisionbox_tilecheck(point, sweep)
+	absolutePositions = collisionbox_positioncheck(point, sweep)
+	return mget(absolutePositions[1]/8, absolutePositions[2]/8)
+end
+function collisionbox_flagcheck(flag, point, sweep)
+	tile = collisionbox_tilecheck(point, sweep)
+	return fget(tile, flag)
+end
+function collisionbox_flagchecks(flag, points, sweep)
+	flaggedPoints = { }
+	for index = 1, #points do
+		if collisionbox_flagcheck(flag, points[index], sweep) then
+			table.insert(flaggedPoints, points[index])
+		end
+	end
+	return flaggedPoints
+end
+
 -- end utils
