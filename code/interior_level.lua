@@ -283,8 +283,8 @@ function interior_level_init()
 			y=8*8
 			cameraX=0
 			cameraY=17
-			mapPosX=27
-			mapPosY=25
+			mapPosX=28
+			mapPosY=25.5
 			roomInit=-1
 		-- SM
 		end
