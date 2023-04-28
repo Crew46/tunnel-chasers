@@ -142,9 +142,9 @@ collisionBox = {
 	rightX  = 0
 }
 function collisionbox_positioncheck(point, sweep)
-	sweep = sweep or { }
-	absoluteX = collisionBox.screenMap.x
-	absoluteY = collisionBox.screenMap.y
+	local sweep = sweep or { }
+	local absoluteX = collisionBox.screenMap.x
+	local absoluteY = collisionBox.screenMap.y
 	if     point == 0 then
 		absoluteX = absoluteX + collisionBox.leftX
 		absoluteY = absoluteY + collisionBox.topY
@@ -188,15 +188,15 @@ function collisionbox_positioncheck(point, sweep)
 	return {absoluteX, absoluteY}
 end
 function collisionbox_tilecheck(point, sweep)
-	absolutePositions = collisionbox_positioncheck(point, sweep)
+	local absolutePositions = collisionbox_positioncheck(point, sweep)
 	return mget(absolutePositions[1]/8, absolutePositions[2]/8)
 end
 function collisionbox_flagcheck(flag, point, sweep)
-	tile = collisionbox_tilecheck(point, sweep)
+	local tile = collisionbox_tilecheck(point, sweep)
 	return fget(tile, flag)
 end
 function collisionbox_flagchecks(flag, points, sweep)
-	flaggedPoints = { }
+	local flaggedPoints = { }
 	for index = 1, #points do
 		if collisionbox_flagcheck(flag, points[index], sweep) then
 			table.insert(flaggedPoints, points[index])
