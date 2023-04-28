@@ -33,7 +33,9 @@ function button_to_string(button)
   return get_button_table()[button]
 end
 
-local gsync = (function()
+-- author: khuxkm
+-- license: MIT License
+gsync = (function()
 	local banks = {}
 	for index = 0, 7 do banks[index] = {} end
 	local function peeks(addr, size)
