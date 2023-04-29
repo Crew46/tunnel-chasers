@@ -91,6 +91,7 @@ function pcActions()
 
 		if #collisionPoints == 0 then
 			pc.flip = 1
+			pc.isTurned = key(23)
 			hor_spd = hor_spd - rate
 		end
 	end
@@ -103,6 +104,7 @@ function pcActions()
 
 		if #collisionPoints == 0 then
 			pc.flip = 0
+			pc.isTurned = key(23)
 			hor_spd = hor_spd + rate
 		end
 	end
@@ -116,7 +118,7 @@ function pcActions()
 		pc.state="Idle"
 		pc.changeFrame=true
 	elseif (key(23) or key(19) or key(01) or key(04))
-	and isCrouch then
+	and pc.isCrouch then
 		pc.isIdle=false
 		pc.isRun=false
 		pc.state="Crouched"
@@ -137,11 +139,11 @@ function pcActions()
 	pc.y = pc.y + ver_spd
 end
 
-function animate()
+function animate_chr()
 	print("Change frame: "..pc.CF,0,18,6)
   	print("Change frame timer: "..pc.CF_timer,30,0,6)
 	print("PC state: "..pc.state,50,70,12)
-	trace(pc.CF_timer)
+
 	if pc.CF_timer == 0 then
 		pc.changeFrame=true
 		pc.CF=(pc.CF==1) and 2 or 1
@@ -186,7 +188,7 @@ function drawpc()
 	pcSpr_change()
 	pcActions()
 	resetPos()
-	animate()
+	animate_chr()
 	spr(pc.spr_Id_h,pc.x,pc.y-8,pc.CLRK,pc.scale,pc.flip,0,2,1)
  	spr(pc.spr_Id_b,pc.x,pc.y,pc.CLRK,pc.scale,pc.flip,0,2,1)
 	print("Frame: "..fr,0,130,6)
