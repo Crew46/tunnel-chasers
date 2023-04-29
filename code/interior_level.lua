@@ -172,6 +172,11 @@ function interior_level_init()
 			and offMapY == mapPosY then
 				offChase=0
 				offReset=1
+				pc.flip=0
+  				pc.isTurned=false
+  				pc.isIdle=true
+				pc.changeFrame=true
+				animate_chr()
 				current_system="discussion"
 			elseif offMapX > mapPosX then
 				offFlip=1
