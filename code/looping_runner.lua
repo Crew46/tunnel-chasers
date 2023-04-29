@@ -4,9 +4,8 @@
 -- script: lua
  
 function looping_runner_init()
-  --gsync(0,checkbank,false)
-  sync(16,0,false)
-  music(1,0,0,true)
+  gsync(16,0,false)
+  --music(1,0,0,true)
   fr=0
   bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
   selected_pc="pig"
@@ -65,7 +64,7 @@ function looping_runner_init()
     end
   end
 
-  function animate()
+  function rt_animate()
     if pc.r_wait == 0 then
       pc.changeFrame=true
       pc.CF=(pc.CF==1) and 2 or 1
@@ -84,7 +83,7 @@ function looping_runner_init()
   
   function rt_draw()
     pcSpr()
-    animate()
+    rt_animate()
     if (pc.y >= 78) then
       spr(445,ofc.x+6,101,5,2,1,0,1,1)--shadow officer
       spr(445,pc.x+8,pc.y+24,5,2,1,0,1,1)--shadow pc
@@ -532,7 +531,7 @@ end -- end looping_runner init
 looping_runner_init()
   
 function looping_runner_loop()
- -- sync(1|2|4|8|32|64|128, 2, false)  
+ -- gsync(1|2|4|8|32|64|128, 2, false)  
   looping_runner_logic()
 end
 
