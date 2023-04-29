@@ -4,7 +4,7 @@
 -- script: lua
  
 function looping_runner_init()
-  gsync(16,0,false)
+  --gsync(16,0,false)
   --music(1,0,0,true)
   fr=0
   bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}

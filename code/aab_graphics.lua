@@ -26,13 +26,6 @@ function pcSpr_change()
 	print("Selected char: "..pc.selected,0,12,6)
 end
 
-function resetPos()
-	if keyp(26,60,15) then
-		pc.x=70
-		pc.y=75
-	end
-end
-
 function pcActions()
 	-- functions local constants
 	local FLAG_COLLISION = 0
@@ -187,7 +180,6 @@ end
 function drawpc()
 	pcSpr_change()
 	pcActions()
-	resetPos()
 	animate_chr()
 	spr(pc.spr_Id_h,pc.x,pc.y-8,pc.CLRK,pc.scale,pc.flip,0,2,1)
  	spr(pc.spr_Id_b,pc.x,pc.y,pc.CLRK,pc.scale,pc.flip,0,2,1)
@@ -222,7 +214,7 @@ function draw(sprite_name, sprite_variant, x, y, scale)
 				map(0,0,15,9,0,0,-1,2)
 			elseif title.text == "Lab46" then
 				cls(0)
-				map(15,0,15,9,0,0,0,2)
+				map(15,0,15,8,0,0,0,2)
 			elseif title.text == "Crew46" then
 				cls(0)
 				map(0,9,8,3,55,44,0,2)
