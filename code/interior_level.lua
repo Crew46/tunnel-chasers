@@ -33,6 +33,17 @@ function interior_level_init()
 	currentRoom=1
 	previousRoom=1
 
+	--SM
+	function interior_level_start()
+		-- setting up player's collisionbox
+		collisionBox.topY    = pc.y + 4
+		collisionBox.bottomY = pc.y + 8
+		collisionBox.leftX   = pc.x 
+		collisionBox.rightX  = pc.x + 14
+	end
+	interior_level_start()
+	--SM
+
 	function officerAnimation()
 		if offDirection == MOVE_UP and offTimer <= 0 then
 			officerAniHead = 460
@@ -434,6 +445,16 @@ function interior_level_loop()
 	gsync(2,1,false)
 	spr(pc.spr_Id_h,x-cameraX,y-cameraY+17,pc.CLRK,pc.scale,pc.flip,0,2,1)
 	spr(pc.spr_Id_b,x-cameraX,y-cameraY+25,pc.CLRK,pc.scale,pc.flip,0,2,1)
+	--SM
+	collisionBox.screenMap.x = cameraX*8
+	collisionBox.screenMap.y = cameraY*8
+	interior_level_start()
+	drawpc()
+	rectb(collisionBox.leftX,  collisionBox.topY,    1, 1, 1)
+	rectb(collisionBox.rightX, collisionBox.topY,    1, 1, 1)
+	rectb(collisionBox.leftX,  collisionBox.bottomY, 1, 1, 1)
+	rectb(collisionBox.rightX, collisionBox.bottomY, 1, 1, 1)
+	--SM
 	gsync(2,0,false)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
@@ -446,10 +467,11 @@ function interior_level_loop()
 	print("Head: "..pc.spr_Id_h,0,6,6)
   	print("Body: "..pc.spr_Id_b,60,6,6)
 	print("Selected char: "..pc.selected,0,12,6)
-	print(info_pass)
+	--SM
 	if keyp(24) then
 		current_system = "overworld_system"
 	end
+	--SM
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 end
 
