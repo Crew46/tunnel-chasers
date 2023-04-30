@@ -3,6 +3,10 @@
 function interior_level_init()
 	gsync(0,0,false)
 	
+	-- DM DEBUG
+	player.inventory = {key_grey, key_gold, coin, first_aid, energy, donut, lock_pick}
+	-- 
+
 	MOVE_UP = 0
 	MOVE_DOWN = 1
 	MOVE_LEFT = 2
@@ -492,6 +496,18 @@ function interior_level_loop()
 	end
 	--SM
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
+
+
+	--DM
+	draw_inv(player.inventory)
+	if keyp(48) then
+		-- Item_bank[5].effect()
+		-- Item_bank[7].effect()
+		cycle_inv(player.inventory)
+	end
+	vbank(0)
+
+
 end
 
 make_system("interior_level", interior_level_init, interior_level_loop)
