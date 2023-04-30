@@ -436,6 +436,20 @@ function interior_level_loop()
 			info_pass = "side1"
 			current_system = "overworld_system"
 		end
+		if currentRoom == 2 then
+			if mapPosY == 48.5 then
+				if mapPosX >= 6 and mapPosX <= 10 then
+					info_pass = "left"
+					current_system = "overworld_system"
+				elseif mapPosX >= 28 and mapPosX <= 32 then
+					info_pass = "main"
+					current_system = "overworld_system"
+				elseif mapPosX >= 51 and mapPosX <= 54 then
+					info_pass = "right"
+					current_system = "overworld_system"
+				end
+			end
+		end
 	end
 	-- SM
 
@@ -466,8 +480,8 @@ function interior_level_loop()
 	map(cameraX+60,cameraY,32,18,0,0,0)--decorations
 	map(cameraX+120,cameraY,32,18,0,0,0)--overlay
 	-- stuff below for debugging
-	print(offMapX,84,84,12)
-	print(offMapY,84,100,12)
+	print(mapPosX,84,84,12)
+	print(mapPosY,84,100,12)
 	print((x).." "..(y),84,120,12)
 	print("Head: "..pc.spr_Id_h,0,6,6)
   	print("Body: "..pc.spr_Id_b,60,6,6)
