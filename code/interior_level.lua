@@ -172,10 +172,10 @@ function interior_level_init()
 			and offMapY == mapPosY then
 				offChase=0
 				offReset=1
-				pc.flip=0
-  				pc.isTurned=false
-  				pc.isIdle=true
-				pc.changeFrame=true
+				player.flip=0
+  				player.isTurned=false
+  				player.isIdle=true
+				player.changeFrame=true
 				animate_chr()
 				current_system="discussion"
 			elseif offMapX > mapPosX then
@@ -462,8 +462,8 @@ function interior_level_loop()
 	roomControl()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)--foreground
 	gsync(2,1,false)
-	spr(pc.spr_Id_h,x-cameraX,y-cameraY+17,pc.CLRK,pc.scale,pc.flip,0,2,1)
-	spr(pc.spr_Id_b,x-cameraX,y-cameraY+25,pc.CLRK,pc.scale,pc.flip,0,2,1)
+	spr(player.spr_Id_h,x-cameraX,y-cameraY+17,player.CLRK,player.scale,player.flip,0,2,1)
+	spr(player.spr_Id_b,x-cameraX,y-cameraY+25,player.CLRK,player.scale,player.flip,0,2,1)
 	--SM
 	collisionBox.screenMap.x = cameraX*8
 	collisionBox.screenMap.y = cameraY*8
@@ -483,9 +483,9 @@ function interior_level_loop()
 	print(mapPosX,84,84,12)
 	print(mapPosY,84,100,12)
 	print((x).." "..(y),84,120,12)
-	print("Head: "..pc.spr_Id_h,0,6,6)
-  	print("Body: "..pc.spr_Id_b,60,6,6)
-	print("Selected char: "..pc.selected,0,12,6)
+	print("Head: "..player.spr_Id_h,0,6,6)
+  	print("Body: "..player.spr_Id_b,60,6,6)
+	print("Selected char: "..player.selected,0,12,6)
 	--SM
 	if keyp(24) then
 		current_system = "overworld_system"
