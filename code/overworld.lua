@@ -446,17 +446,17 @@ function overworld_system_loop()
 			screen.mapX = 177
 			screen.mapY = 102
 		elseif info_pass == "side2" then
-			screen.mapX = 0
-			screen.mapY = 0
+			screen.mapX = 247
+			screen.mapY = 102
 		elseif info_pass == "left"  then
-			screen.mapX = 0
-			screen.mapY = 0
+			screen.mapX = 120
+			screen.mapY = 202
 		elseif info_pass == "main"  then
-			screen.mapX = 0
-			screen.mapY = 0
+			screen.mapX = 192
+			screen.mapY = 202
 		elseif info_pass == "right" then
-			screen.mapX = 0
-			screen.mapY = 0
+			screen.mapX = 264
+			screen.mapY = 202
 		end
 		info_pass = nil
 	end
