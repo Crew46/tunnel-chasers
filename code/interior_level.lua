@@ -286,7 +286,6 @@ function interior_level_init()
 			cameraY=17
 			mapPosX=4
 			mapPosY=23
-			roomInit=-1
 		elseif roomInit == 1 then
 			x=184
 			y=114
@@ -294,7 +293,6 @@ function interior_level_init()
 			cameraY=17
 			mapPosX=24
 			mapPosY=31.75
-			roomInit=-1
 		-- SM
 		elseif roomInit == 2 then
 			x=27*8
@@ -303,9 +301,9 @@ function interior_level_init()
 			cameraY=17
 			mapPosX=28
 			mapPosY=25.5
-			roomInit=-1
 		-- SM
 		end
+		roomInit=-1
 	end
 
 	function roomTwo()
@@ -376,8 +374,15 @@ function interior_level_init()
 			cameraY=17
 			mapPosX=53
 			mapPosY=32
-			roomInit=1
+		elseif roomInit == 1 then
+			mapPosX = 42.5
+			mapPosY = 26.25
+			cameraX = 35
+			cameraY = 17
+			x = 87
+			y = 70
 		end
+		roomInit = -1
 		if mapPosY <= 17 then
 			cameraY=0
 			if cameraShift == 0 then y=y+120 end
@@ -446,6 +451,7 @@ function interior_level_loop()
 			currentRoom=1
 		elseif info_pass == "side2" then
 			currentRoom=3
+			if roomInit ~= -1 then roomInit = 1 end
 		elseif info_pass == "left"  then
 			currentRoom=2
 			if roomInit ~= -1 then roomInit = 2 end
