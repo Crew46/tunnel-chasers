@@ -59,12 +59,27 @@ Item.__index = Item
         effects           ======
 ]]
 
+function check_boost(boost_time)
+    if boost_time ~= 0 then
+        boost_time = boost_time - 1
+    else
+        boost_time = 240
+        if player.boost_check == true then
+            player.speed = pc.spdTbl[player.indx]
+            player.boost_check = false
+        end
+    end
+    return boost_time
+end
+
 function add_life()
     player.lives = player.lives + 1
 end
 
 function add_speed()
+    boost_time = 240
     player.speed = player.speed + .5
+    player.boost_check = true
 end
 
 function unlock_door(door_type)

@@ -4,7 +4,6 @@
 function interior_level_init()
 	gsync(0,0,false)
 	
-
 	MOVE_UP = 0
 	MOVE_DOWN = 1
 	MOVE_LEFT = 2
@@ -34,6 +33,7 @@ function interior_level_init()
 	cameraShift=0
 	currentRoom=1
 	previousRoom=1
+	boost_time = 240
 
 	--SM
 	function interior_level_start()
@@ -498,6 +498,7 @@ function interior_level_loop()
 
 	--DM
 	draw_inv(player.inventory)
+	boost_time = check_boost(boost_time)
 	if keyp(54) then
 		cycle_inv(player.inventory)	
 	end
