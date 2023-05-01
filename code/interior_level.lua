@@ -332,7 +332,8 @@ function interior_level_init()
 			mapPosY = 46.5
 			x = 57
 			y = 112
-			offX=20
+			offMapX=12
+			offX=90
 			offY=90
 		elseif roomInit == 3 then -- Overworld Entrance Middle
 			mapPosX = 29
