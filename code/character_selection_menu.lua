@@ -16,7 +16,8 @@ function character_menu_init()
     nameTbl={"pig","nul","par","byz","pla"},
       sprTbl={256,288,320,352,384},
       spdTbl={0.8,0.65,0.75,0.7,1},
-    sprites={}
+    sprites={},
+    inventory={}
   }
 
   for n=1,5 do
