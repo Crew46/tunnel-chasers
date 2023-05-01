@@ -9,21 +9,21 @@ fr=0
 
 function pcSpr_change()
 	if keyp(17,60,15) then 
-		pc.indx=(pc.indx>1) and pc.indx-1 or 1
-		pc.selected=pc.nameTbl[pc.indx]
-		pc.spr_Id_h=pc.sprTbl[pc.indx]
-		pc.spr_Id_b=pc.spr_Id_h+8
-		pc.speed=pc.spdTbl[pc.indx]
+		player.indx=(player.indx>1) and player.indx-1 or 1
+		player.selected=player.nameTbl[player.indx]
+		player.spr_Id_h=player.sprTbl[player.indx]
+		player.spr_Id_b=player.spr_Id_h+8
+		player.speed=player.spdTbl[player.indx]
 	elseif keyp(5,60,15) then 
-		pc.indx=(pc.indx<=4)and pc.indx+1 or 5
-  		pc.selected=pc.nameTbl[pc.indx]
-		pc.spr_Id_h=pc.sprTbl[pc.indx]
-		pc.spr_Id_b=pc.spr_Id_h+8
-		pc.speed=pc.spdTbl[pc.indx]
+		player.indx=(player.indx<=4)and player.indx+1 or 5
+  		player.selected=player.nameTbl[player.indx]
+		player.spr_Id_h=player.sprTbl[player.indx]
+		player.spr_Id_b=player.spr_Id_h+8
+		player.speed=player.spdTbl[player.indx]
 	end
-	print("Head: "..pc.spr_Id_h,0,6,6)
- 	print("Body: "..pc.spr_Id_b,60,6,6)
-	print("Selected char: "..pc.selected,0,12,6)
+	print("Head: "..player.spr_Id_h,0,6,6)
+ 	print("Body: "..player.spr_Id_b,60,6,6)
+	print("Selected char: "..player.selected,0,12,6)
 end
 
 function pcActions()
@@ -41,7 +41,7 @@ function pcActions()
 	local period = key(64) and 2 or 1
 
 	-- rate of movement, and speeds of character
-	local rate    = pc.speed
+	local rate    = player.speed
 	local hor_spd = 0
 	local ver_spd = 0
 
@@ -59,7 +59,7 @@ function pcActions()
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {0, 1}, {roofCheck = 1})
 
 		if #collisionPoints == 0 then
-			pc.isTurned = true
+			player.isTurned = true
 			ver_spd = ver_spd - rate
 		end
 	end
@@ -71,7 +71,7 @@ function pcActions()
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {2, 3}, {roofCheck = 1})
 
 		if #collisionPoints == 0 then
-			pc.isTurned = false
+			player.isTurned = false
 			ver_spd = ver_spd + rate
 		end
 	end
@@ -83,8 +83,8 @@ function pcActions()
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {0, 2}, {wallCheck = 1})
 
 		if #collisionPoints == 0 then
-			pc.flip = 1
-			pc.isTurned = key(23)
+			player.flip = 1
+			player.isTurned = key(23)
 			hor_spd = hor_spd - rate
 		end
 	end
@@ -96,83 +96,83 @@ function pcActions()
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {1, 3}, {wallCheck = 1})
 
 		if #collisionPoints == 0 then
-			pc.flip = 0
-			pc.isTurned = key(23)
+			player.flip = 0
+			player.isTurned = key(23)
 			hor_spd = hor_spd + rate
 		end
 	end
 
-	pc.isCrouch = (key(64)) and true or false
+	player.isCrouch = (key(64)) and true or false
 
 	if ((key(01) and key(04)) or (key(23) and key(19))) 
 	and key(64) then
-		pc.isIdle=true
-		pc.isRun=false
-		pc.state="Idle"
-		pc.changeFrame=true
+		player.isIdle=true
+		player.isRun=false
+		player.state="Idle"
+		player.changeFrame=true
 	elseif (key(23) or key(19) or key(01) or key(04))
-	and pc.isCrouch then
-		pc.isIdle=false
-		pc.isRun=false
-		pc.state="Crouched"
-		pc.changeFrame=true
+	and player.isCrouch then
+		player.isIdle=false
+		player.isRun=false
+		player.state="Crouched"
+		player.changeFrame=true
 	elseif key(23) or key(19) or key(01) or key(04) then
-		pc.isIdle=false
-		pc.isRun=true
-		pc.state="Running"
-		pc.changeFrame=true
+		player.isIdle=false
+		player.isRun=true
+		player.state="Running"
+		player.changeFrame=true
 	else 
-		pc.isIdle=true
-		pc.isRun=false
-		pc.state="Idle"
-		pc.changeFrame=true
+		player.isIdle=true
+		player.isRun=false
+		player.state="Idle"
+		player.changeFrame=true
 	end
 
-	pc.x = pc.x + hor_spd
-	pc.y = pc.y + ver_spd
+	player.x = player.x + hor_spd
+	player.y = player.y + ver_spd
 end
 
 function animate_chr()
-	print("Change frame: "..pc.CF,0,18,6)
-  	print("Change frame timer: "..pc.CF_timer,30,0,6)
-	print("PC state: "..pc.state,50,70,12)
+	print("Change frame: "..player.CF,0,18,6)
+  	print("Change frame timer: "..player.CF_timer,30,0,6)
+	print("PC state: "..player.state,50,70,12)
 
-	if pc.CF_timer == 0 then
-		pc.changeFrame=true
-		pc.CF=(pc.CF==1) and 2 or 1
-		if pc.isIdle then pc.CF_timer=30
-		elseif pc.isRun or pc.isCrouch then pc.CF_timer=15
+	if player.CF_timer == 0 then
+		player.changeFrame=true
+		player.CF=(player.CF==1) and 2 or 1
+		if player.isIdle then player.CF_timer=30
+		elseif player.isRun or player.isCrouch then player.CF_timer=15
 		end
 	end
-	if pc.isIdle and pc.changeFrame then
-		if not pc.isTurned then
-			pc.spr_Id_h=pc.sprites[pc.indx][pc.CF]
-			pc.spr_Id_b=pc.sprites[pc.indx][pc.CF+4]
-			pc.changeFrame=false
+	if player.isIdle and player.changeFrame then
+		if not player.isTurned then
+			player.spr_Id_h=player.sprites[player.indx][player.CF]
+			player.spr_Id_b=player.sprites[player.indx][player.CF+4]
+			player.changeFrame=false
 		else
-			pc.spr_Id_h=pc.sprites[pc.indx][pc.CF+2]
-			pc.spr_Id_b=pc.sprites[pc.indx][pc.CF+6]
-			pc.changeFrame=false
+			player.spr_Id_h=player.sprites[player.indx][player.CF+2]
+			player.spr_Id_b=player.sprites[player.indx][player.CF+6]
+			player.changeFrame=false
 		end
-	elseif pc.isCrouch and pc.changeFrame then
-		if not pc.isTurned then
-			pc.spr_Id_h=pc.sprites[pc.indx][2]
-			pc.spr_Id_b=pc.sprites[pc.indx][pc.CF+12]
-			pc.changeFrame=false
+	elseif player.isCrouch and player.changeFrame then
+		if not player.isTurned then
+			player.spr_Id_h=player.sprites[player.indx][2]
+			player.spr_Id_b=player.sprites[player.indx][player.CF+12]
+			player.changeFrame=false
 		else
-			pc.spr_Id_h=pc.sprites[pc.indx][4]
-			pc.spr_Id_b=pc.sprites[pc.indx][pc.CF+14]
-			pc.changeFrame=false
+			player.spr_Id_h=player.sprites[player.indx][4]
+			player.spr_Id_b=player.sprites[player.indx][player.CF+14]
+			player.changeFrame=false
 		end
-	elseif pc.isRun and pc.changeFrame then
-		if not pc.isTurned then
-			pc.spr_Id_h=pc.sprites[pc.indx][1]
-			pc.spr_Id_b=pc.sprites[pc.indx][pc.CF+8]
-			pc.changeFrame=false
+	elseif player.isRun and player.changeFrame then
+		if not player.isTurned then
+			player.spr_Id_h=player.sprites[player.indx][1]
+			player.spr_Id_b=player.sprites[player.indx][player.CF+8]
+			player.changeFrame=false
 		else
-			pc.spr_Id_h=pc.sprites[pc.indx][3]
-			pc.spr_Id_b=pc.sprites[pc.indx][pc.CF+10]
-			pc.changeFrame=false
+			player.spr_Id_h=player.sprites[player.indx][3]
+			player.spr_Id_b=player.sprites[player.indx][player.CF+10]
+			player.changeFrame=false
 		end
 	end
 end
@@ -181,11 +181,11 @@ function drawpc()
 	pcSpr_change()
 	pcActions()
 	animate_chr()
-	spr(pc.spr_Id_h,pc.x,pc.y-8,pc.CLRK,pc.scale,pc.flip,0,2,1)
- 	spr(pc.spr_Id_b,pc.x,pc.y,pc.CLRK,pc.scale,pc.flip,0,2,1)
+	spr(player.spr_Id_h,player.x,player.y-8,player.CLRK,player.scale,player.flip,0,2,1)
+ 	spr(player.spr_Id_b,player.x,player.y,player.CLRK,player.scale,player.flip,0,2,1)
 	print("Frame: "..fr,0,130,6)
 	fr=(fr+1)%60
-	pc.CF_timer=pc.CF_timer-1	
+	player.CF_timer=player.CF_timer-1	
 end
 
 function draw(sprite_name, sprite_variant, x, y, scale)
