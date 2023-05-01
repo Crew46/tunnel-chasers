@@ -36,14 +36,13 @@ function interior_level_init()
 	boost_time = 240
 
 	--SM
-	function interior_level_start()
+	function interior_level_collisionbox_update()
 		-- setting up player's collisionbox
-		collisionBox.topY    = pc.y + 4
-		collisionBox.bottomY = pc.y + 8
-		collisionBox.leftX   = pc.x 
-		collisionBox.rightX  = pc.x + 14
+		collisionBox.topY    = player.y + 4
+		collisionBox.bottomY = player.y + 7
+		collisionBox.leftX   = player.x + 3
+		collisionBox.rightX  = player.x + 12
 	end
-	interior_level_start()
 	--SM
 
 	function officerAnimation()
@@ -280,28 +279,26 @@ function interior_level_init()
 
 	function roomOne()
 		if roomInit == 0 then
-			x=24
-			y=44
+			player.x=24
+			player.y=44
 			cameraX=0
 			cameraY=17
 			mapPosX=4
 			mapPosY=23
 		elseif roomInit == 1 then
-			x=184
-			y=114
+			player.x=184
+			player.y=114
 			cameraX=0
 			cameraY=17
 			mapPosX=24
 			mapPosY=31.75
-		-- SM
 		elseif roomInit == 2 then
-			x=27*8
-			y=8*8
+			player.x=27*8
+			player.y=8*8
 			cameraX=0
 			cameraY=17
 			mapPosX=28
 			mapPosY=25.5
-		-- SM
 		end
 		roomInit=-1
 	end
@@ -315,13 +312,13 @@ function interior_level_init()
 		if roomInit == 0 then
 			mapPosX=23.5
 			mapPosY=40
-			x=182
-			y=60
+			player.x=182
+			player.y=60
 			offX=20
 			offY=90
 		elseif roomInit == 1 then
-			x=201
-			y=60
+			player.x=201
+			player.y=60
 			cameraShift=1
 			mapPosX=52.5
 			mapPosY=39.75
@@ -330,23 +327,23 @@ function interior_level_init()
 		elseif roomInit == 2 then -- Overworld Entrance Left
 			mapPosX = 7.875
 			mapPosY = 46.5
-			x = 57
-			y = 112
+			player.x = 57
+			player.y = 112
 			offMapX=12
 			offX=90
 			offY=90
 		elseif roomInit == 3 then -- Overworld Entrance Middle
 			mapPosX = 29
 			mapPosY = 46.5
-			x = 226
-			y = 112
+			player.x = 226
+			player.y = 112
 			offX=20
 			offY=90
 		elseif roomInit == 4 then -- Overworld Entrance Right
 			mapPosX = 52.5
 			mapPosY = 46.375
-			x = 199
-			y = 111
+			player.x = 199
+			player.y = 111
 			cameraShift=1
 			offX=-220
 			offY=90
@@ -355,22 +352,22 @@ function interior_level_init()
 		if mapPosX > 30 then
 			cameraX=30
 			if cameraShift == 0 then
-				x=x-215
+				player.x=player.x-215
 				offX=offX-240
 			end
 			cameraShift=1
 		elseif mapPosX <= 30 and cameraShift == 1 then
 			cameraX=0
 			cameraShift=0
-			x=x+215
+			player.x=player.x+215
 			offX=offX+240
 		end
 	end
 
 	function roomThree()
 		if roomInit == 0 then
-			x=173
-			y=236
+			player.x=173
+			player.y=236
 			cameraX=35
 			cameraY=17
 			mapPosX=53
@@ -380,17 +377,17 @@ function interior_level_init()
 			mapPosY = 26.25
 			cameraX = 35
 			cameraY = 17
-			x = 87
-			y = 70
+			player.x = 87
+			player.y = 70
 		end
 		roomInit = -1
 		if mapPosY <= 17 then
 			cameraY=0
-			if cameraShift == 0 then y=y+120 end
+			if cameraShift == 0 then player.y=player.y+120 end
 			cameraShift=1
 		elseif mapPosY >= 17 then
 			cameraY=17
-			if cameraShift == 1 then y=y-120 end
+			if cameraShift == 1 then player.y=player.y-120 end
 			cameraShift=0
 		end
 	end
@@ -496,18 +493,24 @@ function interior_level_loop()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)--foreground
 	map(cameraX+60,cameraY,32,18,0,0,0)--decorations
 	gsync(2,1,false)
-	spr(player.spr_Id_h,x-cameraX,y-cameraY+17,player.CLRK,player.scale,player.flip,0,2,1)
-	spr(player.spr_Id_b,x-cameraX,y-cameraY+25,player.CLRK,player.scale,player.flip,0,2,1)
+	--spr(player.spr_Id_h,x-cameraX,y-cameraY+17,player.CLRK,player.scale,player.flip,0,2,1)
+	--spr(player.spr_Id_b,x-cameraX,y-cameraY+25,player.CLRK,player.scale,player.flip,0,2,1)
+
 	--SM
 	collisionBox.screenMap.x = cameraX*8
 	collisionBox.screenMap.y = cameraY*8
-	interior_level_start()
+	interior_level_collisionbox_update()
 	drawpc()
+	x = math.floor(player.x)
+	y = math.floor(player.y - 8)
+	mapPosX = cameraX + (x/8)
+	mapPosY = cameraY + ((y+8)/8)
 	rectb(collisionBox.leftX,  collisionBox.topY,    1, 1, 1)
 	rectb(collisionBox.rightX, collisionBox.topY,    1, 1, 1)
 	rectb(collisionBox.leftX,  collisionBox.bottomY, 1, 1, 1)
 	rectb(collisionBox.rightX, collisionBox.bottomY, 1, 1, 1)
 	--SM
+
 	gsync(2,0,false)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
@@ -519,13 +522,14 @@ function interior_level_loop()
 	print("Head: "..player.spr_Id_h,0,6,6)
   	print("Body: "..player.spr_Id_b,60,6,6)
 	print("Selected char: "..player.selected,0,12,6)
+
 	--SM
 	if keyp(24) then
 		current_system = "overworld_system"
 	end
 	--SM
-	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 
+	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 
 	--DM
 	draw_inv(player.inventory)
@@ -543,8 +547,7 @@ function interior_level_loop()
 		add_item(3)
 	end
 	vbank(0)
-
-
+	--DM
 end
 
 make_system("interior_level", interior_level_init, interior_level_loop)
