@@ -463,6 +463,7 @@ function interior_level_loop()
 	playerMovement()
 	roomControl()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)--foreground
+	map(cameraX+60,cameraY,32,18,0,0,0)--decorations
 	gsync(2,1,false)
 	spr(player.spr_Id_h,x-cameraX,y-cameraY+17,player.CLRK,player.scale,player.flip,0,2,1)
 	spr(player.spr_Id_b,x-cameraX,y-cameraY+25,player.CLRK,player.scale,player.flip,0,2,1)
@@ -479,7 +480,6 @@ function interior_level_loop()
 	gsync(2,0,false)
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
-	map(cameraX+60,cameraY,32,18,0,0,0)--decorations
 	map(cameraX+120,cameraY,32,18,0,0,0)--overlay
 	-- stuff below for debugging
 	print(mapPosX,84,84,12)
