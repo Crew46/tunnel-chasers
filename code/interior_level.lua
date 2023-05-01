@@ -499,8 +499,6 @@ function interior_level_loop()
 	--DM
 	draw_inv(player.inventory)
 	if keyp(54) then
-		-- Item_bank[5].effect()
-		-- Item_bank[7].effect()
 		cycle_inv(player.inventory)	
 	end
 	if keyp(55) then
