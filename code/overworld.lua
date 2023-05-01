@@ -445,18 +445,23 @@ function overworld_system_loop()
 		if     info_pass == "side1" then
 			screen.mapX = 177
 			screen.mapY = 102
+			overwrldPlayer.direction = PLAYER_RIGHT
 		elseif info_pass == "side2" then
 			screen.mapX = 247
 			screen.mapY = 102
+			overwrldPlayer.direction = PLAYER_LEFT
 		elseif info_pass == "left"  then
 			screen.mapX = 120
 			screen.mapY = 202
+			overwrldPlayer.direction = PLAYER_DOWN
 		elseif info_pass == "main"  then
 			screen.mapX = 192
 			screen.mapY = 202
+			overwrldPlayer.direction = PLAYER_DOWN
 		elseif info_pass == "right" then
 			screen.mapX = 264
 			screen.mapY = 202
+			overwrldPlayer.direction = PLAYER_DOWN
 		end
 		info_pass = nil
 	end
