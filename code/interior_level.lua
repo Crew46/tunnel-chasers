@@ -309,27 +309,48 @@ function interior_level_init()
 	end
 
 	function roomTwo()
+		if roomInit ~= -1 then -- Constant changes for all or most scenarios
+			offMapX=3
+			offMapY=45.5
+			cameraY=34
+		end
 		if roomInit == 0 then
 			mapPosX=23.5
 			mapPosY=40
-			cameraY=34
 			x=182
 			y=60
 			offX=20
 			offY=90
-			offMapX=3
-			offMapY=45.5
 		elseif roomInit == 1 then
 			x=201
 			y=60
-			cameraY=34
 			cameraShift=1
 			mapPosX=52.5
 			mapPosY=39.75
 			offX=-220
 			offY=90
-			offMapX=3
-			offMapY=45.5
+		elseif roomInit == 2 then -- Overworld Entrance Left
+			mapPosX = 7.875
+			mapPosY = 46.5
+			x = 57
+			y = 112
+			offX=20
+			offY=90
+		elseif roomInit == 3 then -- Overworld Entrance Middle
+			mapPosX = 29
+			mapPosY = 46.5
+			x = 226
+			y = 112
+			offX=20
+			offY=90
+		elseif roomInit == 4 then -- Overworld Entrance Right
+			mapPosX = 52.5
+			mapPosY = 46.375
+			x = 199
+			y = 111
+			cameraShift=1
+			offX=-220
+			offY=90
 		end
 		roomInit=-1
 		if mapPosX > 30 then
@@ -369,7 +390,7 @@ function interior_level_init()
 	end
 
 	function roomControl()
-		if currentRoom == 1 then -- Room 1 to Room 2
+		if currentRoom == 1 then -- Room 1
 			roomOne()
 			if mapPosY >= 32
 			and (mapPosX >= 23 and mapPosX <= 25) then
@@ -421,16 +442,19 @@ function interior_level_loop()
 	-- SM
 	if info_pass ~= nil then
 		if     info_pass == "side1" then
-			roomInit = 2
+			if roomInit ~= -1 then roomInit = 2 end
 			currentRoom=1
 		elseif info_pass == "side2" then
 			currentRoom=3
 		elseif info_pass == "left"  then
 			currentRoom=2
+			if roomInit ~= -1 then roomInit = 2 end
 		elseif info_pass == "main"  then
 			currentRoom=2
+			if roomInit ~= -1 then roomInit = 3 end
 		elseif info_pass == "right" then
 			currentRoom=2
+			if roomInit ~= -1 then roomInit = 4 end
 		end
 		info_pass = nil
 	else
