@@ -7,6 +7,9 @@ fr=0
 --bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
 --bttn={u=0,d=1,l=2,r=3,w=23,s=19,a=1,d=4,q=17,e=5,z=26,x=24,shift=64}
 
+G_DEBUG = true
+
+
 function pcSpr_change()
 	if keyp(17,60,15) then 
 		player.indx=(player.indx>1) and player.indx-1 or 1
@@ -21,9 +24,15 @@ function pcSpr_change()
 		player.spr_Id_b=player.spr_Id_h+8
 		player.speed=player.spdTbl[player.indx]
 	end
-	print("Head: "..player.spr_Id_h,0,6,6)
- 	print("Body: "..player.spr_Id_b,60,6,6)
-	print("Selected char: "..player.selected,0,12,6)
+
+	if G_DEBUG == true then
+		if G_DEBUG == true then
+			rect(0, 0, 120, 36, 2)
+		end
+		print("Head: "..player.spr_Id_h,0,6,6)
+		print("Body: "..player.spr_Id_b,60,6,6)
+		print("Selected char: "..player.selected,0,12,6)
+	end
 end
 
 function pcActions()
@@ -133,9 +142,12 @@ function pcActions()
 end
 
 function animate_chr()
-	print("Change frame: "..player.CF,0,18,6)
-  	print("Change frame timer: "..player.CF_timer,30,0,6)
-	print("PC state: "..player.state,50,70,12)
+	if G_DEBUG == true then
+		print("Change frame timer: "..player.CF_timer,0,0,6)
+		print("Change frame: "..player.CF,0,18,6)
+		print("PC state: "..player.state,0,24,12)
+		print("Speed: " ..player.speed, 0, 30, 12)
+	end
 
 	if player.CF_timer == 0 then
 		player.changeFrame=true

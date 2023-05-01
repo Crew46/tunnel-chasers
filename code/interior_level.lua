@@ -3,7 +3,7 @@
 
 function interior_level_init()
 	gsync(0,0,false)
-	
+
 	MOVE_UP = 0
 	MOVE_DOWN = 1
 	MOVE_LEFT = 2
@@ -535,7 +535,7 @@ function interior_level_loop()
 
 	--DM
 	draw_inv(player.inventory)
-	boost_time = check_boost(boost_time)
+	check_boosties(active_boosts)
 	if keyp(54) then
 		cycle_inv(player.inventory)	
 	end
@@ -543,10 +543,10 @@ function interior_level_loop()
 		use_item(player.inventory)
 	end
 	if keyp(56) then
-		add_item(5)
-		add_item(7)
-		add_item(1)
-		add_item(3)
+		-- item_to_inv(5)
+		item_to_inv(7)
+		-- item_to_inv(1)
+		-- item_to_inv(3)
 	end
 	vbank(0)
 	--DM

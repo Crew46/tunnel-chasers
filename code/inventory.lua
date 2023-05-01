@@ -58,28 +58,34 @@ Item.__index = Item
         ========================
         effects           ======
 ]]
+active_boosts = {}
 
-function check_boost(boost_time)
-    if boost_time ~= 0 then
-        boost_time = boost_time - 1
-    else
-        boost_time = 240
-        if player.boost_check == true then
-            player.speed = pc.spdTbl[player.indx]
-            player.boost_check = false
+function new_boost(boost_timer, boost_type)
+    local new_boost = {boost_timer, boost_type}
+    table.insert(active_boosts, new_boost)
+end
+
+function add_speed()
+    new_boost(360, "speed")
+    player.speed = player.speed + .5
+end
+
+function check_boosties(active_boosts)
+    if #active_boosts == 0 then
+        return
+    end
+    for index, boost in ipairs(active_boosts) do
+        if boost[1] ~= 0 then
+            boost[1] = boost[1] - 1
+        elseif boost[2] == "speed" and boost[1] >= 0 then
+            player.speed = player.speed - .5
+            boost[1] = -1
         end
     end
-    return boost_time
 end
 
 function add_life()
     player.lives = player.lives + 1
-end
-
-function add_speed()
-    boost_time = 240
-    player.speed = player.speed + .5
-    player.boost_check = true
 end
 
 function unlock_door(door_type)
@@ -129,7 +135,7 @@ energy      = Item:new("Energy", "power_up", 7, 403, 1, add_speed)      -- 7
         5 banks with 1 selector bank
 ]]
 
-function add_item(item_id)
+function item_to_inv(item_id)
     local tmp = copy(Item_bank[item_id])
     table.insert(player.inventory, tmp)
     return tmp

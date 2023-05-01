@@ -17,8 +17,7 @@ function character_menu_init()
       sprTbl={256,288,320,352,384},
       spdTbl={0.8,0.65,0.75,0.7,1},
     sprites={},
-    inventory={},
-    boost_check=false
+    inventory={}
   }
 
   for n=1,5 do
