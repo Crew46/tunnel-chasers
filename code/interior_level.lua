@@ -515,7 +515,8 @@ function interior_level_loop()
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
 	map(cameraX+120,cameraY,32,18,0,0,0)--overlay
-	-- stuff below for debugging
+
+	-- debugging
 	print(mapPosX,84,84,12)
 	print(mapPosY,84,100,12)
 	print((x).." "..(y),84,120,12)
@@ -528,6 +529,7 @@ function interior_level_loop()
 		current_system = "overworld_system"
 	end
 	--SM
+	-- debugging
 
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 
