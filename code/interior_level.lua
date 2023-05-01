@@ -1,11 +1,9 @@
 -- Interior level
 
+
 function interior_level_init()
 	gsync(0,0,false)
 	
-	-- DM DEBUG
-	player.inventory = {key_grey, key_gold, coin, first_aid, energy, donut, lock_pick}
-	-- 
 
 	MOVE_UP = 0
 	MOVE_DOWN = 1
@@ -500,10 +498,19 @@ function interior_level_loop()
 
 	--DM
 	draw_inv(player.inventory)
-	if keyp(48) then
+	if keyp(54) then
 		-- Item_bank[5].effect()
 		-- Item_bank[7].effect()
-		cycle_inv(player.inventory)
+		cycle_inv(player.inventory)	
+	end
+	if keyp(55) then
+		use_item(player.inventory)
+	end
+	if keyp(56) then
+		add_item(5)
+		add_item(7)
+		add_item(1)
+		add_item(3)
 	end
 	vbank(0)
 

@@ -205,4 +205,22 @@ function collisionbox_flagchecks(flag, points, sweep)
 	return flaggedPoints
 end
 
+-- copy table
+-- author: https://stackoverflow.com/a/26367080
+function copy(obj, seen)
+    if type(obj) ~= 'table' then
+        return obj 
+    end
+    if seen and seen[obj] then
+        return seen[obj] 
+    end
+    local s = seen or {}
+    local res = setmetatable({}, getmetatable(obj))
+    s[obj] = res
+    for key, value in pairs(obj) do 
+        res[copy(key, s)] = copy(value, s) 
+    end
+    return res
+end
+
 -- end utils

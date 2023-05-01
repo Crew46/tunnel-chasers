@@ -2,7 +2,7 @@
 -- author:  danmuck
 -- desc:    Inventory/Items
 -- script:  lua
---[[ java -jar ticify.jar
+--[[
 
 [0] keys
 
@@ -47,35 +47,47 @@ Item = {
         - overworld     (4)
     ]]
     spr_id = 0,
+    uses = 1,
     effect = function()
         
     end
 }     
 Item.__index = Item
 
+--[[
+        ========================
+        effects           ======
+]]
 
-testing_index = 2
 function add_life()
-    testing_index = testing_index + 8
     player.lives = player.lives + 1
-    -- print(player.lives, testing_index, 120, 2)
 end
+
 function add_speed()
-    testing_index = testing_index + 12
     player.speed = player.speed + .5
-    -- print(player.speed, testing_index, 128, 2)
+end
+
+function unlock_door(door_type)
+    
 end
 
 
-function Item:new(name, type, mode, spr_id, effect)
+function Item:new(name, type, mode, spr_id, uses, effect)
     local new_item = setmetatable({}, {__index = Item})
 
     new_item.name = name
     new_item.type = type
     new_item.mode = mode
     new_item.spr_id = spr_id
+    if uses ~= nil then
+        new_item.uses = uses
+    else
+        new_item.uses = 1
+    end
     if effect ~= nil then
         new_item.effect = effect
+    else
+        new_item.effect = nil
     end
 
     table.insert(Item_bank, new_item)
@@ -83,18 +95,14 @@ function Item:new(name, type, mode, spr_id, effect)
 end
 
 Item_bank = {}
-key_grey    = Item:new("Grey Key", "key", 7, 448)
-key_gold    = Item:new("Gold Key", "key", 7, 464)
-lock_pick   = Item:new("Lockpick", "key", 7, 352)
-donut       = Item:new("Donut", "weapon", 7, 386)
-coin        = Item:new("Coin", "power_up", 7, 356, add_life)
-first_aid   = Item:new("First Aid", "power_up", 7, 417)
-energy      = Item:new("Energy", "power_up", 7, 403, add_speed)
+key_grey    = Item:new("Grey Key", "key", 7, 448)                       -- 1
+key_gold    = Item:new("Gold Key", "key", 7, 464)                       -- 2
+lock_pick   = Item:new("Lockpick", "key", 7, 352, 5)                    -- 3
+donut       = Item:new("Donut", "weapon", 7, 386)                       -- 4
+coin        = Item:new("Coin", "power_up", 7, 356, 1, add_life)         -- 5
+first_aid   = Item:new("First Aid", "power_up", 7, 417)                 -- 6
+energy      = Item:new("Energy", "power_up", 7, 403, 1, add_speed)      -- 7
 
-
-Item_runner = {}
-Item_runner.__index = Item
-setmetatable(Item_runner, Item)
 
 
 --[[
@@ -105,60 +113,59 @@ setmetatable(Item_runner, Item)
         hold x to move between inv slots with arrow keys
         5 banks with 1 selector bank
 ]]
-player_inventory = {}
-test_inv = {key_grey, key_gold, coin, first_aid, energy, donut, lock_pick}
 
-function draw_items(inv)
+function add_item(item_id)
+    local tmp = copy(Item_bank[item_id])
+    table.insert(player.inventory, tmp)
+    return tmp
+end
+
+function cycle_inv(inv)
+    if #inv == 0 then
+        return
+    end
+    local tmp = table.remove(inv, 1)
+    if tmp.uses ~= 0 then
+        table.insert(inv, tmp)
+    end
+end
+
+function use_item(inv)
+    if inv[1] ~= nil then
+        current_item = inv[1]
+    else
+        return
+    end
+    current_item.uses = current_item.uses - 1
+    if current_item.effect ~= nil then
+        current_item.effect()
+    end
+    if current_item.uses == 0 then
+        cycle_inv(inv)
+    end
+end
+
+function draw_inv(inv)
     local anchor_x = 198
     local anchor_y = 120
     local c_k = -1 
     local offset = 0
 
-    for i = 1, 5 do 
-        if inv[i] ~= nil then
-            spr(inv[i].spr_id, anchor_x + offset, anchor_y, c_k, 1)
-            offset = offset + 8
-        end
-    end
-    
-end
-
-function draw_inv(inv)
-    --   x  y   x    y   color
-    -- line(0, 0, 240, 136, 2)
-    -- line(240, 0, 0, 136, 2)
-
-    -- line(0, 0, 240, 0, 2)
-    -- line(0, 135, 240, 135, 2)
-
-    -- line(0, 0, 0, 136, 2)
-    -- line(239, 0, 239, 136, 2)
-    -- DELETE
-
-
-    local anchor_x = 198
-    local anchor_y = 120
-    local c_k = -1 
-
-    vbank(0)
+    vbank(1)
     spr(354, anchor_x, anchor_y, c_k, 1)
     spr(355, anchor_x + 8, anchor_y, c_k, 1)
     spr(355, anchor_x + 16, anchor_y, c_k, 1)
     spr(355, anchor_x + 24, anchor_y, c_k, 1)
     spr(355, anchor_x + 32, anchor_y, c_k, 1)
 
-    vbank(1)
-    draw_items(inv)
-    
-    
+    vbank(0)
+    for i = 1, 5 do 
+        if inv[i] ~= nil then
+            spr(inv[i].spr_id, anchor_x + offset, anchor_y, c_k, 1)
+            offset = offset + 8
+        end
+    end
 end
-
-function cycle_inv(inv)
-    local tmp = table.remove(inv, 1)
-    table.insert(inv, tmp)
-    -- draw_inv(inv)
-end
-
 
 
 
@@ -167,6 +174,9 @@ end
     DEBUG                    ======
     ===============================
     ]]
+
+player_inventory = {}
+test_inv = {key_grey, key_gold, coin, first_aid, energy, donut, lock_pick}
 
 function inv_init()
     gsync(0, 0, false)
@@ -177,3 +187,5 @@ function inv_init()
 end
 
 make_system("inv_debug", inv_init, nil)
+
+-- java -jar ticify.jar
