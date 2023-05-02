@@ -71,7 +71,7 @@ function credits_init()
       }
     },
     {
-      name = "Bella LaFace",
+      name = "Isabella LaFace",
       titles = {
         "Assistant Headhunter",
         "Assistant Composer"
