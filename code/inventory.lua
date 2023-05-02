@@ -77,21 +77,14 @@ end
 
 
 function check_boosts(active_boosts)
-    -- local acuity_boost = .5
-    -- local charisma_boost = .5
-    -- local ingenuity_boost = .5
-    -- local speed_boost = .5
-    
     local boost_values = {
         acuity = .5,
         charisma = .5,
         ingenuity = .5,
         speed = .5
     }
-    -- if #active_boosts == 0 then
-    --     return
-    -- end
-    for index, boost in ipairs(active_boosts) do
+    
+    for _, boost in ipairs(active_boosts) do
         local timer = boost[1]
         local name = boost[2]
 
@@ -101,20 +94,7 @@ function check_boosts(active_boosts)
             player[name] = player[name] - boost_values[name]
             timer = -1
         end
-
-        -- if boost[2] == "acuity" and boost[1] >= 0 then
-        --     player.acuity = player.acuity - acuity_boost
-        --     boost[1] = -1
-        -- elseif boost[2] == "charisma" and boost[1] >= 0 then
-        --     player.charisma = player.charisma - charisma_boost
-        --     boost[1] = -1
-        -- elseif boost[2] == "ingenuity" and boost[1] >= 0 then
-        --     player.ingenuity = player.ingenuity - ingenuity_boost
-        --     boost[1] = -1
-        -- elseif boost[2] == "speed" and boost[1] >= 0 then
-        --     player.speed = player.speed - speed_boost
-        --     boost[1] = -1
-        -- end
+        boost[1] = timer
     end
 end
 

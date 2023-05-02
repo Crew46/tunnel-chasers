@@ -656,10 +656,10 @@ function interior_level_loop()
 		use_item(player.inventory)
 	end
 	if keyp(56) then
-		item_to_inv(5)
+		-- item_to_inv(5)
 		item_to_inv(7)
-		item_to_inv(1)
-		item_to_inv(3)
+		-- item_to_inv(1)
+		-- item_to_inv(3)
 	end
 	vbank(0)
 	--DM
