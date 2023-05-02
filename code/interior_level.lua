@@ -567,6 +567,7 @@ function interior_level_loop()
 	collisionBox.screenMap.x = cameraX*8
 	collisionBox.screenMap.y = cameraY*8
 	interior_level_collisionbox_update()
+	check_hiding_spot()
 	if not player.isHidden then
 		drawpc()
 		x = math.floor(player.x)
