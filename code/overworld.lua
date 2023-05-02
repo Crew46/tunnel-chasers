@@ -466,6 +466,14 @@ function overworld_system_loop()
 		info_pass = nil
 	end
 
+	-- setting player index, sprite shift is used when
+	-- we have to move to the right in the sprite table
+	spriteShift = 0
+	overwrldPlayer.characterId = player.indx - 1
+	if overwrldPlayer.characterId >= 4 then
+		spriteShift = 3 - (64*4)
+	end
+
 	-- checking player movement and animation frame
 	check_overworld_movement()
 	temp_generate_animation_frame()
@@ -485,7 +493,7 @@ function overworld_system_loop()
 	if not overwrldPlayer.isBtnPressed then
 		overwrldPlayer.frame = 0
 	end
-	spriteId = 256 + (64*overwrldPlayer.characterId) + (16*overwrldPlayer.direction) + overwrldPlayer.frame
+	spriteId = 256 + (64*overwrldPlayer.characterId) + (16*overwrldPlayer.direction) + overwrldPlayer.frame + spriteShift
 	spr(spriteId, overwrldPlayer.relativeX, overwrldPlayer.relativeY, spriteTransparencyKey)
 
 	-- drawing overlay map
