@@ -223,11 +223,13 @@ function copy(obj, seen)
     return res
 end
 
-function playmusic(isPlaying,track,start_frame,rows,loop) 
-	if not isPlaying then
+function play_music(track,start_frame,rows,loop) 
+	if not musicPlaying then
 		music(track,start_frame or 0,rows or 0,loop or true)
+		musicPlaying=true
 	elseif track==-1 then
 		music()
+		musicPlaying=false
 	end
 end
 

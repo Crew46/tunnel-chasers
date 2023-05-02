@@ -5,6 +5,9 @@
 ---
 
 local function render_function()
+    gsync(0,1,false)--sync all assets
+    gsync(16,0)--sync music
+    play_music(0,0,0,true)
     map(15,8.5,15,9,0,0,-1,2)
 end
 
