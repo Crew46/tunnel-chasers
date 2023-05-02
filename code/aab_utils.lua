@@ -1,5 +1,5 @@
 ---
---- Created by dkienenb.
+--- Created by dkienenb, AshBC, SM.
 --- DateTime: 2/10/23 7:21 PM
 --- utils
 ---
@@ -223,5 +223,14 @@ function copy(obj, seen)
     return res
 end
 
+function play_music(track,start_frame,rows,loop) 
+	if not musicPlaying then
+		music(track,start_frame or 0,rows or 0,loop or true)
+		musicPlaying=true
+	elseif track==-1 then
+		music()
+		musicPlaying=false
+	end
+end
 
 -- end utils

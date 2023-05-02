@@ -1,9 +1,13 @@
 -- title:   Tunnel Chasers
--- author:  MacklenF
+-- author:  MacklenF, AshBC
 -- desc:    Character Select Menu prototype
 -- script:  lua
 
 function character_menu_init()
+  gsync(0,1,false)--sync all assets
+  gsync(16,0)--sync music
+  vbank(0)
+  play_music(0,0,0,true)
 
   pc={x=240/2,y=136/2,spr_id=0,
     spr_Id_h=256,spr_Id_b=264,CLRK=0,scale=1,flip=0,
