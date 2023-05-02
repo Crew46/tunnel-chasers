@@ -34,6 +34,7 @@ function interior_level_init()
 	currentRoom=1
 	previousRoom=1
 	boost_time = 240
+	npc_anim(328,330,0,0,1)
 
 	--SM
 	function interior_level_collisionbox_update()
@@ -561,6 +562,13 @@ function interior_level_loop()
 	roomControl()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)--foreground
 	map(cameraX+60,cameraY,32,18,0,0,0)--decorations
+
+	--Please move wedge to his corresponding classroom - Ash
+	--#######################################
+	--npc_anim(pose1,pose2,x,y,scale)
+	npc_anim(328,330,108+cameraX,35+cameraY,1)--wedge
+	--#######################################
+
 	gsync(2,1,false)
 	--spr(player.spr_Id_h,x-cameraX,y-cameraY+17,player.CLRK,player.scale,player.flip,0,2,1)
 	--spr(player.spr_Id_b,x-cameraX,y-cameraY+25,player.CLRK,player.scale,player.flip,0,2,1)
@@ -615,10 +623,10 @@ function interior_level_loop()
 		use_item(player.inventory)
 	end
 	if keyp(56) then
-		-- item_to_inv(5)
+		item_to_inv(5)
 		item_to_inv(7)
-		-- item_to_inv(1)
-		-- item_to_inv(3)
+		item_to_inv(1)
+		item_to_inv(3)
 	end
 	vbank(0)
 	--DM

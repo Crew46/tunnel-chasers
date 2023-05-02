@@ -8,7 +8,15 @@ fr=0
 --bttn={u=0,d=1,l=2,r=3,w=23,s=19,a=1,d=4,q=17,e=5,z=26,x=24,shift=64}
 
 G_DEBUG = true
+npc_cf=0
 
+function npc_anim(pose1,pose2,x,y,scale)
+	if (fr%30)==0  then
+		npc_cf=(npc_cf==0) and 1 or 0
+		npc_pose=(npc_cf==0) and pose1 or pose2
+	end
+	spr(npc_pose,x,y,0,scale,0,0,2,2)
+end
 
 function pcSpr_change()
 	if keyp(17,60,15) then 
@@ -113,8 +121,16 @@ function pcActions()
 
 	player.isCrouch = (key(64)) and true or false
 
-	if ((key(01) and key(04)) or (key(23) and key(19))) 
-	and key(64) then
+	if (((key(01) and key(04)) 
+	or (key(23) and key(19))
+	or ((key(01) and key(04)) and (key(23) or key(19)))
+	or ((key(23) and key(19)) and (key(01) or key(04))))
+	and key(64)) 
+	or ((key(01) and key(04)) or (key(23) and key(19))) then
+		hor_spd=0
+		ver_spd=0
+		player.flip=0
+		player.isTurned=false
 		player.isIdle=true
 		player.isRun=false
 		player.state="Idle"
