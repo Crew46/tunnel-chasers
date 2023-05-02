@@ -22,7 +22,8 @@ function credits_init()
       name = "David Kienenberger",
       titles = {
         "Administrator",
-        "Lead Programmer"
+        "Lead Programmer",
+        "\"Indeed\" sayer"
       }
     },
     {
