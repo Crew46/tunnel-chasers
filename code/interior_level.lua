@@ -595,7 +595,7 @@ function interior_level_loop()
 	offTimer=offTimer-1
 	--pcActions()
 	--animate()
-	playerMovement()
+	--playerMovement()
 	roomControl()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)--foreground
 	map(cameraX+60,cameraY,32,18,0,0,0)--decorations
