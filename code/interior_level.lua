@@ -439,6 +439,73 @@ function interior_level_init()
 		end
 	end
 
+	-- SM
+	hideableTilePosition = {
+		x = -1,
+		y = -1
+	}
+	preHidingPosition = {
+		sprX = -1,
+		sprY = -1,
+		mapX = -1,
+		mapY = -1
+	}
+	hideableTile = -1
+	function check_hiding_spot()
+		-- adding this to the position of a point makes it
+		-- it's location in decoration overlay
+		local decorationOverlayOffset = 480
+		-- determines whether hiding above is possible
+		local isAboveHidable = collisionbox_flagcheck(2, 1, {wallCheck = decorationOverlayOffset - 4, roofCheck = 4})
+		-- position of potentially hidable tile
+		local aboveHidablePosition = collisionbox_positioncheck(1, {wallCheck = decorationOverlayOffset - 4, roofCheck = 4})
+		-- did player just trigger hiding action in function
+		local justHid = false
+
+		-- if player can hide and they are not
+		-- hiding, provide them the option to hide
+		if isAboveHidable and not player.isHidden then
+			print("z to hide!", player.x + 10, player.y - 15, 4)
+			if keyp(26) then
+				justHid = true
+				player.isHidden = true
+			end
+		end
+
+		if justHid then
+			hideableTilePosition.x = aboveHidablePosition[1]
+			hideableTilePosition.y = aboveHidablePosition[2]
+			preHidingPosition.sprX = player.x
+			preHidingPosition.sprY = player.y
+			preHidingPosition.mapX = mapPosX
+			preHidingPosition.mapY = mapPosY
+			hideableTile = mget(hideableTilePosition.x/8, hideableTilePosition.y/8)
+
+			if hideableTile == 214 then
+				mset(hideableTilePosition.x/8, (hideableTilePosition.y - 8)/8, 197)
+			end
+
+			offReset = 1
+		elseif keyp(26) and player.isHidden then
+			if hideableTile == 214 then
+				mset(hideableTilePosition.x/8, (hideableTilePosition.y - 8)/8, 198)
+			end
+			player.isHidden = false
+			player.x = preHidingPosition.sprX
+			player.y = preHidingPosition.sprY
+			mapPosX  = preHidingPosition.mapX
+			mapPosY  = preHidingPosition.mapY
+
+			hideableTilePosition.x = -1
+			hideableTilePosition.y = -1
+			preHidingPosition.sprX = -1
+			preHidingPosition.sprY = -1
+			preHidingPosition.mapX = -1
+			preHidingPosition.mapY = -1
+			hideableTile = -1
+		end
+	end
+	-- SM
 end
 
 function interior_level_loop()
@@ -500,11 +567,13 @@ function interior_level_loop()
 	collisionBox.screenMap.x = cameraX*8
 	collisionBox.screenMap.y = cameraY*8
 	interior_level_collisionbox_update()
-	drawpc()
-	x = math.floor(player.x)
-	y = math.floor(player.y - 8)
-	mapPosX = cameraX + (x/8)
-	mapPosY = cameraY + ((y+8)/8)
+	if not player.isHidden then
+		drawpc()
+		x = math.floor(player.x)
+		y = math.floor(player.y - 8)
+		mapPosX = cameraX + (x/8)
+		mapPosY = cameraY + ((y+8)/8)
+	end
 	rectb(collisionBox.leftX,  collisionBox.topY,    1, 1, 1)
 	rectb(collisionBox.rightX, collisionBox.topY,    1, 1, 1)
 	rectb(collisionBox.leftX,  collisionBox.bottomY, 1, 1, 1)
