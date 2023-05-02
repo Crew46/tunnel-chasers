@@ -86,10 +86,6 @@ function discussion_init()
           :add_response("Playing chess", 5, 4, 1, 2)
           :add_response("Exploring", 5, 3, 3, 1)
 
-  for _, question in ipairs(questions) do
-    question:add_response("*silence*", 4, 1, 2, -5)
-  end
-
   function load_question(question)
     if not question then
       local number_of_questions = #questions
@@ -108,6 +104,11 @@ function discussion_init()
     if selected_question and not selected_question.selected_responses then
       local responses = selected_question.responses
       local selected_responses = {}
+      local function add_action_response(list, response_text, effectiveness, incrimination, button)
+        table.insert(list, { response_text = response_text, truthfulness = 4, effectiveness = effectiveness, incrimination = incrimination, ridiculousness = -5, button = button })
+      end
+      add_action_response(selected_responses, "*silence*", 1, 2, 0)
+      add_action_response(selected_responses, "*flee*", 1, 5, 1)
       for index = 1, player.ingenuity do
         local count = #responses
         if count < 1 then
@@ -115,7 +116,7 @@ function discussion_init()
         end
         local response_index = math.random(count)
         local response = table.remove(responses, response_index)
-        response.button = index - 1
+        response.button = index + 1
         table.insert(selected_responses, response)
       end
       selected_question.selected_responses = selected_responses;
@@ -135,7 +136,6 @@ function discussion_init()
       response.incrimination = 0
       officer_trust = officer_trust - 1
       local question = make_question({ "I don't believe you!" })
-              :add_response("*silence*", 4, 0, 0, -5)
               :add_response("But it's true!", response.truthfulness, response.effectiveness, response.incrimination, response.ridiculousness + 1)
       load_question(question)
       return false
@@ -174,26 +174,35 @@ function discussion_init()
   function get_stats()
     local effectiveness = player.charisma
     local incrimination = 0
+    local fled = false
     for _, response in ipairs(chosen_responses) do
       effectiveness = effectiveness + response.effectiveness
       incrimination = incrimination + response.incrimination
+      if response.response_text == "*flee*" then
+        fled = true
+      end
     end
     local effectiveness_threshold_reached = effectiveness >= effectiveness_threshold
     local incrimination_threshold_reached = incrimination >= incrimination_threshold
     local balanced_stats = math.abs(effectiveness - incrimination) <= balance_threshold
-    return effectiveness, incrimination, effectiveness_threshold_reached, incrimination_threshold_reached, balanced_stats
+    return effectiveness, incrimination, effectiveness_threshold_reached, incrimination_threshold_reached, balanced_stats, fled
   end
 
   function check_thresholds()
     if not officer_result then
-      local _, _, effectiveness_threshold_reached, incrimination_threshold_reached, balanced_stats = get_stats()
+      local _, _, effectiveness_threshold_reached, incrimination_threshold_reached, balanced_stats, fled = get_stats()
       if effectiveness_threshold_reached or incrimination_threshold_reached then
-        if incrimination_threshold_reached then
+        if fled then
+          current_system = "looping_runner"
+        elseif incrimination_threshold_reached then
           officer_result = "discussion_fail"
+          current_system = "continue_menu_splash"
         elseif balanced_stats then
           officer_result = "discussion_neutral"
+          current_system = "interior_level"
         else
           officer_result = "discussion_success"
+          current_system = "interior_level"
         end
       end
       if officer_trust <= 0 then
@@ -231,6 +240,8 @@ function discussion_init()
   end
 
   function discussion_graphics_loop(color)
+    cls()
+    makingItPretty()
     if selected_question then
       print_question(selected_question,color)
     end
@@ -272,8 +283,6 @@ function discussion_init()
 end
 
 function discussion_loop()
-  cls()
-  makingItPretty()
   discussion_logic_loop()
   discussion_graphics_loop(0)
 end

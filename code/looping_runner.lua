@@ -494,7 +494,7 @@ end --- end sprsheet03 ---
           p.isRun=false
           print("Win. Enter next system",120,75,2)
           officer_result = "ran_away_success"
-          current_system = "continue_menu"
+          current_system = "continue_menu_splash"
         end
       end
       if (run_dir.right) then 
@@ -505,14 +505,14 @@ end --- end sprsheet03 ---
           p.isRun=false
           print("Win. Enter next system",120,75,2)
           officer_result = "ran_away_success"
-          current_system = "continue_menu"
+          current_system = "continue_menu_splash"
         end
       end
     end
     if (gm_state.fail) then
       print("Fail. Enter next system",120,75,2)
       officer_result = "ran_away_fail"
-      current_system = "continue_menu"      
+      current_system = "continue_menu_splash"
     end
   end
  
@@ -542,6 +542,6 @@ function looping_runner_loop()
   looping_runner_logic()
 end
 
---make_system("looping_runner", looping_runner_init, looping_runner_loop)
+make_system("looping_runner", looping_runner_init, looping_runner_loop)
 
 --end looping_runner
