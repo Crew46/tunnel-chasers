@@ -53,6 +53,7 @@ function character_menu_init()
     {
       name="Plant",
       skill_desc="Plant",
+      ingenuity=0
     },
     index=1
   }
