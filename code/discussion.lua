@@ -7,6 +7,7 @@ function discussion_init()
   gsync(0,2,false)
   gsync(32,0,false)
 
+  officer_result = nil
   progression = {orphan_kick=true}
 
   local function make_question(names)
