@@ -75,23 +75,46 @@ function add_charisma()
     player.charisma = player.charisma + .5
 end
 
-function check_boosts(active_boosts)
-    local speed_boost = .5
-    local charisma_boost = .5
 
-    if #active_boosts == 0 then
-        return
-    end
+function check_boosts(active_boosts)
+    -- local acuity_boost = .5
+    -- local charisma_boost = .5
+    -- local ingenuity_boost = .5
+    -- local speed_boost = .5
+    
+    local boost_values = {
+        acuity = .5,
+        charisma = .5,
+        ingenuity = .5,
+        speed = .5
+    }
+    -- if #active_boosts == 0 then
+    --     return
+    -- end
     for index, boost in ipairs(active_boosts) do
-        if boost[1] ~= 0 then
-            boost[1] = boost[1] - 1
-        elseif boost[2] == "speed" and boost[1] >= 0 then
-            player.speed = player.speed - speed_boost
-            boost[1] = -1
-        elseif boost[2] == "charisma" and boost[1] >= 0 then
-            player.charisma = player.charisma - charisma_boost
-            boost[1] = -1
+        local timer = boost[1]
+        local name = boost[2]
+
+        if timer ~= 0 then
+            timer = timer - 1
+        else
+            player[name] = player[name] - boost_values[name]
+            timer = -1
         end
+
+        -- if boost[2] == "acuity" and boost[1] >= 0 then
+        --     player.acuity = player.acuity - acuity_boost
+        --     boost[1] = -1
+        -- elseif boost[2] == "charisma" and boost[1] >= 0 then
+        --     player.charisma = player.charisma - charisma_boost
+        --     boost[1] = -1
+        -- elseif boost[2] == "ingenuity" and boost[1] >= 0 then
+        --     player.ingenuity = player.ingenuity - ingenuity_boost
+        --     boost[1] = -1
+        -- elseif boost[2] == "speed" and boost[1] >= 0 then
+        --     player.speed = player.speed - speed_boost
+        --     boost[1] = -1
+        -- end
     end
 end
 
@@ -134,7 +157,6 @@ donut       = Item:new("Donut", "weapon", 7, 386)                       -- 4
 coin        = Item:new("Coin", "power_up", 7, 356, 1, add_life)         -- 5
 first_aid   = Item:new("First Aid", "power_up", 7, 417)                 -- 6
 energy      = Item:new("Energy", "power_up", 7, 403, 1, add_speed)      -- 7
-
 
 
 --[[

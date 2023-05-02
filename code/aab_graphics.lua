@@ -211,7 +211,9 @@ function drawpc()
 	animate_chr()
 	spr(player.spr_Id_h,player.x,player.y-8,player.CLRK,player.scale,player.flip,0,2,1)
  	spr(player.spr_Id_b,player.x,player.y,player.CLRK,player.scale,player.flip,0,2,1)
-	print("Frame: "..fr,0,130,6)
+	if G_DEBUG == true then
+		print("Frame: "..fr,0,130,6)
+	end
 	fr=(fr+1)%60
 	player.CF_timer=player.CF_timer-1	
 end
