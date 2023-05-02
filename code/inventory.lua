@@ -92,7 +92,7 @@ function check_boosts(active_boosts)
             timer = timer - 1
         else
             player[name] = player[name] - boost_values[name]
-            timer = -1
+            table.remove(active_boosts, _)
         end
         boost[1] = timer
     end
