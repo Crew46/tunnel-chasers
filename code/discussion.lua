@@ -8,7 +8,9 @@ function discussion_init()
   gsync(32,0,false)
 
   officer_result = nil
-  progression = {orphan_kick=true}
+  if not progression then
+    progression = {}
+  end
 
   local function make_question(names)
     local question_text = names[math.random(#names)]
@@ -94,6 +96,9 @@ function discussion_init()
         local question_index = math.random(number_of_questions)
         selected_question = table.remove(questions, question_index)
         timer = player.acuity * 60
+      end
+      if number_of_questions <= 0 then
+        officer_result = "discussion_neutral"
       end
     else
       selected_question = question
@@ -197,18 +202,21 @@ function discussion_init()
           current_system = "looping_runner"
         elseif incrimination_threshold_reached then
           officer_result = "discussion_fail"
-          current_system = "continue_menu_splash"
         elseif balanced_stats then
           officer_result = "discussion_neutral"
-          current_system = "interior_level"
         else
           officer_result = "discussion_success"
-          current_system = "interior_level"
         end
       end
       if officer_trust <= 0 then
         officer_result = "discussion_fail"
       end
+    end
+    if officer_result == "discussion_fail" then
+      current_system = "continue_menu_splash"
+    end
+    if officer_result == "discussion_neutral" or officer_result == "discussion_success" then
+      current_system = "interior_level"
     end
   end
 
@@ -241,18 +249,10 @@ function discussion_init()
   end
 
   function discussion_graphics_loop(color)
-    cls()
-    makingItPretty()
     if selected_question then
       print_question(selected_question,color)
     end
-    local effectiveness, incrimination = get_stats()
-    print(effectiveness, 0, 50, color or 10)
-    print(incrimination, 0, 60, color or 3)
-    print(officer_result, 0, 70, color or 12)
-    print(player.honesty, 0, 80, color or 2)
-    print(officer_trust, 0, 90, color or 12)
-    if timer and timer > 0 then print(timer, 0, 100, color or 12) end
+    if timer and timer > 0 then print((timer // 60) + 1, 80, 0, color or 12) end
   end
 
   function makingItPretty()
@@ -277,13 +277,15 @@ function discussion_init()
     spr(480,154,78,0,2,1,0,2,2)--officer
     spr(pc.spr_Id_h,55,78,pc.CLRK,2,pc.flip,0,2,2)--pc
     discussion_graphics_loop()
-  
+
     vbank(1)
     map(180,134,240,136,0,120,0)
   end
 end
 
 function discussion_loop()
+  cls()
+  makingItPretty()
   discussion_logic_loop()
   discussion_graphics_loop(0)
 end
