@@ -31,6 +31,7 @@ public class CartAssembler {
     private static Map<String, String> generateReplacements() {
         Map<String, String> replacements = new HashMap<>();
         if (CONDENSE) {
+            replacements.put("\r", "");
             replacements.put("  ", " ");
             replacements.put("\t", "    ");
             replacements.put("--[a-zA-Z0-9 -:./={}(),_`]", "--");

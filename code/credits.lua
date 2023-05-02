@@ -14,28 +14,46 @@ function credits_init()
       name = "Ash Barb",
       titles = {
         "Director",
-        "Summarizer of vast amounts of data"
+        "Summarizer of vast amounts of data",
+        "Blamer of poor innocent ticify.jar"
+      }
+    },
+    {
+      name = "David Kienenberger",
+      titles = {
+        "Administrator",
+        "Lead Programmer"
       }
     },
     {
       name = "Sashami",
       titles = {
         "Artwork",
-        "Level Design"
+        "Level Design",
+        "Ambassador to Mexico"
       }
     },
     {
       name="MacklenF",
       titles = {
         "Team member",
-        "Character selection menu"
+        "Character selection menu",
+        "Regular contributions"
       }
     },
     {
       name="Cordell H",
       titles = {
-        "whatever you like honestly I have no idea",
-        "Sneaking levels"
+        "\"whatever you like honestly I have no idea\"",
+        "Sneaking levels",
+        "Regular contributions"
+      }
+    },
+    {
+      name = "David Kienenberger",
+      titles = {
+        "Integration specialist",
+        "Cartridge gluer",
       }
     },
     {
@@ -48,15 +66,15 @@ function credits_init()
     {
       name = "David Kienenberger",
       titles = {
-        "Administrator",
-        "Lead Programmer",
-        "Integration specialist",
-        "Professional gluer-upper-er",
-        "Paradox",
-        "Engine and framework developer",
-        "Player format",
         "Project headhunting",
         "Eating cake with a box cutter"
+      }
+    },
+    {
+      name = "Isabella LaFace",
+      titles = {
+        "Assistant Headhunter",
+        "Assistant Composer"
       }
     },
     {
@@ -74,15 +92,21 @@ function credits_init()
       }
     },
     {
-      name = "Conor Null",
+      name = "David Kienenberger",
       titles = {
-        "Inspiration"
+        "Completely unbiased credits system",
       }
     },
     {
       name = "Matt Haas",
       titles = {
         "Producer"
+      }
+    },
+    {
+      name = "Conor Null",
+      titles = {
+        "Inspiration"
       }
     }
   }

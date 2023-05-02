@@ -482,8 +482,24 @@ function interior_level_init()
 			preHidingPosition.mapY = mapPosY
 			hideableTile = mget(hideableTilePosition.x/8, hideableTilePosition.y/8)
 
-			if hideableTile == 214 then
+			if     hideableTile == 214 then
 				mset(hideableTilePosition.x/8, (hideableTilePosition.y - 8)/8, 197)
+			elseif hideableTile == 252 then
+				mset(hideableTilePosition.x/8, (hideableTilePosition.y - 8)/8, 235)
+			elseif hideableTile == 250 then
+				mset(hideableTilePosition.x/8, (hideableTilePosition.y - 8)/8, 251) 
+			elseif hideableTile == 247 then
+				mset(hideableTilePosition.x/8,     hideableTilePosition.y/8, 227)
+				mset((hideableTilePosition.x-8)/8, hideableTilePosition.y/8, 226)
+			elseif hideableTile == 246 then
+				mset((hideableTilePosition.x+8)/8, hideableTilePosition.y/8, 227)
+				mset(hideableTilePosition.x/8,     hideableTilePosition.y/8, 226)
+			elseif hideableTile == 245 then
+				mset(hideableTilePosition.x/8,     hideableTilePosition.y/8, 243)
+				mset((hideableTilePosition.x-8)/8, hideableTilePosition.y/8, 242)
+			elseif hideableTile == 244 then
+				mset((hideableTilePosition.x+8)/8, hideableTilePosition.y/8, 244)
+				mset(hideableTilePosition.x/8,     hideableTilePosition.y/8, 242)
 			end
 
 			if offChase == 1 then
@@ -492,6 +508,22 @@ function interior_level_init()
 		elseif keyp(26) and player.isHidden then
 			if hideableTile == 214 then
 				mset(hideableTilePosition.x/8, (hideableTilePosition.y - 8)/8, 198)
+			elseif hideableTile == 252 then
+				mset(hideableTilePosition.x/8, (hideableTilePosition.y - 8)/8, 236)
+			elseif hideableTile == 250 then
+				mset(hideableTilePosition.x/8, (hideableTilePosition.y - 8)/8, 234) 
+			elseif hideableTile == 247 then
+				mset(hideableTilePosition.x/8,     hideableTilePosition.y/8, 247)
+				mset((hideableTilePosition.x-8)/8, hideableTilePosition.y/8, 246)
+			elseif hideableTile == 246 then
+				mset((hideableTilePosition.x+8)/8, hideableTilePosition.y/8, 247)
+				mset(hideableTilePosition.x/8,     hideableTilePosition.y/8, 246)
+			elseif hideableTile == 245 then
+				mset(hideableTilePosition.x/8,     hideableTilePosition.y/8, 245)
+				mset((hideableTilePosition.x-8)/8, hideableTilePosition.y/8, 244)
+			elseif hideableTile == 244 then
+				mset((hideableTilePosition.x+8)/8, hideableTilePosition.y/8, 245)
+				mset(hideableTilePosition.x/8,     hideableTilePosition.y/8, 244)
 			end
 			player.isHidden = false
 			player.x = preHidingPosition.sprX
