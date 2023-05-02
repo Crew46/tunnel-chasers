@@ -628,6 +628,7 @@ function interior_level_loop()
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
 	map(cameraX+120,cameraY,32,18,0,0,0)--overlay
+	if currentRoom == 3 then rect(200, 32, 40, 120, 0) end--fix visual problems room 3
 
 	-- debugging
 	print(mapPosX,84,84,12)
