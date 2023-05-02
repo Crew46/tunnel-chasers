@@ -497,9 +497,9 @@ function overworld_system_loop()
 	end
 	-- enabling/prompting debug mode
 	if isDebug then
-		temp_overworld_debug()
+		-- temp_overworld_debug()
 	else
-		temp_show_debug_prompt()
+		-- temp_show_debug_prompt()
 	end
 
 	ticks = ticks + 1
