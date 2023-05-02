@@ -466,6 +466,11 @@ function interior_level_init()
 		-- if player can hide and they are not
 		-- hiding, provide them the option to hide
 		if isAboveHidable and not player.isHidden then
+			-- only David can hide in lockers
+			if player.indx ~= 3 and mget(aboveHidablePosition[1]/8, aboveHidablePosition[2]/8) == 214 then
+				return
+			end
+
 			print("z to hide!", player.x + 10, player.y - 15, 4)
 			if keyp(26) then
 				justHid = true
