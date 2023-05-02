@@ -70,7 +70,15 @@ function add_speed()
     player.speed = player.speed + .5
 end
 
-function check_boosties(active_boosts)
+function add_charisma()
+    new_boost(360, "charisma")
+    player.charisma = player.charisma + .5
+end
+
+function check_boosts(active_boosts)
+    local speed_boost = .5
+    local charisma_boost = .5
+
     if #active_boosts == 0 then
         return
     end
@@ -78,7 +86,10 @@ function check_boosties(active_boosts)
         if boost[1] ~= 0 then
             boost[1] = boost[1] - 1
         elseif boost[2] == "speed" and boost[1] >= 0 then
-            player.speed = player.speed - .5
+            player.speed = player.speed - speed_boost
+            boost[1] = -1
+        elseif boost[2] == "charisma" and boost[1] >= 0 then
+            player.charisma = player.charisma - charisma_boost
             boost[1] = -1
         end
     end

@@ -33,7 +33,6 @@ function interior_level_init()
 	cameraShift=0
 	currentRoom=1
 	previousRoom=1
-	boost_time = 240
 
 	--SM
 	function interior_level_collisionbox_update()
@@ -535,7 +534,7 @@ function interior_level_loop()
 
 	--DM
 	draw_inv(player.inventory)
-	check_boosties(active_boosts)
+	check_boosts(active_boosts)
 	if keyp(54) then
 		cycle_inv(player.inventory)	
 	end
@@ -543,10 +542,10 @@ function interior_level_loop()
 		use_item(player.inventory)
 	end
 	if keyp(56) then
-		-- item_to_inv(5)
+		item_to_inv(5)
 		item_to_inv(7)
-		-- item_to_inv(1)
-		-- item_to_inv(3)
+		item_to_inv(1)
+		item_to_inv(3)
 	end
 	vbank(0)
 	--DM
