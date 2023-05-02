@@ -485,7 +485,9 @@ function interior_level_init()
 				mset(hideableTilePosition.x/8, (hideableTilePosition.y - 8)/8, 197)
 			end
 
-			offReset = 1
+			if offChase == 1 then
+				offReset = 1
+			end
 		elseif keyp(26) and player.isHidden then
 			if hideableTile == 214 then
 				mset(hideableTilePosition.x/8, (hideableTilePosition.y - 8)/8, 198)
