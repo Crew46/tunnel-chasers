@@ -408,24 +408,24 @@ function interior_level_init()
 			roomTwo()
 			officer()
 			officerFOV()
-			if mapPosY <= 39.375 -- Room 2 back to Room 1
+			if mapPosY <= 39.375
 			and (mapPosX >= 23.0 and mapPosX <= 24.5) then
-				if btnp(4) then
+				if btnp(4) and offChase == 0 then
 					previousRoom = 2
 					currentRoom = 1
 					roomInit = 1
 					roomOne()
 				end
-			elseif mapPosY <= 39.375 -- Room 2 to Room 3
+			elseif mapPosY <= 39.375
 			and (mapPosX >= 52.5 and mapPosX <= 54.0) then
-				if btnp(4) then
+				if btnp(4) and offChase == 0 then
 					previousRoom = 2
 					currentRoom = 3
 					roomInit = 0
 					roomThree()
 				end
 			end
-		elseif currentRoom == 3 then -- Room 3 back to Room 2
+		elseif currentRoom == 3 then
 			roomThree()
 			if mapPosY >= 31.5
 			and (mapPosX >= 52 and mapPosX <= 53.5) then
