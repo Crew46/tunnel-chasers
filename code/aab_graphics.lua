@@ -63,15 +63,15 @@ function pcActions()
 	local ver_spd = 0
 
 	-- if player is moving diagonally, apply diagonal rate
-	if ((key(23) or key(19))  and
-		(key(01) or key(04))) then
+	if ((btn(0) or btn(1))  and
+		(btn(2) or btn(3))) then
 		rate = rate * 0.78
 	end
 
 	----------------------------------
 	-- Player pressed up button.    --
 	----------------------------------
-	if keyp(23, hold, period) then
+	if btnp(0, hold, period) then
 		-- points that may end up colliding
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {0, 1}, {roofCheck = 1})
 
@@ -83,7 +83,7 @@ function pcActions()
 	----------------------------------
 	-- Player pressed down button.  --
 	----------------------------------
-	if keyp(19, hold, period) then
+	if btnp(1, hold, period) then
 		-- points that may end up colliding
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {2, 3}, {roofCheck = 1})
 
@@ -95,38 +95,38 @@ function pcActions()
 	----------------------------------
 	-- Player pressed left button.  --
 	----------------------------------
-	if keyp(01, hold, period) then
+	if btnp(2, hold, period) then
 		-- points that may end up colliding
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {0, 2}, {wallCheck = 1})
 
 		if #collisionPoints == 0 then
 			player.flip = 1
-			player.isTurned = key(23)
+			player.isTurned = btn(0)
 			hor_spd = hor_spd - rate
 		end
 	end
 	----------------------------------
 	-- Player pressed right button. --
 	----------------------------------
-	if keyp(04, hold, period) then
+	if btnp(3, hold, period) then
 		-- points that may end up colliding
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {1, 3}, {wallCheck = 1})
 
 		if #collisionPoints == 0 then
 			player.flip = 0
-			player.isTurned = key(23)
+			player.isTurned = btn(0)
 			hor_spd = hor_spd + rate
 		end
 	end
 
 	player.isCrouch = (key(64)) and true or false
 
-	if (((key(01) and key(04)) 
-	or (key(23) and key(19))
-	or ((key(01) and key(04)) and (key(23) or key(19)))
-	or ((key(23) and key(19)) and (key(01) or key(04))))
+	if (((btn(2) and btn(3)) 
+	or (btn(0) and btn(1))
+	or ((btn(2) and btn(3)) and (btn(0) or btn(1)))
+	or ((btn(0) and btn(1)) and (btn(2) or btn(3))))
 	and key(64)) 
-	or ((key(01) and key(04)) or (key(23) and key(19))) then
+	or ((btn(2) and btn(3)) or (btn(0) and btn(1))) then
 		hor_spd=0
 		ver_spd=0
 		player.flip=0
@@ -135,13 +135,13 @@ function pcActions()
 		player.isRun=false
 		player.state="Idle"
 		player.changeFrame=true
-	elseif (key(23) or key(19) or key(01) or key(04))
+	elseif (btn(0) or btn(1) or btn(2) or btn(3))
 	and player.isCrouch then
 		player.isIdle=false
 		player.isRun=false
 		player.state="Crouched"
 		player.changeFrame=true
-	elseif key(23) or key(19) or key(01) or key(04) then
+	elseif btn(0) or btn(1) or btn(2) or btn(3) then
 		player.isIdle=false
 		player.isRun=true
 		player.state="Running"
