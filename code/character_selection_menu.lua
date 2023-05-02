@@ -1,5 +1,5 @@
 -- title:   Tunnel Chasers
--- author:  MacklenF
+-- author:  MacklenF, AshBC
 -- desc:    Character Select Menu prototype
 -- script:  lua
 
