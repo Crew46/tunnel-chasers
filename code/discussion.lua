@@ -252,7 +252,7 @@ function discussion_init()
     if selected_question then
       print_question(selected_question,color)
     end
-    if timer and timer > 0 then print((timer // 60) + 1, 80, 0, color or 12) end
+    if timer and timer > 0 then print((timer // 60) + 1, 120, 100, color or 12) end
   end
 
   function makingItPretty()
