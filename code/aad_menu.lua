@@ -17,6 +17,7 @@ end
 
 function make_menu_system(system_name, menu_title, options)
   local function menu_init()
+    do_once=true
     menu_buttons = options
     menu_selection = 1;
 
@@ -75,7 +76,17 @@ function make_menu_system(system_name, menu_title, options)
     end
   end
 
+  function menu_avini()
+    if do_once then
+      gsync(0,0,false)--sync all assets
+      gsync(8|16,0)--sync music&sfx
+      vbank(0)
+      do_once=false
+    end
+  end
+
   local function menu_loop()
+    menu_avini()
     menu_logic()
     menu_draw()
     menu_music()

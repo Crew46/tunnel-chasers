@@ -6,7 +6,8 @@
 
 function credits_init()
   check_music(5)
-    
+  do_once=true
+
   credits = {
     {
       name = "Based on a true story",
@@ -177,7 +178,6 @@ function credits_init()
   }
 
   function credits_avini()
-    local do_once=true
     if do_once then
       gsync(0,0,false)--sync all assets
       gsync(8|16,0)--sync music&sfx
