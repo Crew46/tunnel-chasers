@@ -18,6 +18,16 @@ function get_palette_table(paletteHex)
     return paletteTable
 end
 
+-- should use what is returned from `get_palette_table()` above
+function use_palette_table(paletteTable)
+	local paletteMemoryOffset = 0x3FC0
+	for i=1, 16 do
+		for j=1, 3 do
+			poke(paletteMemoryOffset + ((i-1)*3) + (j - 1), paletteTable[i][j])
+		end
+	end
+end
+
 function trace_table(printed)
   for k, v in pairs(printed) do
     trace(k .. ": " .. v)
