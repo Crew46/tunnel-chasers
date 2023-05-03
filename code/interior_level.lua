@@ -635,6 +635,7 @@ function interior_level_loop()
 				end
 			end
 		end
+		if current_system ~= "interior_level" then offReset=0 end
 	end
 	-- SM
 
