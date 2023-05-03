@@ -21,7 +21,8 @@ function make_menu_system(system_name, menu_title, options)
     menu_selection = 1;
 
     function menu_music()
-      play_music(0,0,0,true)
+      check_music(0)
+      play_music(musicTrack,0,0,true)
     end
 
     function menu_draw()

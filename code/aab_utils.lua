@@ -233,4 +233,11 @@ function play_music(track,start_frame,rows,loop)
 	end
 end
 
+function check_music(track)
+	if musicTrack~=track then 
+		musicTrack=track
+		musicPlaying=false 
+	end
+end
+
 -- end utils

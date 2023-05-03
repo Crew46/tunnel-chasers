@@ -5,8 +5,8 @@
 ---
 
 function credits_init()
-  if musicTrack~=5 then musicPlaying=false
-  
+  check_music(5)
+    
   credits = {
     {
       name = "Based on a true story",

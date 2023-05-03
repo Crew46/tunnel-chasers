@@ -26,7 +26,8 @@ function intro_frame(frame)
   gsync(0,1,false)--sync all assets
   gsync(8|16,0)--sync music
   vbank(0)
-  play_music(0,0,0,true)
+  check_music(0)
+  play_music(musicTrack,0,0,true)
   
   local display = intro_frames[frame]
   if display.text == "CCC" then
