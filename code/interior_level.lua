@@ -693,13 +693,13 @@ function interior_level_loop()
 		rectb(collisionBox.rightX, collisionBox.topY,    1, 1, 1)
 		rectb(collisionBox.leftX,  collisionBox.bottomY, 1, 1, 1)
 		rectb(collisionBox.rightX, collisionBox.bottomY, 1, 1, 1)
-	end
 
-	--SM
-	if keyp(24) then
-		current_system = "overworld_system"
+		--SM
+		if keyp(24) then
+			current_system = "overworld_system"
+		end
+		--SM
 	end
-	--SM
 	-- debugging
 
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
