@@ -5,7 +5,7 @@
 
 function character_menu_init()
   gsync(0,1,false)--sync all assets
-  gsync(16,0)--sync music
+  gsync(8|16,0)--sync music
   vbank(0)
   play_music(0,0,0,true)
 

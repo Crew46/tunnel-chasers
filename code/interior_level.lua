@@ -3,7 +3,7 @@
 
 function interior_level_init()
 	gsync(0,0,false)--sync all assets
-	gsync(16,0)--sync music
+	gsync(8|16,0)--sync music&sfx
 	vbank(0)
 
 	musTrack=2

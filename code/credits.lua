@@ -5,6 +5,9 @@
 ---
 
 function credits_init()
+  gsync(0,0,false)--sync all assets
+	gsync(8|16,0)--sync music&sfx
+	vbank(0)
   musicPlaying=false
   
   credits = {
