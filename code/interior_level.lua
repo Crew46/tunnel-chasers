@@ -673,8 +673,10 @@ function interior_level_loop()
 	--SM
 
 	gsync(2,0,false)
-	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
-	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
+	if currentRoom == 2 then
+		spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
+		spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
+	end
 	map(cameraX+120,cameraY,32,18,0,0,0)--overlay
 	roomControl()
 	if currentRoom == 3 then rect(200, 32, 40, 120, 0) end--fix visual problems room 3
