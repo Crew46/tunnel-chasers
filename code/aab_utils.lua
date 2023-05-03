@@ -4,6 +4,20 @@
 --- utils
 ---
 
+-- example param: "1A1C2C5D275DB13E53EF7D57FFCD75A7F07038B76425717929366F3B5DC941A6F673EFF7F4F4F494B0C2566C86333C57"
+function get_palette_table(paletteHex)
+    paletteTable = { }
+    for i=1, 16 do
+        rgbTable = {
+            tonumber(string.sub(paletteHex, 1+((i-1)*6), 2+((i-1)*6)), 16),
+            tonumber(string.sub(paletteHex, 3+((i-1)*6), 4+((i-1)*6)), 16),
+            tonumber(string.sub(paletteHex, 5+((i-1)*6), 6+((i-1)*6)), 16)
+        }
+        table.insert(paletteTable, rgbTable)
+    end
+    return paletteTable
+end
+
 function trace_table(printed)
   for k, v in pairs(printed) do
     trace(k .. ": " .. v)
