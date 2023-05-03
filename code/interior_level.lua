@@ -516,9 +516,11 @@ function interior_level_init()
 			preHidingPosition.mapY = mapPosY
 			hideableTile = mget(hideableTilePosition.x/8, hideableTilePosition.y/8)
 			-- stops officer from detecting you if you are hiding
-			player.y = -100
-			y = -100
-			mapPosY = -2
+			if currentRoom == 2 then
+				player.y = -100
+				y = -100
+				mapPosY = -2
+			end
 
 			if     hideableTile == 214 then
 				mset(hideableTilePosition.x/8, (hideableTilePosition.y - 8)/8, 197)
