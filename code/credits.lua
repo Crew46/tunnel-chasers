@@ -172,7 +172,61 @@ function credits_init()
         "dkienenb",
         "Nathaniel Clark",
         "Chris B",
-        "Conor"
+        "Conor "
+      }
+    },
+    {
+      name = "Dialogue Submission (2)",
+      titles = {
+        "Emillie",
+        "Lex",
+        "Amar",
+        "Sashami"
+      }
+    },
+    {
+      name = "Dialogue Submission (3)",
+      titles = {
+        "odin jjdd xd",
+        "4to mes",
+        "Cube",
+        "Don martz"
+      }
+    },
+    {
+      name = "Dialogue Submission (4)",
+      titles = {
+        "El mazorcas",
+        "Luna",
+        "Holey :)",
+        "Pacomu"
+      }
+    },
+    {
+      name = "Dialogue Submission (5)",
+      titles = {
+        "Red ear tips ",
+        "Chavez ",
+        "Moonbeam",
+        "mercury"
+      }
+    },
+    {
+      name = "Dialogue Submission (6)",
+      titles = {
+        "Cyborg",
+        "Terrain",
+        "RodentRacer",
+        "Fecin"
+      }
+    },
+    {
+      name = "Dialogue Submission (7)",
+      titles = {
+        "Balit",
+        "Claudio Marty ",
+        "The causa maric",
+        "Michael mclane"
       }
     }
   }
