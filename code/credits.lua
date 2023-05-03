@@ -162,7 +162,7 @@ function credits_init()
     {
       name = "khuxkm",
       titles = {
-        "Programmer"
+        "Programmer",
         "Creator of gsync"
       }
     },
