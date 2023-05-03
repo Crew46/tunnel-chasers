@@ -655,10 +655,6 @@ function interior_level_loop()
 		mapPosX = cameraX + (x/8)
 		mapPosY = cameraY + ((y+8)/8)
 	end
-	rectb(collisionBox.leftX,  collisionBox.topY,    1, 1, 1)
-	rectb(collisionBox.rightX, collisionBox.topY,    1, 1, 1)
-	rectb(collisionBox.leftX,  collisionBox.bottomY, 1, 1, 1)
-	rectb(collisionBox.rightX, collisionBox.bottomY, 1, 1, 1)
 	--SM
 
 	gsync(2,0,false)
@@ -676,6 +672,11 @@ function interior_level_loop()
 		print("Head: "..player.spr_Id_h,0,6,6)
 		print("Body: "..player.spr_Id_b,60,6,6)
 		print("Selected char: "..player.selected,0,12,6)
+
+		rectb(collisionBox.leftX,  collisionBox.topY,    1, 1, 1)
+		rectb(collisionBox.rightX, collisionBox.topY,    1, 1, 1)
+		rectb(collisionBox.leftX,  collisionBox.bottomY, 1, 1, 1)
+		rectb(collisionBox.rightX, collisionBox.bottomY, 1, 1, 1)
 	end
 
 	--SM
