@@ -160,6 +160,13 @@ function credits_init()
       }
     },
     {
+      name = "khuxkm",
+      titles = {
+        "Programmer"
+        "Creator of gsync"
+      }
+    },
+    {
       name = "Conor Null",
       titles = {
         "Inspiration",
@@ -227,6 +234,14 @@ function credits_init()
         "Claudio Marty ",
         "The causa maric",
         "Michael mclane"
+      }
+    },
+    {
+    name = "Special Thanks",
+      titles = {
+        "Alexyss Sparling",
+        "Marshall Hyde",
+        "Hiram Cray",
       }
     }
   }
