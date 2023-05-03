@@ -64,13 +64,13 @@ public class CartAssembler {
         Path output = workingDirectory.resolve("tunnels.tic");
         List<List<Byte>> chunks = new ArrayList<>();
         List<Byte> codeChunk = compileCodeChunk(codeDirectory);
-        chunks.add(codeChunk);
         for (byte i = 0; i < 8; i++) {
             chunks.add(compileChunk(i, CHUNK_DEFAULT, new ArrayList<>()));
         }
         //List<List<Byte>> codeChunks = compileCodeChunks(codeDirectory);
         //chunks.addAll(codeChunks);
         chunks.addAll(compileAssets(assetDirectory));
+        chunks.add(codeChunk);
         if (PRINT) {
             System.out.println("Tunnels.tic:");
             printChunks(chunks);
@@ -229,6 +229,9 @@ public class CartAssembler {
     }
 
     private static byte[] clampIntToTwoBytes(int argument) {
+        if (argument > 0xFFFF) {
+            argument = 0;
+        }
         byte[] bytes = new byte[2];
         bytes[0] = (byte) argument;
         bytes[1] = (byte) (argument >>> 8);

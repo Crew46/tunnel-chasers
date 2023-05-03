@@ -231,7 +231,7 @@ function credits_init()
       }
     },
     {
-      name = "David K.",
+      name = "David Kienenberger",
       titles = {
         "Who keeps adding these?"
       }
