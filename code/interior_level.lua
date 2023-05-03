@@ -403,7 +403,7 @@ function interior_level_init()
 			roomOne()
 			if mapPosY >= 32
 			and (mapPosX >= 22.625 and mapPosX <= 23.375) then
-				print("z to enter room!", player.x + 10, player.y + 15, 4)
+				print("Press Z", player.x, player.y - 15, 4)
 				if btnp(4) then
 					previousRoom = 1
 					currentRoom = 2
@@ -417,7 +417,7 @@ function interior_level_init()
 			officerFOV()
 			if mapPosY <= 39.375
 			and (mapPosX >= 22 and mapPosX <= 24) then
-				print("z to enter room!", player.x + 10, player.y + 15, 4)
+				print("Press Z", player.x, player.y - 15, 4)
 				if btnp(4) and offChase == 0 then
 					previousRoom = 2
 					currentRoom = 1
@@ -427,7 +427,7 @@ function interior_level_init()
 				end
 			elseif mapPosY <= 39.375
 			and (mapPosX >= 51 and mapPosX <= 53) then
-				print("z to enter room!", player.x + 10, player.y + 15, 4)
+				print("Press Z", player.x, player.y - 15, 4)
 				if btnp(4) and offChase == 0 then
 					previousRoom = 2
 					currentRoom = 3
@@ -439,7 +439,7 @@ function interior_level_init()
 			roomThree()
 			if mapPosY >= 31.5
 			and (mapPosX >= 51.625 and mapPosX <= 52.375) then
-				print("z to enter room!", player.x + 10, player.y + 15, 4)
+				print("Press Z", player.x, player.y - 15, 4)
 				if btnp(4) then
 					previousRoom = 3
 					currentRoom = 2
@@ -618,7 +618,6 @@ function interior_level_loop()
 	--pcActions()
 	--animate()
 	--playerMovement()
-	roomControl()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)--foreground
 	map(cameraX+60,cameraY,32,18,0,0,0)--decorations
 
@@ -656,6 +655,7 @@ function interior_level_loop()
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
 	map(cameraX+120,cameraY,32,18,0,0,0)--overlay
+	roomControl()
 	if currentRoom == 3 then rect(200, 32, 40, 120, 0) end--fix visual problems room 3
 
 	-- debugging
