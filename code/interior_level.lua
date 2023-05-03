@@ -4,9 +4,9 @@
 function interior_level_init()
 	gsync(0,0,false)--sync all assets
 	gsync(8|16,0)--sync music&sfx
+	check_music(2)
 	vbank(0)
 
-	musTrack=2
 	qtimer=300
 	MOVE_UP = 0
 	MOVE_DOWN = 1
@@ -634,10 +634,10 @@ function interior_level_loop()
 
 	if currentRoom==1 then 
 		npc_anim(328,330,108,35,1)--wedge sprite
-		musTrack=1
-	else musTrack=2
+		check_music(1)
+	else check_music(2)
 	end
-	play_music(musTrack,0,0,true)
+	play_music(musicTrack,0,0,true)
 
 	gsync(2,1,false)
 	--spr(player.spr_Id_h,x-cameraX,y-cameraY+17,player.CLRK,player.scale,player.flip,0,2,1)
