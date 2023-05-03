@@ -5,10 +5,7 @@
 ---
 
 function credits_init()
-  gsync(0,0,false)--sync all assets
-	gsync(8|16,0)--sync music&sfx
-	vbank(0)
-  musicPlaying=false
+  if musicTrack~=5 then musicPlaying=false
   
   credits = {
     {
@@ -109,7 +106,7 @@ function credits_init()
       name = "Kienenberger David",
       titles = {
         "Completely unbiased credits system",
-        "Didn't actually do that much, other than complain"
+        "Didn't actually do that much"
       }
     },
     {
@@ -179,6 +176,15 @@ function credits_init()
     }
   }
 
+  function credits_avini()
+    local do_once=true
+    if do_once then
+      gsync(0,0,false)--sync all assets
+      gsync(8|16,0)--sync music&sfx
+      vbank(0)
+      do_once=false
+    end
+  end
 
   function credits_draw(frame)
     cls(0)
@@ -190,10 +196,12 @@ function credits_init()
     for index, value in ipairs(titles) do
       print_centered(value, 120, starting_y + (index * 10), 10)
     end
+    if frame == #credits then musicPlaying=false end
   end
 end
 
 function credits_loop(frame)
+  credits_avini()
   play_music(5,0,0,true)
   credits_draw(frame)
 end

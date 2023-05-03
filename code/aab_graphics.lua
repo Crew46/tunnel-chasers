@@ -10,6 +10,7 @@ fr=0
 G_DEBUG = false
 npc_cf=0
 musicPlaying=false
+musicTrack=0
 
 function npc_anim(pose1,pose2,x,y,scale)
 	if (fr%30)==0  then
