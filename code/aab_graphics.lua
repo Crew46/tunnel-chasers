@@ -7,7 +7,7 @@ fr=0
 --bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
 --bttn={u=0,d=1,l=2,r=3,w=23,s=19,a=1,d=4,q=17,e=5,z=26,x=24,shift=64}
 
-G_DEBUG = true
+G_DEBUG = false
 npc_cf=0
 musicPlaying=false
 
@@ -162,8 +162,8 @@ function animate_chr()
 	if G_DEBUG == true then
 		print("Change frame timer: "..player.CF_timer,0,0,6)
 		print("Change frame: "..player.CF,0,18,6)
-		print("PC state: "..player.state,0,24,12)
-		print("Speed: " ..player.speed, 0, 30, 12)
+		print("PC state: "..player.state,0,24,6)
+		print("Speed: " ..player.speed,0,30,6)
 	end
 
 	if player.CF_timer == 0 then

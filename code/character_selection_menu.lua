@@ -185,9 +185,6 @@ end
 
 function character_menu_loop()
   character_menu_logic()
-  print("Head: "..pc.spr_Id_h,0,6,6)
-  print("Body: "..pc.spr_Id_b,60,6,6)
-	print("Selected char: "..pc.selected,0,12,6)
 end
 
 make_system("character_selection_menu",character_menu_init,character_menu_loop)

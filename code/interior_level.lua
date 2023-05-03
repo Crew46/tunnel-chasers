@@ -5,7 +5,7 @@ function interior_level_init()
 	gsync(0,0,false)--sync all assets
 	gsync(16,0)--sync music
 	vbank(0)
-	
+
 	musTrack=2
 	MOVE_UP = 0
 	MOVE_DOWN = 1
@@ -282,10 +282,10 @@ function interior_level_init()
 	end
 
 	function roomOne()
-		play_music(1,0,0,true)
+		--play_music(1,0,0,true)
 		if roomInit == 0 then
 			player.x=24
-			player.y=44
+			player.y=65
 			cameraX=0
 			cameraY=17
 			mapPosX=4
@@ -406,6 +406,7 @@ function interior_level_init()
 					previousRoom = 1
 					currentRoom = 2
 					roomInit=0
+					musicPlaying=false
 					roomTwo()
 				end
 			end
@@ -642,12 +643,14 @@ function interior_level_loop()
 	if currentRoom == 3 then rect(200, 32, 40, 120, 0) end--fix visual problems room 3
 
 	-- debugging
-	print(mapPosX,84,84,12)
-	print(mapPosY,84,100,12)
-	print((x).." "..(y),84,120,12)
-	print("Head: "..player.spr_Id_h,0,6,6)
-  	print("Body: "..player.spr_Id_b,60,6,6)
-	print("Selected char: "..player.selected,0,12,6)
+	if G_DEBUG then
+		print(mapPosX,120,10,6)
+		print(mapPosY,120,20,6)
+		print((x).." "..(y),160,10,6)
+		print("Head: "..player.spr_Id_h,0,6,6)
+		print("Body: "..player.spr_Id_b,60,6,6)
+		print("Selected char: "..player.selected,0,12,6)
+	end
 
 	--SM
 	if keyp(24) then
