@@ -76,7 +76,10 @@ function pcActions()
 		-- points that may end up colliding
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {0, 1}, {roofCheck = 1})
 
-		if #collisionPoints == 0 then
+		-- a middle collision point between top-left and top-right
+		middleCollided = collisionbox_flagcheck(FLAG_COLLISION, 0, {wallCheck = -4, roofCheck = 1})
+
+		if #collisionPoints == 0 and not middleCollided then
 			player.isTurned = true
 			ver_spd = ver_spd - rate
 		end
@@ -88,7 +91,10 @@ function pcActions()
 		-- points that may end up colliding
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {2, 3}, {roofCheck = 1})
 
-		if #collisionPoints == 0 then
+		-- a middle collision point between top-left and top-right
+		middleCollided = collisionbox_flagcheck(FLAG_COLLISION, 2, {wallCheck = -4, roofCheck = 1})
+
+		if #collisionPoints == 0 and not middleCollided then
 			player.isTurned = false
 			ver_spd = ver_spd + rate
 		end
