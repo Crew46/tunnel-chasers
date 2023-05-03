@@ -482,7 +482,7 @@ function interior_level_init()
 				return
 			end
 
-			print("z to hide!", player.x + 10, player.y - 15, 4)
+			print("Press Z", player.x + 10, player.y - 15, 4)
 			if keyp(26) then
 				justHid = true
 				player.isHidden = true
