@@ -20,6 +20,10 @@ function make_menu_system(system_name, menu_title, options)
     menu_buttons = options
     menu_selection = 1;
 
+    function menu_music()
+      play_music(0,0,0,true)
+    end
+
     function menu_draw()
       cls(0)
       print_centered(menu_title, 120, 20, 5)
@@ -69,6 +73,7 @@ function make_menu_system(system_name, menu_title, options)
   local function menu_loop()
     menu_logic()
     menu_draw()
+    menu_music()
   end
 
   make_system(system_name, menu_init, menu_loop)

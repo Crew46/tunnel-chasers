@@ -113,6 +113,7 @@ function character_menu_init()
 
     if btnp(select_button) then
       create_new_game()
+      musicPlaying=false
       current_system="interior_level"
     end
     if btnp(cancel_button) then

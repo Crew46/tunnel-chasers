@@ -2,8 +2,11 @@
 
 
 function interior_level_init()
-	gsync(0,0,false)
-
+	gsync(0,0,false)--sync all assets
+	gsync(16,0)--sync music
+	vbank(0)
+	
+	musTrack=2
 	MOVE_UP = 0
 	MOVE_DOWN = 1
 	MOVE_LEFT = 2
@@ -279,6 +282,7 @@ function interior_level_init()
 	end
 
 	function roomOne()
+		play_music(1,0,0,true)
 		if roomInit == 0 then
 			player.x=24
 			player.y=44
@@ -415,6 +419,7 @@ function interior_level_init()
 					previousRoom = 2
 					currentRoom = 1
 					roomInit = 1
+					musicPlaying=false
 					roomOne()
 				end
 			elseif mapPosY <= 39.375
@@ -600,7 +605,13 @@ function interior_level_loop()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)--foreground
 	map(cameraX+60,cameraY,32,18,0,0,0)--decorations
 
-	if currentRoom==1 then npc_anim(328,330,108,35,1) end --wedge
+	if currentRoom==1 then 
+		npc_anim(328,330,108,35,1)--wedge sprite
+		play_music(1,0,0,true)
+	else 
+		play_music(2,0,0,true)
+	end
+
 
 	gsync(2,1,false)
 	--spr(player.spr_Id_h,x-cameraX,y-cameraY+17,player.CLRK,player.scale,player.flip,0,2,1)
