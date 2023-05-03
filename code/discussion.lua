@@ -4,8 +4,10 @@
 --- Discussion "combat" system
 
 function discussion_init()
-  gsync(0,2,false)
-  gsync(32,0,false)
+  gsync(0,3,false)
+  gsync(8|16|32,0,false)
+  check_music(3)
+  play_music(musicTrack,1,0,true)
 
   officer_result = nil
   if not progression then

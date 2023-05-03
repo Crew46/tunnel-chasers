@@ -23,7 +23,12 @@ end
 
 function intro_frame(frame)
   cls(13)
-  gsync(1|2|4|32,1,false)
+  gsync(0,1,false)--sync all assets
+  gsync(8|16,0)--sync music
+  vbank(0)
+  check_music(0)
+  play_music(musicTrack,0,0,true)
+  
   local display = intro_frames[frame]
   if display.text == "CCC" then
     draw("title_screen",frame,0,0,2)

@@ -7,8 +7,12 @@ fr=0
 --bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
 --bttn={u=0,d=1,l=2,r=3,w=23,s=19,a=1,d=4,q=17,e=5,z=26,x=24,shift=64}
 
-G_DEBUG = true
+G_DEBUG = false
 npc_cf=0
+musicPlaying=false
+musicTrack=0
+light_on_plt= "1A1C2C5D275DB13E53EF7D57FFCD75A7F07038B76425717929366F3B5DC941A6F673EFF7F4F4F494B0C2566C86333C57"
+light_off_plt="1A1C2C4927497F3442A35E48A68A59769D5830884F225358242C52384E944189C369ABB0BABABA80929D4D5D6F2E3448"
 
 function npc_anim(pose1,pose2,x,y,scale)
 	if (fr%30)==0  then
@@ -75,7 +79,10 @@ function pcActions()
 		-- points that may end up colliding
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {0, 1}, {roofCheck = 1})
 
-		if #collisionPoints == 0 then
+		-- a middle collision point between top-left and top-right
+		middleCollided = collisionbox_flagcheck(FLAG_COLLISION, 0, {wallCheck = -4, roofCheck = 1})
+
+		if #collisionPoints == 0 and not middleCollided then
 			player.isTurned = true
 			ver_spd = ver_spd - rate
 		end
@@ -87,7 +94,10 @@ function pcActions()
 		-- points that may end up colliding
 		collisionPoints = collisionbox_flagchecks(FLAG_COLLISION, {2, 3}, {roofCheck = 1})
 
-		if #collisionPoints == 0 then
+		-- a middle collision point between top-left and top-right
+		middleCollided = collisionbox_flagcheck(FLAG_COLLISION, 2, {wallCheck = -4, roofCheck = 1})
+
+		if #collisionPoints == 0 and not middleCollided then
 			player.isTurned = false
 			ver_spd = ver_spd + rate
 		end
@@ -161,8 +171,8 @@ function animate_chr()
 	if G_DEBUG == true then
 		print("Change frame timer: "..player.CF_timer,0,0,6)
 		print("Change frame: "..player.CF,0,18,6)
-		print("PC state: "..player.state,0,24,12)
-		print("Speed: " ..player.speed, 0, 30, 12)
+		print("PC state: "..player.state,0,24,6)
+		print("Speed: " ..player.speed,0,30,6)
 	end
 
 	if player.CF_timer == 0 then

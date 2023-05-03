@@ -92,7 +92,7 @@ function check_boosts(active_boosts)
             timer = timer - 1
         else
             player[name] = player[name] - boost_values[name]
-            timer = -1
+            table.remove(active_boosts, _)
         end
         boost[1] = timer
     end
@@ -220,6 +220,6 @@ function inv_init()
     add_life()
 end
 
-make_system("inv_debug", inv_init, nil)
+--make_system("inv_debug", inv_init, nil)
 
 -- java -jar ticify.jar

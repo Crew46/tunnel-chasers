@@ -5,6 +5,9 @@
 ---
 
 function credits_init()
+  check_music(5)
+  do_once=true
+
   credits = {
     {
       name = "Based on a true story",
@@ -19,6 +22,13 @@ function credits_init()
       }
     },
     {
+      name = "Matt Haas",
+      titles = {
+        "Producer",
+        "Wedge"
+      }
+    },
+    {
       name = "David Kienenberger",
       titles = {
         "Administrator",
@@ -29,6 +39,7 @@ function credits_init()
     {
       name = "Sashami",
       titles = {
+        "Lead Artist",
         "Artwork",
         "Level Design",
         "Ambassador to Mexico"
@@ -37,17 +48,19 @@ function credits_init()
     {
       name="MacklenF",
       titles = {
+        "Programmer",
         "Team member",
         "Character selection menu",
-        "Regular contributions"
+        "Runner System creator"
       }
     },
     {
       name="Cordell H",
       titles = {
+        "Programmer",
         "\"whatever you like honestly I have no idea\"",
         "Sneaking levels",
-        "Regular contributions"
+        "Officer Patrolling System"
       }
     },
     {
@@ -55,20 +68,17 @@ function credits_init()
       titles = {
         "Integration specialist",
         "Cartridge gluer",
+        "Sock Hands"
       }
     },
     {
       name = "Dan Muck",
       titles = {
+        "Programmer",
         "snake_case_enthusiast",
-        "old"
-      }
-    },
-    {
-      name = "David Kienenberger",
-      titles = {
-        "Project headhunting",
-        "Eating cake with a box cutter"
+        "old",
+        "Learning Commons Tutor",
+        "Inventory System"
       }
     },
     {
@@ -79,9 +89,88 @@ function credits_init()
       }
     },
     {
+      name = "Paradox",
+      titles = {
+        "Casting as David Kienenberger",
+        "Project headhunting",
+        "Eating cake with a box cutter"
+      }
+    },
+    {
       name = "Dylan whatshisface Holton",
       titles = {
+        "Lead Composer",
         "Epic soundtracks of doom"
+      }
+    },
+    {
+      name = "Kienenberger David",
+      titles = {
+        "Completely unbiased credits system",
+        "Didn't actually do that much"
+      }
+    },
+    {
+      name = "Gavin S",
+      titles = {
+        "Programmer",
+        "Hiding Mechanic",
+        "Creator of Gallop Run",
+        "Decided to work on his own project instead :("
+      }
+    },
+    {
+      name = "Kaitlyn Manuszewski",
+      titles = {
+        "Pixel Artist",
+        "Epic title maker",
+        "Magic Conch Shell Club Member"
+      }
+    },
+    {
+      name = "David K.",
+      titles = {
+        "This guy again"
+      }
+    },
+    {
+      name = "Taylor Hurd",
+      titles = {
+        "Pixel Artist",
+        "Sprite Designer",
+        "Roxie Hart and all that jazz"
+      }
+    },
+    {
+      name = "Saqib Malik",
+      titles = {
+        "Programmer",
+        "Overworld System",
+        "Constantly broke the game",
+        "Ghetto door fanatic",
+        "Creator of Collectrix"
+      }
+    },
+    {
+      name = "Will Alley",
+      titles = {
+        "Pixel Artist",
+        "Joinned the team last minute",
+        "Sprite creator"
+      }
+    },
+    {
+      name = "khuxkm",
+      titles = {
+        "Programmer",
+        "Creator of gsync"
+      }
+    },
+    {
+      name = "Conor Null",
+      titles = {
+        "Inspiration",
+        "The guy who gets you in trouble"
       }
     },
     {
@@ -89,28 +178,82 @@ function credits_init()
       titles = {
         "dkienenb",
         "Nathaniel Clark",
-        "Chris B"
+        "Chris B",
+        "Conor"
       }
     },
     {
-      name = "David Kienenberger",
+      name = "Dialogue Submission (2)",
       titles = {
-        "Completely unbiased credits system",
+        "Emillie",
+        "Lex",
+        "Amar",
+        "Sashami"
       }
     },
     {
-      name = "Matt Haas",
+      name = "Dialogue Submission (3)",
       titles = {
-        "Producer"
+        "odin jjdd xd",
+        "4to mes",
+        "Cube",
+        "Don martz"
       }
     },
     {
-      name = "Conor Null",
+      name = "Dialogue Submission (4)",
       titles = {
-        "Inspiration"
+        "El mazorcas",
+        "Luna",
+        "Holey :)",
+        "Pacomu"
+      }
+    },
+    {
+      name = "Dialogue Submission (5)",
+      titles = {
+        "Red ear tips ",
+        "Chavez ",
+        "Moonbeam",
+        "mercury"
+      }
+    },
+    {
+      name = "Dialogue Submission (6)",
+      titles = {
+        "Cyborg",
+        "Terrain",
+        "RodentRacer",
+        "Fecin"
+      }
+    },
+    {
+      name = "Dialogue Submission (7)",
+      titles = {
+        "Balit",
+        "Claudio Marty ",
+        "The causa maric",
+        "Michael mclane"
+      }
+    },
+    {
+    name = "Special Thanks",
+      titles = {
+        "Alexyss Sparling",
+        "Marshall Hyde",
+        "Hiram Cray",
       }
     }
   }
+
+  function credits_avini()
+    if do_once then
+      gsync(0,0,false)--sync all assets
+      gsync(8|16,0)--sync music&sfx
+      vbank(0)
+      do_once=false
+    end
+  end
 
   function credits_draw(frame)
     cls(0)
@@ -122,10 +265,13 @@ function credits_init()
     for index, value in ipairs(titles) do
       print_centered(value, 120, starting_y + (index * 10), 10)
     end
+    if frame == #credits then musicPlaying=false end
   end
 end
 
 function credits_loop(frame)
+  credits_avini()
+  play_music(5,0,0,true)
   credits_draw(frame)
 end
 

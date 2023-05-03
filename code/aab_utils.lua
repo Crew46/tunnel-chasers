@@ -1,8 +1,32 @@
 ---
---- Created by dkienenb.
+--- Created by dkienenb, AshBC, SM.
 --- DateTime: 2/10/23 7:21 PM
 --- utils
 ---
+
+-- example param: "1A1C2C5D275DB13E53EF7D57FFCD75A7F07038B76425717929366F3B5DC941A6F673EFF7F4F4F494B0C2566C86333C57"
+function get_palette_table(paletteHex)
+    paletteTable = { }
+    for i=1, 16 do
+        rgbTable = {
+            tonumber(string.sub(paletteHex, 1+((i-1)*6), 2+((i-1)*6)), 16),
+            tonumber(string.sub(paletteHex, 3+((i-1)*6), 4+((i-1)*6)), 16),
+            tonumber(string.sub(paletteHex, 5+((i-1)*6), 6+((i-1)*6)), 16)
+        }
+        table.insert(paletteTable, rgbTable)
+    end
+    return paletteTable
+end
+
+-- should use what is returned from `get_palette_table()` above
+function use_palette_table(paletteTable)
+	local paletteMemoryOffset = 0x3FC0
+	for i=1, 16 do
+		for j=1, 3 do
+			poke(paletteMemoryOffset + ((i-1)*3) + (j - 1), paletteTable[i][j])
+		end
+	end
+end
 
 function trace_table(printed)
   for k, v in pairs(printed) do
@@ -223,5 +247,21 @@ function copy(obj, seen)
     return res
 end
 
+function play_music(track,start_frame,rows,loop) 
+	if not musicPlaying then
+		music(track,start_frame or 0,rows or 0,loop or true)
+		musicPlaying=true
+	elseif track==-1 then
+		music()
+		musicPlaying=false
+	end
+end
+
+function check_music(track)
+	if musicTrack~=track then 
+		musicTrack=track
+		musicPlaying=false 
+	end
+end
 
 -- end utils

@@ -4,8 +4,7 @@
 -- script: lua
 
 function looping_runner_init()
-  --gsync(16,0,false)
-  --music(1,0,0,true)
+  do_once=true
   fr=0
   bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
   local tm = {gm_ct=30*60, wt=60, intvl=0} -- timers
@@ -15,7 +14,7 @@ function looping_runner_init()
   local y_vel = 0
   local mp_spd = -.3
   run_floor = 78 -- =player y pos
-  jump_max = 60
+  jump_max = 70
   cur_dist = 6.0
   grav = 0.2     -- speed for jump fall
   mapX = 0
@@ -23,7 +22,7 @@ function looping_runner_init()
   -- officer table
   ofc = { x=200,id=484,runId=488,idleId=480,hitId=492,
          flip=1,FR=0,t=30 }
-		 
+  ofc_state = "run"		 
   -- init rt_pc
   selected_pc="pig"
 
@@ -52,7 +51,6 @@ function looping_runner_init()
   rt_pc.flip = 1   
   -- set player speeds
   for i=1,4 do
-  --  if pc.selected == rt_pc.name[i] then
     if selected_pc == rt_pc.name[i] then
       rt_pc.indx = i
       sprSpd = rt_pc.spdTbl[i]
@@ -131,12 +129,14 @@ function rt_draw()
 end
 
 function print_debug(color)
-	print("Press A or S to change character",0,0,color or 3)	
-	print("Change frame: "..rt_pc.CF,0,7,color or 12)
-	print(", ID: "..rt_pc.sprId,83,7,color or 12)
-	print(", Character: "..selected_pc,126,7,color or 12)
-	print("UP to jump  DOWN to slide",0,14,color or 3)
-	print("player y: "..p.y,160,14,12)	
+  if G_DEBUG then
+    print("Press A or S to change character",0,0,color or 3)	
+    print("Change frame: "..rt_pc.CF,0,7,color or 12)
+    print(", ID: "..rt_pc.sprId,83,7,color or 12)
+    print(", Character: "..selected_pc,126,7,color or 12)
+    print("UP to jump  DOWN to slide",0,14,color or 3)
+    print("player y: "..p.y,160,14,12)	
+  end
 end
 
 function runner_sprsheet03()
@@ -166,7 +166,7 @@ end --- end sprsheet03 ---
   run_dir.left = true
   -- defaults set to run left  
   new_ob_x = 0
-  obs_spd = 3  
+  obs_spd = 4  
   bst_spd = .5
   end_wallX = 0
 
@@ -193,10 +193,10 @@ end --- end sprsheet03 ---
       p.sprId = jumpSpr_id
     end
     if btnp(1) and (grounded) then
-      p.wait = 45
+      p.wait = 30
       p.sprId = slideSpr_id
       mid_slide = true
-      tm.wt = 45        
+      tm.wt = 30        
     end
   end
       
@@ -230,7 +230,7 @@ end --- end sprsheet03 ---
   end
   
   function generate_obs()
-    if set_timer(1) then
+    if set_timer(1.5) then
       need_object = true
     end
     if set_timer(10) then
@@ -249,7 +249,7 @@ end --- end sprsheet03 ---
       boosts[#boosts+1] = 
       { id = math.random(242,245),
         xp  = new_ob_x,
-        yp  = math.random(40,60),
+        yp  = math.random(50,60),
         active = true
       }
     end
@@ -310,7 +310,7 @@ end --- end sprsheet03 ---
         if obs[i].active and
           (object_col(obs[i].xp, obs[i].yp)) then
            
-            p.wt = 30
+            p.wait = 30
             p.sprId = hitSpr_id
             show_setback = true
             cur_dist = cur_dist - sprHit
@@ -494,7 +494,7 @@ end --- end sprsheet03 ---
           p.isRun=false
           print("Win. Enter next system",120,75,2)
           officer_result = "ran_away_success"
-          current_system = "continue_menu_splash"
+          current_system = "interior_level"
         end
       end
       if (run_dir.right) then 
@@ -505,7 +505,7 @@ end --- end sprsheet03 ---
           p.isRun=false
           print("Win. Enter next system",120,75,2)
           officer_result = "ran_away_success"
-          current_system = "continue_menu_splash"
+          current_system = "interior_level"
         end
       end
     end
@@ -514,6 +514,7 @@ end --- end sprsheet03 ---
       officer_result = "ran_away_fail"
       current_system = "continue_menu_splash"
     end
+	print_debug()
   end
  
   function looping_runner_logic()
@@ -533,12 +534,27 @@ end --- end sprsheet03 ---
       end_runner()
     end
   end
+
+  function looping_runner_avini()
+    if do_once then
+      gsync(0,3,false)--sync all assets
+      gsync(8|16,0)--sync music&sfx
+      check_music(6)
+      play_music(musicTrack,0,0,true)
+      vbank(1)
+      use_palette_table(get_palette_table(light_on_plt))
+      vbank(0)
+      selected_pc=pc.selected
+      rt_pc.indx=pc.indx
+      do_once=false
+    end
+  end
 end -- end looping_runner init
 
 looping_runner_init()
 
 function looping_runner_loop()
--- gsync(1|2|4|8|32|64|128, 2, false)
+  looping_runner_avini()
   looping_runner_logic()
 end
 
