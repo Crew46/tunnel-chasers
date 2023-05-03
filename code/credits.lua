@@ -5,6 +5,8 @@
 ---
 
 function credits_init()
+  musicPlaying=false
+  
   credits = {
     {
       name = "Based on a true story",
@@ -54,7 +56,7 @@ function credits_init()
     {
       name="Cordell H",
       titles = {
-        "Programmer".
+        "Programmer",
         "\"whatever you like honestly I have no idea\"",
         "Sneaking levels",
         "Officer Patrolling System"
@@ -168,15 +170,12 @@ function credits_init()
       titles = {
         "dkienenb",
         "Nathaniel Clark",
-        "Chris B"
+        "Chris B",
         "Conor"
       }
     }
   }
 
-  function credits_music()
-    play_music(5,0,0,true)
-  end
 
   function credits_draw(frame)
     cls(0)
@@ -192,7 +191,7 @@ function credits_init()
 end
 
 function credits_loop(frame)
-  credits_music()
+  play_music(5,0,0,true)
   credits_draw(frame)
 end
 

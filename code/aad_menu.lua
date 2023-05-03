@@ -7,7 +7,6 @@ function make_system_selector_menu_system(system_name, menu_title, options)
   for i, v in ipairs(options) do
     if v.system then
       local function switch()
-        musicPlaying=false
         current_system = v.system
       end
       options[i].action = switch
