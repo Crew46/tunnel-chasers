@@ -10,6 +10,8 @@ local function render_function()
     vbank(0)
     check_music(5)
     play_music(musicTrack,0,0,true)
+    cls(0)
+    print("GAME OVER",45,60,12,false,3)
 end
 
 make_splash_system("game_over_splash", "credits", render_function, 3)

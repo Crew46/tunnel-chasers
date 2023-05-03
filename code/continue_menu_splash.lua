@@ -11,8 +11,8 @@ local function render_function()
     vbank(0)
     check_music(5)
     play_music(musicTrack,0,0,true)
-    cls(12)
-    print("You've been caught!",15,60,2,false,2)
+    cls(0)
+    print("You've been caught!",17,60,2,false,2)
 end
 
 make_splash_system("continue_menu_splash", "continue_menu", render_function, 3)
