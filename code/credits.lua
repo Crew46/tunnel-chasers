@@ -19,6 +19,13 @@ function credits_init()
       }
     },
     {
+      name = "Matt Haas",
+      titles = {
+        "Producer",
+        "Wedge"
+      }
+    },
+    {
       name = "David Kienenberger",
       titles = {
         "Administrator",
@@ -29,6 +36,7 @@ function credits_init()
     {
       name = "Sashami",
       titles = {
+        "Lead Artist",
         "Artwork",
         "Level Design",
         "Ambassador to Mexico"
@@ -37,17 +45,19 @@ function credits_init()
     {
       name="MacklenF",
       titles = {
+        "Programmer",
         "Team member",
         "Character selection menu",
-        "Regular contributions"
+        "Runner System creator"
       }
     },
     {
       name="Cordell H",
       titles = {
+        "Programmer".
         "\"whatever you like honestly I have no idea\"",
         "Sneaking levels",
-        "Regular contributions"
+        "Officer Patrolling System"
       }
     },
     {
@@ -55,20 +65,17 @@ function credits_init()
       titles = {
         "Integration specialist",
         "Cartridge gluer",
+        "Sock Hands"
       }
     },
     {
       name = "Dan Muck",
       titles = {
+        "Programmer",
         "snake_case_enthusiast",
-        "old"
-      }
-    },
-    {
-      name = "David Kienenberger",
-      titles = {
-        "Project headhunting",
-        "Eating cake with a box cutter"
+        "old",
+        "Learning Commons Tutor",
+        "Inventory System"
       }
     },
     {
@@ -79,9 +86,81 @@ function credits_init()
       }
     },
     {
+      name = "Paradox",
+      titles = {
+        "Casting as David Kienenberger",
+        "Project headhunting",
+        "Eating cake with a box cutter"
+      }
+    },
+    {
       name = "Dylan whatshisface Holton",
       titles = {
+        "Lead Composer",
         "Epic soundtracks of doom"
+      }
+    },
+    {
+      name = "Kienenberger David",
+      titles = {
+        "Completely unbiased credits system",
+        "Didn't actually do that much, other than complain"
+      }
+    },
+    {
+      name = "Gavin S",
+      titles = {
+        "Programmer",
+        "Hiding Mechanic",
+        "Creator of Gallop Run",
+        "Decided to work on his own project instead :("
+      }
+    },
+    {
+      name = "Kaitlyn Manuszewski",
+      titles = {
+        "Pixel Artist",
+        "Epic title maker",
+        "Magic Conch Shell Club Member"
+      }
+    },
+    {
+      name = "David K.",
+      titles = {
+        "This guy again"
+      }
+    },
+    {
+      name = "Taylor Hurd",
+      titles = {
+        "Pixel Artist",
+        "Sprite Designer",
+        "Roxie Hart and all that jazz"
+      }
+    },
+    {
+      name = "Saqib Malik",
+      titles = {
+        "Programmer",
+        "Overworld System",
+        "Constantly broke the game",
+        "Ghetto door fanatic",
+        "Creator of Collectrix"
+      }
+    },
+    {
+      name = "Will Alley",
+      titles = {
+        "Pixel Artist",
+        "Joinned the team last minute",
+        "Sprite creator"
+      }
+    },
+    {
+      name = "Conor Null",
+      titles = {
+        "Inspiration",
+        "The guy who gets you in trouble"
       }
     },
     {
@@ -90,27 +169,14 @@ function credits_init()
         "dkienenb",
         "Nathaniel Clark",
         "Chris B"
-      }
-    },
-    {
-      name = "David Kienenberger",
-      titles = {
-        "Completely unbiased credits system",
-      }
-    },
-    {
-      name = "Matt Haas",
-      titles = {
-        "Producer"
-      }
-    },
-    {
-      name = "Conor Null",
-      titles = {
-        "Inspiration"
+        "Conor"
       }
     }
   }
+
+  function credits_music()
+    play_music(5,0,0,true)
+  end
 
   function credits_draw(frame)
     cls(0)
@@ -126,6 +192,7 @@ function credits_init()
 end
 
 function credits_loop(frame)
+  credits_music()
   credits_draw(frame)
 end
 
