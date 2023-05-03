@@ -171,7 +171,7 @@ function interior_level_init()
 			offFlip = 0
 		end
 
-		if offChase==1 then
+		if offChase==1 and not player.isHidden then
 			spr(259,offX+6,offY-10,0,1,0,0,1,1)
 			qtimer=300
 		elseif offReset==1 then
