@@ -172,7 +172,7 @@ function credits_init()
         "dkienenb",
         "Nathaniel Clark",
         "Chris B",
-        "Conor "
+        "Conor"
       }
     },
     {
