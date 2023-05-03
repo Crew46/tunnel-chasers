@@ -4,7 +4,10 @@
 
 function overworld_system_init()
     gsync(1|2|4|64, 4, false)
-
+	check_music(2)
+	play_music(musicTrack,0,0,true)
+	vbank(0)
+	
 	--[[
 	Globally used variables / constants.
 	--]]
