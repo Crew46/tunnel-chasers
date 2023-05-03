@@ -7,6 +7,7 @@ function interior_level_init()
 	vbank(0)
 
 	musTrack=2
+	qtimer=300
 	MOVE_UP = 0
 	MOVE_DOWN = 1
 	MOVE_LEFT = 2
@@ -169,6 +170,16 @@ function interior_level_init()
 		and offChase == 1 then
 			offFlip = 0
 		end
+
+		if offChase==1 then
+			spr(259,offX+6,offY-10,0,1,0,0,1,1)
+			qtimer=300
+		elseif offReset==1 then
+			if qtimer>0 then
+				spr(275,offX+6,offY-10,0,1,0,0,1,1)
+			end
+		end
+		qtimer=qtimer-1
 	end
 
 	function officer()
@@ -282,7 +293,6 @@ function interior_level_init()
 	end
 
 	function roomOne()
-		--play_music(1,0,0,true)
 		if roomInit == 0 then
 			player.x=24
 			player.y=65
@@ -624,11 +634,10 @@ function interior_level_loop()
 
 	if currentRoom==1 then 
 		npc_anim(328,330,108,35,1)--wedge sprite
-		play_music(1,0,0,true)
-	else 
-		play_music(2,0,0,true)
+		musTrack=1
+	else musTrack=2
 	end
-
+	play_music(musTrack,0,0,true)
 
 	gsync(2,1,false)
 	--spr(player.spr_Id_h,x-cameraX,y-cameraY+17,player.CLRK,player.scale,player.flip,0,2,1)
