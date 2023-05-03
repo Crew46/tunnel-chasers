@@ -172,6 +172,10 @@ function interior_level_init()
 		end
 
 		if offChase==1 and not player.isHidden then
+			-- if being chased, make sure the officer isn't
+			-- also resetting
+			offReset = 0
+
 			spr(259,offX+6,offY-10,0,1,0,0,1,1)
 			qtimer=300
 		elseif offReset==1 then
@@ -428,22 +432,26 @@ function interior_level_init()
 			officerFOV()
 			if mapPosY <= 39.375
 			and (mapPosX >= 22 and mapPosX <= 24) then
-				print("Press Z", player.x, player.y - 15, 4)
-				if btnp(4) and offChase == 0 then
-					previousRoom = 2
-					currentRoom = 1
-					roomInit = 1
-					musicPlaying=false
-					roomOne()
+				if offChase == 0 then
+					print("Press Z", player.x, player.y - 15, 4)
+					if btnp(4) then
+						previousRoom = 2
+						currentRoom = 1
+						roomInit = 1
+						musicPlaying=false
+						roomOne()
+					end
 				end
 			elseif mapPosY <= 39.375
 			and (mapPosX >= 51 and mapPosX <= 53) then
-				print("Press Z", player.x, player.y - 15, 4)
-				if btnp(4) and offChase == 0 then
-					previousRoom = 2
-					currentRoom = 3
-					roomInit = 0
-					roomThree()
+				if offChase == 0 then
+					print("Press Z", player.x, player.y - 15, 4)
+					if btnp(4) then
+						previousRoom = 2
+						currentRoom = 3
+						roomInit = 0
+						roomThree()
+					end
 				end
 			end
 		elseif currentRoom == 3 then
