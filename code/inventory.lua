@@ -220,6 +220,6 @@ function inv_init()
     add_life()
 end
 
-make_system("inv_debug", inv_init, nil)
+--make_system("inv_debug", inv_init, nil)
 
 -- java -jar ticify.jar

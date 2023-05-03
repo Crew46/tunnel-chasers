@@ -1,5 +1,5 @@
 ---
---- Created by dkienenb.
+--- Created by dkienenb and AshBC.
 --- DateTime: 2/13/23 12:49 PM
 ---
 
@@ -21,7 +21,11 @@ function make_menu_system(system_name, menu_title, options)
     menu_selection = 1;
 
     function menu_music()
-      check_music(0)
+      if system_name=="continue_menu" then 
+        track=5
+      else track=0
+      end
+      check_music(track)
       play_music(musicTrack,0,0,true)
     end
 
