@@ -129,12 +129,14 @@ function rt_draw()
 end
 
 function print_debug(color)
-	print("Press A or S to change character",0,0,color or 3)	
-	print("Change frame: "..rt_pc.CF,0,7,color or 12)
-	print(", ID: "..rt_pc.sprId,83,7,color or 12)
-	print(", Character: "..selected_pc,126,7,color or 12)
-	print("UP to jump  DOWN to slide",0,14,color or 3)
-	print("player y: "..p.y,160,14,12)	
+  if G_DEBUG then
+    print("Press A or S to change character",0,0,color or 3)	
+    print("Change frame: "..rt_pc.CF,0,7,color or 12)
+    print(", ID: "..rt_pc.sprId,83,7,color or 12)
+    print(", Character: "..selected_pc,126,7,color or 12)
+    print("UP to jump  DOWN to slide",0,14,color or 3)
+    print("player y: "..p.y,160,14,12)	
+  end
 end
 
 function runner_sprsheet03()
