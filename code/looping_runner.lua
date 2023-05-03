@@ -539,6 +539,8 @@ end --- end sprsheet03 ---
       gsync(8|16,0)--sync music&sfx
       check_music(6)
       play_music(musicTrack,0,0,true)
+      vbank(1)
+      use_palette_table(get_palette_table(light_on_plt))
       vbank(0)
       selected_pc=pc.selected
       rt_pc.indx=pc.indx
