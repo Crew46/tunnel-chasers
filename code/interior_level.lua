@@ -288,22 +288,22 @@ function interior_level_init()
 			player.y=65
 			cameraX=0
 			cameraY=17
-			mapPosX=4
-			mapPosY=23
+			mapPosX=6.625
+			mapPosY=25.875
 		elseif roomInit == 1 then
-			player.x=184
-			player.y=114
+			player.x=184.144
+			player.y=122.64
 			cameraX=0
 			cameraY=17
-			mapPosX=24
-			mapPosY=31.75
+			mapPosX=23
+			mapPosY=32.25
 		elseif roomInit == 2 then
-			player.x=27*8
-			player.y=8*8
+			player.x=204.288
+			player.y=76.72
 			cameraX=0
 			cameraY=17
-			mapPosX=28
-			mapPosY=25.5
+			mapPosX=25.5
+			mapPosY=26.5
 		end
 		roomInit=-1
 	end
@@ -315,40 +315,40 @@ function interior_level_init()
 			cameraY=34
 		end
 		if roomInit == 0 then
-			mapPosX=23.5
+			mapPosX=22.875
 			mapPosY=40
-			player.x=182
-			player.y=60
+			player.x=183.6
+			player.y=48
 			offX=20
 			offY=90
 		elseif roomInit == 1 then
-			player.x=201
-			player.y=60
+			player.x=176.984
+			player.y=48.384
 			cameraShift=1
-			mapPosX=52.5
-			mapPosY=39.75
+			mapPosX=52
+			mapPosY=40
 			offX=-220
 			offY=90
 		elseif roomInit == 2 then -- Overworld Entrance Left
-			mapPosX = 7.875
-			mapPosY = 46.5
-			player.x = 57
-			player.y = 112
+			mapPosX = 6.875
+			mapPosY = 49
+			player.x = 55.776
+			player.y = 120.976
 			offMapX=12
 			offX=90
 			offY=90
 		elseif roomInit == 3 then -- Overworld Entrance Middle
-			mapPosX = 29
-			mapPosY = 46.5
-			player.x = 226
-			player.y = 112
+			mapPosX = 27.875
+			mapPosY = 49
+			player.x = 223.776
+			player.y = 120.976
 			offX=20
 			offY=90
 		elseif roomInit == 4 then -- Overworld Entrance Right
-			mapPosX = 52.5
-			mapPosY = 46.375
-			player.x = 199
-			player.y = 111
+			mapPosX = 50.875
+			mapPosY = 48.875
+			player.x = 167.768
+			player.y = 119.04
 			cameraShift=1
 			offX=-220
 			offY=90
@@ -371,19 +371,20 @@ function interior_level_init()
 
 	function roomThree()
 		if roomInit == 0 then
-			player.x=173
-			player.y=236
+			mapPosX=52
+			mapPosY=32.25
 			cameraX=35
 			cameraY=17
-			mapPosX=53
-			mapPosY=32
+			cameraShift=0
+			player.x=136
+			player.y=114
 		elseif roomInit == 1 then
-			mapPosX = 42.5
-			mapPosY = 26.25
+			mapPosX = 41.5
+			mapPosY = 26.875
 			cameraX = 35
 			cameraY = 17
-			player.x = 87
-			player.y = 70
+			player.x = 52.632
+			player.y = 79.632
 		end
 		roomInit = -1
 		if mapPosY <= 17 then
@@ -401,7 +402,8 @@ function interior_level_init()
 		if currentRoom == 1 then -- Room 1
 			roomOne()
 			if mapPosY >= 32
-			and (mapPosX >= 23 and mapPosX <= 25) then
+			and (mapPosX >= 22.625 and mapPosX <= 23.375) then
+				print("Press Z", player.x, player.y - 15, 4)
 				if btnp(4) then
 					previousRoom = 1
 					currentRoom = 2
@@ -415,7 +417,8 @@ function interior_level_init()
 			officer()
 			officerFOV()
 			if mapPosY <= 39.375
-			and (mapPosX >= 23.0 and mapPosX <= 24.5) then
+			and (mapPosX >= 22 and mapPosX <= 24) then
+				print("Press Z", player.x, player.y - 15, 4)
 				if btnp(4) and offChase == 0 then
 					previousRoom = 2
 					currentRoom = 1
@@ -424,7 +427,8 @@ function interior_level_init()
 					roomOne()
 				end
 			elseif mapPosY <= 39.375
-			and (mapPosX >= 52.5 and mapPosX <= 54.0) then
+			and (mapPosX >= 51 and mapPosX <= 53) then
+				print("Press Z", player.x, player.y - 15, 4)
 				if btnp(4) and offChase == 0 then
 					previousRoom = 2
 					currentRoom = 3
@@ -435,7 +439,8 @@ function interior_level_init()
 		elseif currentRoom == 3 then
 			roomThree()
 			if mapPosY >= 31.5
-			and (mapPosX >= 52 and mapPosX <= 53.5) then
+			and (mapPosX >= 51.625 and mapPosX <= 52.375) then
+				print("Press Z", player.x, player.y - 15, 4)
 				if btnp(4) then
 					previousRoom = 3
 					currentRoom = 2
@@ -575,20 +580,32 @@ function interior_level_loop()
 		end
 		info_pass = nil
 	else
-		if currentRoom == 1 and x == 212 and y == 62 then
-			info_pass = "side1"
-			current_system = "overworld_system"
+		if currentRoom == 1 then
+			if mapPosX == 26.375 then
+				if mapPosY >= 25.75 and mapPosY <= 27.5 then
+					info_pass = "side1"
+					current_system = "overworld_system"
+				end
+			end
 		end
 		if currentRoom == 2 then
-			if mapPosY == 48.5 then
-				if mapPosX >= 6 and mapPosX <= 10 then
+			if mapPosY == 50 then
+				if mapPosX >= 5 and mapPosX <= 9 then
 					info_pass = "left"
 					current_system = "overworld_system"
-				elseif mapPosX >= 28 and mapPosX <= 32 then
+				elseif mapPosX >= 27 and mapPosX <= 31 then
 					info_pass = "main"
 					current_system = "overworld_system"
-				elseif mapPosX >= 51 and mapPosX <= 54 then
+				elseif mapPosX >= 49 and mapPosX <= 53 then
 					info_pass = "right"
+					current_system = "overworld_system"
+				end
+			end
+		end
+		if currentRoom == 3 then
+			if mapPosX == 40.625 then
+				if mapPosY >= 25.5 and mapPosY <= 27.5 then
+					info_pass = "side2"
 					current_system = "overworld_system"
 				end
 			end
@@ -602,7 +619,6 @@ function interior_level_loop()
 	--pcActions()
 	--animate()
 	--playerMovement()
-	roomControl()
 	map(cameraX, cameraY, 32, 18, 0, 0, -1)--foreground
 	map(cameraX+60,cameraY,32,18,0,0,0)--decorations
 
@@ -640,6 +656,7 @@ function interior_level_loop()
 	spr(officerAniHead,offX,offY,0,1,offFlip,0,2,1)
 	spr(officerAniLegs,offX,offY+8,0,1,offFlip,0,2,1)
 	map(cameraX+120,cameraY,32,18,0,0,0)--overlay
+	roomControl()
 	if currentRoom == 3 then rect(200, 32, 40, 120, 0) end--fix visual problems room 3
 
 	-- debugging
