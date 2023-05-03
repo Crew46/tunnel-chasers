@@ -4,6 +4,8 @@
 --- Credits subsystem.
 ---
 
+-- ignore this line
+
 function credits_init()
   check_music(5)
   do_once=true
