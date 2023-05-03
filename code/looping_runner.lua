@@ -4,8 +4,7 @@
 -- script: lua
 
 function looping_runner_init()
-  --gsync(16,0,false)
-  --music(1,0,0,true)
+  do_once=true
   fr=0
   bttn={u=0,d=1,l=2,r=3,z=4,x=5,a=6,s=7}
   local tm = {gm_ct=30*60, wt=60, intvl=0} -- timers
@@ -493,7 +492,7 @@ end --- end sprsheet03 ---
           p.isRun=false
           print("Win. Enter next system",120,75,2)
           officer_result = "ran_away_success"
-          current_system = "continue_menu_splash"
+          current_system = "interior_level"
         end
       end
       if (run_dir.right) then 
@@ -504,7 +503,7 @@ end --- end sprsheet03 ---
           p.isRun=false
           print("Win. Enter next system",120,75,2)
           officer_result = "ran_away_success"
-          current_system = "continue_menu_splash"
+          current_system = "interior_level"
         end
       end
     end
@@ -533,12 +532,25 @@ end --- end sprsheet03 ---
       end_runner()
     end
   end
+
+  function looping_runner_avini()
+    if do_once then
+      gsync(0,3,false)--sync all assets
+      gsync(8|16,0)--sync music&sfx
+      check_music(6)
+      play_music(musicTrack,0,0,true)
+      vbank(0)
+      selected_pc=pc.selected
+      rt_pc.indx=pc.indx
+      do_once=false
+    end
+  end
 end -- end looping_runner init
 
 looping_runner_init()
 
 function looping_runner_loop()
--- gsync(1|2|4|8|32|64|128, 2, false)
+  looping_runner_avini()
   looping_runner_logic()
 end
 
