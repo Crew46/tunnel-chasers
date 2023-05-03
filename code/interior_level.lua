@@ -187,7 +187,7 @@ function interior_level_init()
 			if offMapX == mapPosX
 			and offMapY == mapPosY then
 				offChase=0
-				offReset=1
+				offReset=0
 				player.flip=0
   				player.isTurned=false
   				player.isIdle=true
