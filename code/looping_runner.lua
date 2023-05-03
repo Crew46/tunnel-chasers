@@ -15,7 +15,7 @@ function looping_runner_init()
   local y_vel = 0
   local mp_spd = -.3
   run_floor = 78 -- =player y pos
-  jump_max = 60
+  jump_max = 70
   cur_dist = 6.0
   grav = 0.2     -- speed for jump fall
   mapX = 0
@@ -23,7 +23,7 @@ function looping_runner_init()
   -- officer table
   ofc = { x=200,id=484,runId=488,idleId=480,hitId=492,
          flip=1,FR=0,t=30 }
-		 
+  ofc_state = "run"		 
   -- init rt_pc
   selected_pc="pig"
 
@@ -52,7 +52,6 @@ function looping_runner_init()
   rt_pc.flip = 1   
   -- set player speeds
   for i=1,4 do
-  --  if pc.selected == rt_pc.name[i] then
     if selected_pc == rt_pc.name[i] then
       rt_pc.indx = i
       sprSpd = rt_pc.spdTbl[i]
@@ -166,7 +165,7 @@ end --- end sprsheet03 ---
   run_dir.left = true
   -- defaults set to run left  
   new_ob_x = 0
-  obs_spd = 3  
+  obs_spd = 4  
   bst_spd = .5
   end_wallX = 0
 
@@ -193,10 +192,10 @@ end --- end sprsheet03 ---
       p.sprId = jumpSpr_id
     end
     if btnp(1) and (grounded) then
-      p.wait = 45
+      p.wait = 30
       p.sprId = slideSpr_id
       mid_slide = true
-      tm.wt = 45        
+      tm.wt = 30        
     end
   end
       
@@ -230,7 +229,7 @@ end --- end sprsheet03 ---
   end
   
   function generate_obs()
-    if set_timer(1) then
+    if set_timer(1.5) then
       need_object = true
     end
     if set_timer(10) then
@@ -249,7 +248,7 @@ end --- end sprsheet03 ---
       boosts[#boosts+1] = 
       { id = math.random(242,245),
         xp  = new_ob_x,
-        yp  = math.random(40,60),
+        yp  = math.random(50,60),
         active = true
       }
     end
@@ -310,7 +309,7 @@ end --- end sprsheet03 ---
         if obs[i].active and
           (object_col(obs[i].xp, obs[i].yp)) then
            
-            p.wt = 30
+            p.wait = 30
             p.sprId = hitSpr_id
             show_setback = true
             cur_dist = cur_dist - sprHit
@@ -514,6 +513,7 @@ end --- end sprsheet03 ---
       officer_result = "ran_away_fail"
       current_system = "continue_menu_splash"
     end
+	print_debug()
   end
  
   function looping_runner_logic()
