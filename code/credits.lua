@@ -24,18 +24,18 @@ function credits_init()
       }
     },
     {
-      name = "Matt Haas",
-      titles = {
-        "Producer",
-        "Wedge"
-      }
-    },
-    {
       name = "David Kienenberger",
       titles = {
         "Administrator",
         "Lead Programmer",
         "\"Indeed\" sayer"
+      }
+    },
+    {
+      name = "Matt Haas",
+      titles = {
+        "Producer",
+        "Wedge"
       }
     },
     {
@@ -70,7 +70,6 @@ function credits_init()
       titles = {
         "Integration specialist",
         "Cartridge gluer",
-        "Sock Hands"
       }
     },
     {
@@ -109,7 +108,7 @@ function credits_init()
       name = "Kienenberger David",
       titles = {
         "Completely unbiased credits system",
-        "Didn't actually do that much"
+        "Sock Hands"
       }
     },
     {
@@ -157,7 +156,7 @@ function credits_init()
       name = "Will Alley",
       titles = {
         "Pixel Artist",
-        "Joinned the team last minute",
+        "Joined the team last minute",
         "Sprite creator"
       }
     },
@@ -166,13 +165,6 @@ function credits_init()
       titles = {
         "Programmer",
         "Creator of gsync"
-      }
-    },
-    {
-      name = "Conor Null",
-      titles = {
-        "Inspiration",
-        "The guy who gets you in trouble"
       }
     },
     {
@@ -239,13 +231,29 @@ function credits_init()
       }
     },
     {
-    name = "Special Thanks",
+      name = "David K.",
       titles = {
+        "Who keeps adding these?"
+      }
+    },
+    {
+      name = "Special Thanks",
+      titles = {
+        "David Kienenberger",
         "Alexyss Sparling",
         "Marshall Hyde",
         "Hiram Cray",
+        "Jennifer Sellers",
+        "Public Safety Office"
       }
-    }
+    },
+    {
+      name = "Conor Null",
+      titles = {
+        "Inspiration",
+        "The guy who gets you in trouble"
+      }
+    },
   }
 
   function credits_avini()
