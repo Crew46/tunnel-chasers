@@ -706,21 +706,23 @@ function interior_level_loop()
 	-- Sprite Flag 0: 0, 83, 97-99, 113-117
 
 	--DM
+
 	draw_inv(player.inventory)
 	check_boosts(active_boosts)
-	if keyp(54) then
+	if keyp(54) then		-- page up
 		cycle_inv(player.inventory)	
 	end
-	if keyp(55) then
+	if keyp(55) then		-- page down
 		use_item(player.inventory)
 	end
-	if keyp(56) then
+	if keyp(56) then		-- home
 		-- item_to_inv(5)
 		item_to_inv(7)
 		-- item_to_inv(1)
 		-- item_to_inv(3)
 	end
 	vbank(0)
+	
 	--DM
 end
 

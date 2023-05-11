@@ -75,7 +75,6 @@ function add_charisma()
     player.charisma = player.charisma + .5
 end
 
-
 function check_boosts(active_boosts)
     local boost_values = {
         acuity = .5,
